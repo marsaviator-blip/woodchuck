@@ -1,2 +1,2 @@
 # woodchuck
-display of wod, lumber, projects
+display of wood, lumber, projects
