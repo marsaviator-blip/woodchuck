@@ -1,6 +1,7 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1>WOOD CHUCK</h1>
+    <p>Sharing descriptions and images of specialty lumber.</p>
   </div>
 </template>
 
