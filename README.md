@@ -6,6 +6,8 @@ The goal is to build a system as presented in the woodchuck.png diagram.
 * ui
 * crud_scaffold
 
+Too many project running on 8080 - gotta fix that.
+
 ## backend
 spring.io initializr created - no scaffolding
 
@@ -32,7 +34,6 @@ vue created - no scaffolding - next step is to add axios
 
 ## crud_scaffold
 created using bootify.io - spring CRUD - also has Swagger interface
-
 
 mysql in docker dependent
 also has a spring ui frontend
