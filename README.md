@@ -1,10 +1,10 @@
 # Project contains various scaffolding projects to select best way forward
 The goal is to build a system as presented in the woodchuck.png diagram.
-backend
-docker
-gateway
-ui
-my-app (failed to push)
+* backend
+* docker
+* gateway
+* ui
+* my-app (failed to push)
 
 ## backend
 spring.io initializr created - no scaffolding
