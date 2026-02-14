@@ -23,3 +23,4 @@ vue created - no scaffolding - next step is to add axios
 not loaded yet - failed push
 bootify.io created - CRUD - with Swagger interface
 mysql in docker dependent
+also has a spring ui frontend
