@@ -12,6 +12,16 @@ spring.io initializr created - no scaffolding
 ## docker
 contains postgres and keycloak
 currently keycoak is throwing an error in the browser when trying to reach the console
+```
+cd docker
+docker compose up
+```
+Then if it says serving ```Listening on: http://0.0.0.0:8080``` check with
+```
+curl http://0.0.0.0:8080
+```
+ 
+
 
 ## gateway
 spring.io initializr created - no scaffolding
