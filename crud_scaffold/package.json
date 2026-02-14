@@ -1,0 +1,29 @@
+{
+  "name": "my-app-frontend",
+  "author": "Bootify.io",
+  "scripts": {
+    "devserver": "webpack serve --open --mode development",
+    "build": "webpack --mode production"
+  },
+  "devDependencies": {
+    "@babel/core": "7.28.6",
+    "@tailwindcss/forms": "0.5.11",
+    "@tailwindcss/postcss": "4.1.18",
+    "autoprefixer": "10.4.23",
+    "css-loader": "7.1.2",
+    "css-minimizer-webpack-plugin": "7.0.4",
+    "mini-css-extract-plugin": "2.10.0",
+    "postcss-loader": "8.2.0",
+    "postcss-preset-env": "11.1.1",
+    "style-loader": "4.0.0",
+    "tailwindcss": "4.1.18",
+    "ts-loader": "9.5.4",
+    "tsconfig-paths-webpack-plugin": "4.2.0",
+    "typescript": "5.9.3",
+    "warnings-to-errors-webpack-plugin": "2.3.0",
+    "webpack": "5.104.1",
+    "webpack-cli": "6.0.1",
+    "webpack-dev-server": "5.2.3"
+  },
+  "private": true
+}
