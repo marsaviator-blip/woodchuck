@@ -14,23 +14,26 @@ spring.io initializr created - no scaffolding
 ## docker
 contains postgres and keycloak
 
-currently keycoak is throwing an error in the browser when trying to reach the console
-```
+currently keycoak is throwing an error in the Firefox when trying to reach the console.
+
+Chrome was ok
+
 cd docker
+
 docker compose up
-```
+
 Then if it says serving ```Listening on: http://0.0.0.0:8080``` check with
-```
+
 curl http://0.0.0.0:8080
-```
- 
 
 
 ## gateway
 spring.io initializr created - no scaffolding
 
+added circuitbreaker and discovery - not used yet
+
 ## ui
-vue created - no scaffolding - next step is to add axios
+vue created - no scaffolding - next step is to add keyclaok.js to talk to keycloak and axios to talk to gateway.
 
 ## crud_scaffold
 created using bootify.io - spring CRUD - also has Swagger interface
