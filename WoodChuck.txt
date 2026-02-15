@@ -1,0 +1,46 @@
+﻿TODO
+
+I. Introduction
+Create a project with available technology.
+For a solid ‘sink yur teeth in’ architecture plan look at wood_chuck.png
+
+
+The initial project should remain flexible – so could be used to kick off a variety of projects.
+Steps should be repeatable.
+
+The current plan is to create a follow-on project that the public can view (WoodChuck).
+Then add on the ability to buy and sell (WoodHawk) – will require login  when buying and selling – no login for just viewing
+
+The scaffold project will be as shown in the wood_chuck.png diagram.
+
+II. Scaffolding Subprojects
+    • UI (vue3)
+    • Gateway Spring boot, security
+    • Keycloak (OAuth2 – authentication and authorization)
+    • Backend (as required – what is the best approach for each situation?)
+    • Kafka (for inter-communication)
+
+
+
+III. WoodChuck
+
+III.a UI
+Add keycloak.js
+Add axios
+
+III.D Backend
+Created with bootify.io – Spring Boot CRUD.
+Began with an inventories table.
+
+Need field to contain location (State) where product is located.
+Need field to contain location on file system where photos are located.
+Contact table(s) current owner
+
+
+IV. WoodHawk
+
+Add buyer and seller contact.
+Add prices.
+Delivery?
+Contact table(s) buyer and seller
+
