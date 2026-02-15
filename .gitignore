@@ -1,5 +1,5 @@
 gateway/target/
 backend/target/
 crud_scaffold/target/
-crud_scaffold/node_modules/
-crud_scaffold/node
+crud_scaffold/.*
+ui/node_modules/
