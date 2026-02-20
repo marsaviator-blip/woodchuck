@@ -1,0 +1,1 @@
+import{_ as o,o as t,c as a,a as s}from"./index-Cnwi1-XY.js";const n={},r={class:"about"};function c(i,e){return t(),a("div",r,[...e[0]||(e[0]=[s("h1",null,"WOOD CHUCK",-1),s("p",null,"Sharing descriptions and images of specialty lumber.",-1)])])}const _=o(n,[["render",c]]);export{_ as default};
