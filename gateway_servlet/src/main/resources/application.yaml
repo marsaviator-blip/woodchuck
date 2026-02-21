@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: gateway-servlet
+
+server:
+  port: 9082

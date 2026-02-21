@@ -1,8 +1,13 @@
 # Project contains various scaffolding projects to select best way forward
 The goal is to build a system as presented in the woodchuck.png diagram.
 * backend
-* docker
-* gateway
+* keycloak_in_docker
+    keycloak port 8080
+    postgres port 5432
+* gateway_reactive
+    port 9080
+* gateway_servlet
+    port 9082
 * ui
 * crud_scaffold
 
