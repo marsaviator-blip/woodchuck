@@ -1,5 +1,9 @@
-gateway/target/
+gateway_reactive/target/
+gateway_servlet/target
 backend/target/
 crud_scaffold/target/
 crud_scaffold/.*
 ui/node_modules/
+ui/node
+ui/dist/
+

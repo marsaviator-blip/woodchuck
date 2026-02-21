@@ -1,7 +1,0 @@
-/home/ar/desperado/woodchuck/gateway_reactive/src/main/java/com/example/demo/DemoApplication.java
-/home/ar/desperado/woodchuck/gateway_reactive/src/main/java/com/example/demo/config/CustomAuthenticationToken.java
-/home/ar/desperado/woodchuck/gateway_reactive/src/main/java/com/example/demo/config/JWTAuthenticationManager.java
-/home/ar/desperado/woodchuck/gateway_reactive/src/main/java/com/example/demo/config/JWTUtil.java
-/home/ar/desperado/woodchuck/gateway_reactive/src/main/java/com/example/demo/config/SecurityConfig.java
-/home/ar/desperado/woodchuck/gateway_reactive/src/main/java/com/example/demo/config/WebSecurityConfig.java
-/home/ar/desperado/woodchuck/gateway_reactive/src/main/java/com/example/demo/service/UserService.java
