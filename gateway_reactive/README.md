@@ -26,4 +26,12 @@ curl http://127.0.0.1:9080/get  - no response yet - should have many lines of re
 
 http://localhost:9080/get    hits a login page - thymeleaf is running temporarily
 
+want to put this back:
+			<!-- <dependency>
+				<groupId>net.ttddyy.observation</groupId>
+				<artifactId>datasource-micrometer-bom</artifactId>
+				<version>${datasource-micrometer.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency> -->
 
