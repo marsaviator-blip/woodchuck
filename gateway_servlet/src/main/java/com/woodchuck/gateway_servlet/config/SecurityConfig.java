@@ -20,6 +20,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.server.authentication.ServerAuthenticationConverter;
 
 @Configuration
 @EnableMethodSecurity
@@ -72,17 +74,17 @@ public class SecurityConfig {
         .collect(Collectors.toSet());
   }
 
-    @Bean
-    public ServerAuthenticationConverter wrongcustomHeaderConverter() {
-        return (ServerWebExchange exchange) -> {
-            String token = exchange.getRequest().getHeaders().getFirst("X-Auth-Token");
+    // @Bean
+    // public ServerAuthenticationConverter customHeaderConverter() {
+    //     return (ServerWebExchange exchange) -> {
+    //         String token = exchange.getRequest().getHeaders().getFirst("X-Auth-Token");
 
-            if (token == null || token.isEmpty()) {
-                return Mono.empty(); // No token, skip this converter
-            }
+    //         if (token == null || token.isEmpty()) {
+    //             return Mono.empty(); // No token, skip this converter
+    //         }
 
-            // Return unauthenticated token for the ReactiveAuthenticationManager
-            return Mono.just(new UsernamePasswordAuthenticationToken(token, token));
-        };
-    }
+    //         // Return unauthenticated token for the ReactiveAuthenticationManager
+    //         return Mono.just(new UsernamePasswordAuthenticationToken(token, token));
+    //     };
+    // }
 }
