@@ -16,7 +16,14 @@ Too many project running on 8080 - gotta fix that.
 ## backend
 spring.io initializr created - no scaffolding
 
-## docker
+port 9090
+
+added hateaos and actuator to pom
+
+does hateoas add value to retrieving photos and thumbnails?ans: NO
+spring data rest uses hateoas
+
+## keycloak_in_docker
 contains postgres and keycloak
 
 currently keycoak is throwing an error in the Firefox when trying to reach the console.
@@ -31,17 +38,21 @@ Then if it says serving ```Listening on: http://0.0.0.0:8080``` check with
 
 curl http://0.0.0.0:8080
 
+In the keycloak console, as admin, client_id and secret were created.
 
-## gateway
+## gateway has become 2 projects - gateway_reactive, port 9080 - gateway_servlet, post 9082
+need to get both projects connected to keycloak listening at 8080 as shown above
+
 spring.io initializr created - no scaffolding
 
-added circuitbreaker and discovery - not used yet
+added resiliency, circuitbreaker and discovery - not used yet
 
 ## ui
-vue created - no scaffolding - next step is to add keyclaok.js to talk to keycloak and axios to talk to gateway.
+vue created - no scaffolding - next step is to add keycloak.js to talk to keycloak and axios to talk to gateway.
 
 ## crud_scaffold
 created using bootify.io - spring CRUD - also has Swagger interface
 
-mysql in docker dependent
+dependent on - mysql in docker
+
 also has a spring ui frontend

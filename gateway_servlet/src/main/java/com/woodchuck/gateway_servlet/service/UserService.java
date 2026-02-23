@@ -26,10 +26,10 @@ public class UserService {
     // @Autowired
     // private UserRepository userRepository;
 
-    public User findByUsername(String username) {
-        //return userRepository.findByUsername(username);
-        return new User(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
-    }
+    // public User findByUsername(String username) {
+    //     //return userRepository.findByUsername(username);
+    //     return new User(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
+    // }
 
     // public User save(User user) {
     //     user.setPassword(user.getPassword()); // Encrypt password before saving
