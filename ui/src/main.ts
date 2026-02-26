@@ -13,27 +13,27 @@ const baseURL = import.meta.env.VITE_API_URL
 const instance = axios.create({ baseURL })
 
 // Request interceptor for API calls
-instance.interceptors.request.use(
-  async config => {
-    const token = await getToken()
-    config.headers['Authorization'] = `Bearer ${token}`
-    return config
-  },
-  error => {
-    Promise.reject(error)
-  },
-)
+// instance.interceptors.request.use(
+//   async config => {
+//     const token = await getToken()
+//     config.headers['Authorization'] = `Bearer ${token}`
+//     return config
+//   },
+//   error => {
+//     Promise.reject(error)
+//   },
+// )
 
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-app.use(vueKeycloak, {
-  config: {
-    url: 'http://localhost:8080/admin',
-    realm: 'wood-chuck',
-    clientId: 'woodChuckClient',
-  }
-})
+// app.use(vueKeycloak, {
+//   config: {
+//     url: 'http://localhost:8080/admin',
+//     realm: 'wood-chuck',
+//     clientId: 'woodChuckClient',
+//   }
+// })
 
 app.mount('#app')

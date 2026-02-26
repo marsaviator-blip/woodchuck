@@ -17,6 +17,11 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
     },
+    // {
+    //   path: '/carousel',
+    //   name: 'carousel',
+    //   component: () => import('../features/imageViewers/V3-carousel.vue'),  
+    // },
   ],
 })
 
