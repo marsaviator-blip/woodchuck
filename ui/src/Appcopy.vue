@@ -1,47 +1,58 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import LeftPanel from './components/LeftPanel.vue';
+import RightPanel from './components/RightPanel.vue';
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
   <div class="outer">
-
-    <div class="left">
-  <header>
-    <h1 class="green">Woodchuckkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk UI</h1>
-  </header>
+    <LeftPanel>
+      <h1 class="green">Woodchuckkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk UI
+      </h1>
       <p>yuk</p>
-    </div>
-    <div class="right">
+    </LeftPanel>
+    <RightPanel>
       <p>hey hey</p>
-    </div>
+    </RightPanel>
   </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
 .outer {
   display: flex;
+  flex: 1;
   gap: 20px;
 }
 
 .left {
-  flex-basis: 20%;
+  width: 700px;
+  flex-basis: 20vw;
   flex-shrink: 0;
   align-content: right;
-  height: 100%;
+  min-height: 100%;
   background-color: blue;
 }
 
 .right {
-  flex-basis: 80%;
+  width: auto;
+  flex-grow: 1;
+  flex-basis: 75vw;
   flex-shrink: 0;
   align-content: left;
-  height: 100%;
+  min-height: 100%;
   background-color: red;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+#app {
+  width: 100%;
 }
 </style>
