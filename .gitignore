@@ -6,4 +6,4 @@ crud_scaffold/.*
 ui/node_modules/
 ui/node
 ui/dist/
-
+ui/*.pem

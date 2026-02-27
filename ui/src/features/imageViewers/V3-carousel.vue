@@ -19,6 +19,7 @@ const images = Array.from({ length: 10 }, (_, index) => ({
 </script>
 
 <template>
+  <div class=".carousel-container">
   <Carousel v-bind="carouselConfig">
     <Slide v-for="img in images" :key="img.id">
       <img :src="img.url" />
@@ -29,12 +30,22 @@ const images = Array.from({ length: 10 }, (_, index) => ({
       <Pagination />
     </template>
   </Carousel>
+  </div>
 </template>
 
 <style>
 :root {
   background-color: #242424;
 }
+
+.carousel-container {
+  max-width: 2048px;
+  height: 800px;
+  overflow: hidden;  
+  position: relative;
+  margin: 0 auto;
+  padding: 2rem;
+}   
 
 .carousel {
   --vc-pgn-background-color: rgba(255, 255, 255, 0.7);
