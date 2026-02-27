@@ -1,31 +1,32 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-//import V3Carousel from './features/imageViewers/V3-carousel.vue'
 </script>
 
 <template>
-  <header></header>
-  <div class="outer">
+  <header>
     <h1 class="green">Woodchuck UI</h1>
-  <div class=".left grid-child">
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" style="width: 50px; height: auto;" />
+  </header>
+  <div class="outer">
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <div class=".left">
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" style="width: 50px; height: auto;" />
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/carousel">Image carousel</RouterLink>
-        <RouterLink to="/auth">IAM information</RouterLink>
-      </nav>
+      <div class="wrapper">
+        <HelloWorld msg="You did it!" />
+
+        <nav>
+          <RouterLink to="/">Home</RouterLink>
+          <RouterLink to="/about">About</RouterLink>
+          <RouterLink to="/carousel">Image carousel</RouterLink>
+          <RouterLink to="/auth">IAM information</RouterLink>
+        </nav>
+      </div>
+    </div>
+    <div class=".right">
+      <RouterView />
     </div>
   </div>
-  <div class=".right grid-child">
-   <RouterView />
-  </div>
-  </div>  
 </template>
 
 <style scoped>
@@ -41,24 +42,23 @@ header {
 
 .outer {
   display: flex;
-  /* grid-template-columns: 1fr 2fr; */
-  flex-gap: 20px;
+  gap: 20px;
 }
 
 .left {
-  flex-basis: 40%;
+  flex-basis: 20%;
   align-content: right;
   height: 100%;
 }
 
 .right {
-  flex-basis: 60%;
+  flex-basis: 80%;
   align-content: left;
   height: 100%;
-}   
+}
 
 nav {
-  width: 100%;
+  /* width: 100%; */
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;

@@ -8,7 +8,7 @@ const carouselConfig = {
   wrapAround: true,
   itemsToShow: 2,
   snapAlign: 'center',
-  height: '400px',
+  height: '700px',
   gap: 5,
 }
 
