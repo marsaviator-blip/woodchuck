@@ -1,65 +1,78 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="login-form">
-    <div>
-      <label for="species">Species:</label>
-      <input type="text" id="species" v-model="formData.species" required />
-    </div>
-    <div>
-      <label for="location">Location:</label>
-      <input type="text" id="location" v-model="formData.password" required />
-    </div>
-    <button type="submit">Search</button>
-  </form>
+    <form @submit.prevent="handleSubmit" class="login-form">
+        <div>
+            <label for="species">Species:</label>
+            <input type="text" id="species" v-model="formData.species" required />
+        </div>
+        <div>
+            <div>Location: {{ checkedLocations }}</div>
+</div>
+<div class="locationGroup">
+            <input type="checkbox" id="PA" value="PA" v-model="checkedLocations" />
+            <label for="PA">Denver, PA</label>
+
+            <input type="checkbox" id="MD" value="MD" v-model="checkedLocations" />
+            <label for="MD">Hanover, MD</label>
+        </div>
+        <button type="submit">Search</button>
+    </form>
 </template>
 
-<script setup>
-import { reactive } from 'vue'; // Import reactive for complex data types
+<script setup lang="ts">
+import { ref,reactive } from 'vue'; // Import reactive for complex data types
 
 // Define form data as a reactive object
 const formData = reactive({
-  email: '',
-  password: ''
+    species: '',
+    checkedLocations: [] // This will hold the values of the checked checkboxes
 });
+
+const checkedLocations = ref([]);
 
 // Handle the form submission logic
 const handleSubmit = () => {
-  // Access form data directly from the reactive object
-  console.log('Form submitted with data:', { ...formData });
+    // Access form data directly from the reactive object
+    console.log('Form submitted with data:', { ...formData });
 
-  // Here you would typically make an API call (e.g., using fetch or axios)
-  // to an authentication endpoint
-  
-  // Example server call placeholder:
-  /*
-  fetch('/api/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(formData),
-  })
-  .then(response => response.json())
-  .then(data => console.log('Success:', data))
-  .catch((error) => console.error('Error:', error));
-  */
+    // Here you would typically make an API call (e.g., using fetch or axios)
+    // to an authentication endpoint
 
-  // Clear the form fields after submission (optional)
-  formData.email = '';
-  formData.password = '';
+    // Example server call placeholder:
+    /*
+    fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+    .then(response => response.json())
+    .then(data => console.log('Success:', data))
+    .catch((error) => console.error('Error:', error));
+    */
+
+    // Clear the form fields after submission (optional)
+    formData.species = '';
+    //formData.password = '';
 };
 </script>
 
 <style scoped>
 .login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 300px;
-  margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 300px;
+    margin: 0 auto;
 }
 
 .login-form div {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+}
+.locationGroup {
+    display: flex;
+    flex-direction: columm;
+    gap: 1rem;
 }
 </style>
