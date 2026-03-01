@@ -6,28 +6,68 @@
         </div>
         <div>
             <div>Location: {{ checkedLocations }}</div>
-</div>
-<div class="locationGroup">
+        </div>
+        <div class="locationGroup">
             <input type="checkbox" id="PA" value="PA" v-model="checkedLocations" />
             <label for="PA">Denver, PA</label>
 
             <input type="checkbox" id="MD" value="MD" v-model="checkedLocations" />
             <label for="MD">Hanover, MD</label>
         </div>
+        <div class="length-select">
+            <div class=" radio-group">
+                <label for="lessThan4">
+                    <input type="radio" id="lessThan4" value="less than 4 foot" v-model="selectedOption" name="options">
+                    less than 4 foot
+                </label>
+            </div>
+            <div class="radio-group">
+                <label for="lessThan6">
+                    <input type="radio" id="lessThan6" value="less than 6 foot" v-model="selectedOption" name="options">
+                    less than 6 foot
+                </label>
+            </div>
+            <div class="radio-group">
+                <label for="lessThan8">
+                    <input type="radio" id="lessThan8" value="less than 8 foot" v-model="selectedOption" name="options">
+                    less than 8 foot
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="8 foot">
+                    <input type="radio" id="8foot" value="8foot" v-model="selectedOption" name="options">
+                    8 foot
+                </label>
+            </div>
+            <div class="radio-group">
+                <label for="16">
+                    <input type="radio" id="16foot" value="16foot" v-model="selectedOption" name="options">
+                    16 foot
+                </label>
+            </div>
+            <div class="radio-group">
+                <label for="32foot">
+                    <input type="radio" id="32foot" value="32foot" v-model="selectedOption" name="options">
+                    32 foot
+                </label>
+            </div>
+        </div>
         <button type="submit">Search</button>
     </form>
 </template>
 
 <script setup lang="ts">
-import { ref,reactive } from 'vue'; // Import reactive for complex data types
+import { ref, reactive } from 'vue'; // Import reactive for complex data types
 
 // Define form data as a reactive object
 const formData = reactive({
     species: '',
-    checkedLocations: [] // This will hold the values of the checked checkboxes
+    checkedLocations: [], // This will hold the values of the checked checkboxes
+    selectedOption: '', // This will hold the value of the selected radio button 
 });
 
 const checkedLocations = ref([]);
+const selectedOption = ref([]);
 
 // Handle the form submission logic
 const handleSubmit = () => {
@@ -70,9 +110,16 @@ const handleSubmit = () => {
     display: flex;
     flex-direction: column;
 }
+
 .locationGroup {
     display: flex;
-    flex-direction: columm;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.length-select {
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
 }
 </style>

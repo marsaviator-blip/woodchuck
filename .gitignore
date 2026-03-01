@@ -3,6 +3,7 @@ gateway_servlet/target
 backend/target/
 crud_scaffold/target/
 crud_scaffold/.*
+crud_scaffold/node/
 ui/node_modules/
 ui/node
 ui/dist/
