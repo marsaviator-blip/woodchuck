@@ -8,7 +8,7 @@ const carouselConfig = {
   wrapAround: true,
   itemsToShow: 2,
   snapAlign: 'center',
-  height: '700px',
+  height: '900px',
   gap: 5,
 }
 
@@ -44,7 +44,7 @@ const images = Array.from({ length: 10 }, (_, index) => ({
   overflow: hidden;  
   position: relative;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 20rem;
 }   
 
 .carousel {

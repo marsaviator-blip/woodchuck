@@ -27,6 +27,11 @@ const router = createRouter({
       name: 'auth',
       component: () => import('../views/Auth.vue'),  
     },
+    {
+path: '/formview',
+name: 'formview',
+component: () => import('../views/FormView.vue'), 
+    },
   ],
 })
 
