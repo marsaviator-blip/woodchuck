@@ -34,7 +34,8 @@ html, body#app {
   width: 100%;
   height: 100%;
 }
-
+ 
+/* this is set in main.ts */
 #app {
   /* width: 50%; */
   /* width: 100vh; */
@@ -45,7 +46,8 @@ html, body#app {
   padding: 0;
   margin: 0; */
   background-color:rgb(20, 82, 82);
-  /* align-content: center; */
+      border: 2px solid blue;
+
 }
 
 </style>

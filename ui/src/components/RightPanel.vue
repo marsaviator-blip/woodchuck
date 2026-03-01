@@ -5,7 +5,7 @@ import { ref } from 'vue';
 
 <template>
     <div class="right">
-        <p>Lot number xyz</p>
+        <p class="notsmallSpace" />
         <RouterView/>
     </div>
 </template>
@@ -13,11 +13,15 @@ import { ref } from 'vue';
 <style scoped>
 .right {
     flex: 1;
-    width: 700px;
+    min-width: 20%;
     /* flex-grow: 1;
     flex-basis: 75vw; */
-    flex-shrink: 0; 
+    /* flex-shrink: 0;  */
     align-content: left;
-     /* background-color: green; */
+    min-height: 100%;
+    border: 2px solid yellow;
 }
-</style>
+
+.smallSpace {
+  height: 40px;
+}</style>

@@ -39,8 +39,8 @@ const images = Array.from({ length: 10 }, (_, index) => ({
 }
 
 .carousel-container {
-  max-width: 2048px;
-  height: 800px;
+  height: 30%;
+  min-width: 50%;
   overflow: hidden;  
   position: relative;
   margin: 0 auto;
@@ -60,7 +60,7 @@ const images = Array.from({ length: 10 }, (_, index) => ({
 }
 
 img {
-  width: 100%;
+  width: 50%;
   height: 100%;
   object-fit: cover;
 }
