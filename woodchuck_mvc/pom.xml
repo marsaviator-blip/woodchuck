@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.woodchuck</groupId>
-	<artifactId>woodchuck.mvc</artifactId>
+	<artifactId>woodchuck_mvc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>woodchuck.mvc</name>
+	<name>woodchuck-mvc</name>
 	<description>MVC client</description>
 	<url/>
 	<licenses>

@@ -1,10 +1,11 @@
-package org.woodchuck.woodchuck.mvc.components;
+package org.woodchuck.components;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.woodchuck.services.MPService;
 
 @Component
-public class ClientRunner {
+public class ClientRunner implements CommandLineRunner {
     
 
     private final MPService mpService;
