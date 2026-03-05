@@ -16,7 +16,6 @@ import { R } from 'vue-router/dist/router-CWoNjPRp.mjs';
         <p>Software subjects:</p>
         <p>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/about">About</RouterLink>
           <RouterLink to="/auth">IAM information</RouterLink>
         </p>
         <div class="smallSpace" />
@@ -24,6 +23,7 @@ import { R } from 'vue-router/dist/router-CWoNjPRp.mjs';
         <p>
           <RouterLink to="/carousel">Image carousel</RouterLink>
           <RouterLink to="/formview">Form view</RouterLink>
+          <RouterLink to="/about">About</RouterLink>
         </p>
       </nav>
 
