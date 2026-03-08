@@ -5,18 +5,18 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.woodchuck.components.ApiKeyProperties;
+import org.woodchuck.components.CustomRequestInterceptor;
 
 import java.util.List;
 
 @Service
 public class MPService {
 
-
     private final RestClient restClient;
 
     private final String BASE_URL = "https://api.materialsproject.org";
 
-    public MPService(RestClient.Builder builder, ApiKeyProperties apiKeyProperties) {
+    public MPService(RestClient.Builder builder, ApiKeyProperties apiKeyProperties, CustomRequestInterceptor customRequestInterceptor) {
 
         // String MP_API_KEY = env.getProperty("MP"); // need to haveset environment
         // variable for your OS
@@ -24,12 +24,13 @@ public class MPService {
         // with useful settings like metrics and message converters.
 
         String API_KEY = apiKeyProperties.getMpApiKey();
-        System.out.println("MP_API_KEY: "+API_KEY);
+        System.out.println("MP_API_KEY: " + API_KEY);
 
         // Initialize the RestClient with a base URL
         this.restClient = builder
+                .requestInterceptor(customRequestInterceptor)
                 .baseUrl(BASE_URL)
-                .defaultHeader("X-API-KEY",API_KEY) // Add API key to the header for authentication
+                .defaultHeader("X-API-KEY", API_KEY) // Add API key to the header for authentication
                 .build();
     }
 
