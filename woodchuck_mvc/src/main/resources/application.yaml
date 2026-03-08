@@ -1,3 +1,7 @@
 spring:
   application:
-    name: woodchuck.mvc
+    name: woodchuck
+  main:
+    web-application-type: NONE
+  profiles:
+    active: dev

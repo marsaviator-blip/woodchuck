@@ -1,4 +1,4 @@
-package org.woodchuck.woodchuck.mvc;
+package org.woodchuck;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
