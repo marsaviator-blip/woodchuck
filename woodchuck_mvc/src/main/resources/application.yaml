@@ -5,3 +5,4 @@ spring:
     web-application-type: NONE
   profiles:
     active: dev
+    
