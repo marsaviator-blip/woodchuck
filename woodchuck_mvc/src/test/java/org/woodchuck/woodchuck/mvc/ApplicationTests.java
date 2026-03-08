@@ -1,4 +1,4 @@
-package org.woodchuck;
+package org.woodchuck.woodchuck.mvc;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

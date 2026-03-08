@@ -19,11 +19,11 @@ public class ClientRunner implements CommandLineRunner {
     public void fetchChemicalElement(String element) {
         System.out.println("Fetching chemical element data for: " + element);
 
-        List<String> data = mpService.getChemicalElement(element); // Fetch and print chemical element data
+        String data = mpService.getChemicalElement(element); // Fetch and print chemical element data
         System.out.println("Tried fetching chemical element data for: " + element);
         if (data != null && !data.isEmpty()) {
             System.out.println("Data fetched successfully:");
-            data.forEach(System.out::println);
+            System.out.println(data);
         } else {
             System.out.println("No data found for element: " + element);
         }

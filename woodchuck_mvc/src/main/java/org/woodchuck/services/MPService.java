@@ -44,14 +44,13 @@ public class MPService {
     }
 
     //
-    public List<String> getChemicalElement(String elementId) {
+    public String getChemicalElement(String elementId) {
         return restClient.get()
-                .uri("/materials/summary?formula={elementId}", elementId)
+                .uri("/materials/summary/?formula={elementId}", elementId)
                 .retrieve()
-                .body(new ParameterizedTypeReference<List<String>>() {
-                });
+                .body(String.class); //new ParameterizedTypeReference<List<String>>() {
+                
     }
-
     // Add more methods to interact with other endpoints of the Materials Project
     // API as needed
 
