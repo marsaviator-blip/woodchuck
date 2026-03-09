@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.woodchuck.components.ApiKeyProperties;
 import org.woodchuck.components.CustomRequestInterceptor;
+import org.woodchuck.dtos.MaterialStructureParams;
 
 import java.util.List;
 
@@ -54,4 +55,16 @@ public class MPService {
     // Add more methods to interact with other endpoints of the Materials Project
     // API as needed
 
+    public String getMaterialDetails(MaterialStructureParams params) {
+        return restClient.get()
+                .uri("/materials/core/?material_ids={materialId}"+
+                "&_fields={fields}&deprecated={deprecated}&_per_page={perPage}"+
+                "&_skip={skip}&_limit={limit}&license={license}", 
+                params.getMaterial_id(), params.get_fields(), params.isDeprecated(), 
+                params.get_per_page(), params.get_skip(), params.get_limit(), params.getLicense())
+                .retrieve()
+                .body(String.class); //new ParameterizedTypeReference<List<String>>() {});
+    }
+
+    // .uri("/materials/summary/get_data_by_id/{materialId}", materialId
 }
