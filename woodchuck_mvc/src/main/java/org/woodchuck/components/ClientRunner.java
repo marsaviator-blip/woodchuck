@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.woodchuck.converter.StructureToBolt;
 import org.woodchuck.dtos.MaterialStructureParams;
 import org.woodchuck.services.MPService;
 
@@ -41,51 +42,55 @@ public class ClientRunner implements CommandLineRunner {
 
                 // make endpoint calls to fetch more data about the material using the m_id, for example:
                 MaterialStructureParams params = new MaterialStructureParams(
-                    m_id, "structure, symmetry", false, 1000, 0, 
+                    m_id, "structure", false, 1000, 0, 
                     1000, "All");
                 String moreData = mpService.getMaterialDetails(params);
                 System.out.println("More data for material " + m_id + ": " + moreData);
                 System  .out.println("Structure length: " + moreData.length());
 
-                MaterialStructureParams params2 = new MaterialStructureParams(
-                    m_id, "structure", false, 1000, 0, 
-                    1000, "All");
-                String moreData2 = mpService.getMaterialDetails(params2);
+                StructureToBolt structureToBolt = new StructureToBolt();
+                structureToBolt.convert(element, m_id, moreData);
+                structureToBolt.pushToNeo4j();
+
+                // MaterialStructureParams params2 = new MaterialStructureParams(
+                //     m_id, "structure", false, 1000, 0, 
+                //     1000, "All");
+                // String moreData2 = mpService.getMaterialDetails(params2);
 //                System.out.println("More data for material " + m_id + ": " + moreData);
-                System  .out.println("Structure length: " + moreData2.length());
-                JsonNode moreDataNode = objectMapper.readTree(moreData2);
-                JsonNode nextNode = moreDataNode.path("data"); // Get the named array
+                // System  .out.println("Structure length: " + moreData2.length());
+                // JsonNode moreDataNode = objectMapper.readTree(moreData2);
+                // JsonNode nextNode = moreDataNode.path("data"); // Get the named array
                 // JsonNode structureNode = nextNode.get(0).path("structure");
                 // JsonNode latticeNode = structureNode.path("lattice");
                 // JsonNode sitesNode = latticeNode.path("sites");
-                JsonNode jn = nextNode.findValue("sites");
-                int cnt = 0;
-                Map<String, Object> paramsToNeo = new HashMap<>();
-                for (JsonNode sNode : jn) {
-                    System.out.println(sNode.get("label").asString()+
-                    "  x:"+sNode.get("xyz").get(0).asText()+
-                    "  y:"+sNode.get("xyz").get(1).asText()+
-                    "  z:"+sNode.get("xyz").get(2).asText());
-                    String elementToNeo = sNode.get("label").asString();
-                    Double x = sNode.get("xyz").get(0).asDouble();
-                    Double y = sNode.get("xyz").get(1).asDouble();
-                    Double z = sNode.get("xyz").get(2).asDouble();
-                    paramsToNeo.put("atoms", java.util.List.of(
-                    Map.of("element", elementToNeo, "x", x, "y", y, "z", z)));
-                    cnt++;
-                }
+                // JsonNode jn = nextNode.findValue("sites");
+                // int cnt = 0;
+                // Map<String, Object> paramsToNeo = new HashMap<>();
+                // for (JsonNode sNode : jn) {
+                //     System.out.println(sNode.get("label").asString()+
+                //     "  x:"+sNode.get("xyz").get(0).asText()+
+                //     "  y:"+sNode.get("xyz").get(1).asText()+
+                //     "  z:"+sNode.get("xyz").get(2).asText());
+                //     String elementToNeo = sNode.get("label").asString();
+                //     Double x = sNode.get("xyz").get(0).asDouble();
+                //     Double y = sNode.get("xyz").get(1).asDouble();
+                //     Double z = sNode.get("xyz").get(2).asDouble();
+                //     paramsToNeo.put("atoms", java.util.List.of(
+                //     Map.of("element", elementToNeo, "x", x, "y", y, "z", z)));
+                //     cnt++;
+                // }
                 // Iterator<Map.Entry<String, JsonNode>> fields=nextNode.getKey();
                 // while(fields.hasNext()) {
                 //     Map.Entry<String, JsonNode> entry = fields.next();
                 //     System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
                 // }
-                System.out.println("Number of nodes in sites " + m_id + ": " + cnt);
+                //System.out.println("Number of nodes in sites " + m_id + ": " + cnt);
 
-                if(moreData.equals(moreData2)) {
-                    System.out.println("Data is the same for both requests");
-                } else {
-                    System.out.println("Data is different for both requests");
-                }    
+                // if(moreData.equals(moreData2)) {
+                //     System.out.println("Data is the same for both requests");
+                // } else {
+                //     System.out.println("Data is different for both requests");
+                // }    
 
                 // String cif = mpService.getCIFfile(m_id);
                 // System.out.println("CIF file for material " + m_id + ": " + cif);
