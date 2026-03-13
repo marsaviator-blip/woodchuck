@@ -51,10 +51,15 @@
 		</dependency> -->
 
 		<dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
-    <artifactId>jackson-databind</artifactId>
-    <version>2.21.1</version>
-</dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+           <version>2.21.1</version>
+        </dependency>
+        <dependency>
+			<groupId>org.neo4j.driver</groupId>
+			<artifactId>neo4j-java-driver</artifactId>
+			<version>6.0.2</version> 
+		</dependency>
 	</dependencies>
 
 	<build>

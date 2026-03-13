@@ -1,5 +1,6 @@
 package org.woodchuck.components;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -39,10 +40,26 @@ public class ClientRunner implements CommandLineRunner {
 
                 // make endpoint calls to fetch more data about the material using the m_id, for example:
                 MaterialStructureParams params = new MaterialStructureParams(
-                    m_id, "structure", false, 100, 0, 
-                    100, "All");
+                    m_id, "structure, symmetry", false, 1000, 0, 
+                    1000, "All");
                 String moreData = mpService.getMaterialDetails(params);
                 System.out.println("More data for material " + m_id + ": " + moreData);
+                System  .out.println("Structure length: " + moreData.length());
+
+                MaterialStructureParams params2 = new MaterialStructureParams(
+                    m_id, "structure", false, 1000, 0, 
+                    1000, "All");
+                String moreData2 = mpService.getMaterialDetails(params2);
+                System.out.println("More data for material " + m_id + ": " + moreData);
+                System  .out.println("Structure length: " + moreData2.length());
+                if(moreData.equals(moreData2)) {
+                    System.out.println("Data is the same for both requests");
+                } else {
+                    System.out.println("Data is different for both requests");
+                }    
+
+                // String cif = mpService.getCIFfile(m_id);
+                // System.out.println("CIF file for material " + m_id + ": " + cif);
             }
 //            ObjectMapper objectMapper2= new ObjectMapper();
 // try {

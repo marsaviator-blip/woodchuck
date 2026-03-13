@@ -8,6 +8,7 @@ import org.woodchuck.components.ApiKeyProperties;
 import org.woodchuck.components.CustomRequestInterceptor;
 import org.woodchuck.dtos.MaterialStructureParams;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -64,6 +65,13 @@ public class MPService {
                 params.get_per_page(), params.get_skip(), params.get_limit(), params.getLicense())
                 .retrieve()
                 .body(String.class); //new ParameterizedTypeReference<List<String>>() {});
+    }
+
+    public String getCIFfile(String materialId) {
+        return restClient.get()
+                .uri("/materials/{materialId}/cif?type=symmeterized", materialId)
+                .retrieve()
+                .body(String.class); //new ParameterizedTypeReference<List<String>>() {});      
     }
 
     // .uri("/materials/summary/get_data_by_id/{materialId}", materialId
