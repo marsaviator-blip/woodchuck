@@ -71,5 +71,9 @@ bash
 
 docker start neo4j_container
 
+----------------------------------------------------------------------------------------
+funky query - need to learn meaning
+
+MATCH (n) OPTIONAL MATCH (n)-[r]->(m) RETURN n, r, m LIMIT 100
 
 
