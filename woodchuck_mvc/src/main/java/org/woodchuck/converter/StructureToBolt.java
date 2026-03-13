@@ -32,7 +32,7 @@ public class StructureToBolt {
                 "CREATE (c)-[:HAS_CELL]->(u) " +
                 "WITH u " +
                 "UNWIND $atoms AS atomData " +
-                "CREATE (a:Atom {element: atomData.element, x: atomData.x, y: atomData.y, z: atomData.z}) " +
+                "CREATE (a:Atom {element: atomData.element, x: atomData.x, y: atomData.y, z: atomData.z, a: atomData.a, b: atomData.b, c: atomData.c}) " +
                 "CREATE (u)-[:HAS_ATOM]->(a)";
 
         int cnt = 0;
@@ -53,8 +53,13 @@ public class StructureToBolt {
             Double x = sNode.get("xyz").get(0).asDouble();
             Double y = sNode.get("xyz").get(1).asDouble();
             Double z = sNode.get("xyz").get(2).asDouble();
+            Double a = sNode.get("abc").get(0).asDouble();
+            Double b = sNode.get("abc").get(1).asDouble();
+            Double c = sNode.get("abc").get(2).asDouble();
             params.put("atoms", java.util.List.of(
-                    Map.of("element", elementToNeo, "x", x, "y", y, "z", z)));
+                    Map.of("element", elementToNeo, "x", x, "y", y, "z", z),
+                    Map.of("element", elementToNeo, "x", a, "y", b, "z", c)
+                ));
             cnt++;
         }
         
