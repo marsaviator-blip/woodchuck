@@ -1,6 +1,7 @@
 package org.woodchuck.components;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -54,16 +55,23 @@ public class ClientRunner implements CommandLineRunner {
                 System  .out.println("Structure length: " + moreData2.length());
                 JsonNode moreDataNode = objectMapper.readTree(moreData2);
                 JsonNode nextNode = moreDataNode.path("data"); // Get the named array
-                JsonNode structureNode = nextNode.get(0).path("structure");
-                JsonNode latticeNode = structureNode.path("lattice");
-                JsonNode sitesNode = latticeNode.path("sites");
+                // JsonNode structureNode = nextNode.get(0).path("structure");
+                // JsonNode latticeNode = structureNode.path("lattice");
+                // JsonNode sitesNode = latticeNode.path("sites");
                 JsonNode jn = nextNode.findValue("sites");
                 int cnt = 0;
+                Map<String, Object> paramsToNeo = new HashMap<>();
                 for (JsonNode sNode : jn) {
                     System.out.println(sNode.get("label").asString()+
                     "  x:"+sNode.get("xyz").get(0).asText()+
                     "  y:"+sNode.get("xyz").get(1).asText()+
                     "  z:"+sNode.get("xyz").get(2).asText());
+                    String elementToNeo = sNode.get("label").asString();
+                    Double x = sNode.get("xyz").get(0).asDouble();
+                    Double y = sNode.get("xyz").get(1).asDouble();
+                    Double z = sNode.get("xyz").get(2).asDouble();
+                    paramsToNeo.put("atoms", java.util.List.of(
+                    Map.of("element", elementToNeo, "x", x, "y", y, "z", z)));
                     cnt++;
                 }
                 // Iterator<Map.Entry<String, JsonNode>> fields=nextNode.getKey();
