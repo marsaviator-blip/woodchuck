@@ -31,6 +31,7 @@ public class ClientRunner implements CommandLineRunner {
             JsonNode rootNode = objectMapper.readTree(jsonString);
             JsonNode materialsNode = rootNode.path("data"); // Get the named array
             StructureToBolt structureToBolt = new StructureToBolt();
+            String top = "top;";
             for (JsonNode node : materialsNode) {
 //                System.out.println(node);
                 String m_id = node.get("material_id").asString();
@@ -43,7 +44,7 @@ public class ClientRunner implements CommandLineRunner {
 //                System.out.println("More data for material " + m_id + ": " + moreData);
                 System  .out.println("Structure length: " + moreData.length());
 
-                structureToBolt.convert(element, m_id, moreData);
+                structureToBolt.convert(top, element, m_id, moreData);
 
     
 

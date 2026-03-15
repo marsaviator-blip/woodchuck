@@ -14,7 +14,7 @@ public class StructureToBolt {
     private String cypher;
     private Map<String, Object> params;
 
-    public void convert(String element, String mp_id, String jsonStringOfStructure) {
+    public void convert(String top, String element, String mp_id, String jsonStringOfStructure) {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode moreDataNode = objectMapper.readTree(jsonStringOfStructure);
         JsonNode dataNodes    = moreDataNode.path("data"); // Get the named array        
@@ -25,7 +25,7 @@ public class StructureToBolt {
         JsonNode siteNodes    = dataNodes.findValue("sites");
 
         String crystalName = element;
-        String spaceGroup = mp_id;
+        String spaceGroup = "TBD";
 
         // 3. Create Cypher Query for the Bolt protocol
         cypher = "MERGE (c:Crystal {name: $name}) " +

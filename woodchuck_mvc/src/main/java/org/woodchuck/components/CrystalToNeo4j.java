@@ -15,13 +15,17 @@ public class CrystalToNeo4j {
 
         try (Session session = driver.session()) {
             // 2. Define Crystal Structure Data (e.g., from CIF parser)
+            String topName = "top";
             String crystalName = "Cu2O";
             String spaceGroup = "Pn-3m";
             
             // 3. Create Cypher Query for the Bolt protocol
             String cypher = 
-                "MERGE (c:Crystal {name: $name}) " +
+                "MERGE (t:Top {name: $topName}) " +
+                "CREATE (c:Crystal {name: $name}) " +
                 "CREATE (u:UnitCell {spaceGroup: $sg, a: $a, b: $b, c: $c}) " +
+                "CREATE (t)-[:HAS_TYPE]->(c) " +
+                "WITH c " +
                 "CREATE (c)-[:HAS_CELL]->(u) " +
                 "WITH u " +
                 "UNWIND $atoms AS atomData " +
@@ -30,6 +34,7 @@ public class CrystalToNeo4j {
 
             // 4. Structure atomic data for parameter mapping
             Map<String, Object> params = new HashMap<>();
+            params.put("topName", topName);   
             params.put("name", crystalName);
             params.put("sg", spaceGroup);
             params.put("a", 4.26); params.put("b", 4.26); params.put("c", 4.26); // Unit cell vectors
