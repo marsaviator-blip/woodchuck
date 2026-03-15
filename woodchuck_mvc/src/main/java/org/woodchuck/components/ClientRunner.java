@@ -1,5 +1,7 @@
 package org.woodchuck.components;
 
+import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.woodchuck.converter.StructureToBolt;
@@ -31,7 +33,10 @@ public class ClientRunner implements CommandLineRunner {
             JsonNode rootNode = objectMapper.readTree(jsonString);
             JsonNode materialsNode = rootNode.path("data"); // Get the named array
             StructureToBolt structureToBolt = new StructureToBolt();
-            String top = "top;";
+            String top = "CaPHO4";
+            int index = 0;
+            List<String> type = List.of("mono", "tri"); // get real stuff
+            
             for (JsonNode node : materialsNode) {
 //                System.out.println(node);
                 String m_id = node.get("material_id").asString();
@@ -44,9 +49,9 @@ public class ClientRunner implements CommandLineRunner {
 //                System.out.println("More data for material " + m_id + ": " + moreData);
                 System  .out.println("Structure length: " + moreData.length());
 
-                structureToBolt.convert(top, element, m_id, moreData);
+                structureToBolt.convert(top, type.get(index), element, m_id, moreData);
 
-    
+                index++;
 
                 // String cif = mpService.getCIFfile(m_id);
                 // System.out.println("CIF file for material " + m_id + ": " + cif);

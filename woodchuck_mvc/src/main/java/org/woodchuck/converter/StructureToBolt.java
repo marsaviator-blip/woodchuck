@@ -14,7 +14,9 @@ public class StructureToBolt {
     private String cypher;
     private Map<String, Object> params;
 
-    public void convert(String top, String element, String mp_id, String jsonStringOfStructure) {
+    public void convert(String topName, String type, String element, 
+        String mp_id, String jsonStringOfStructure) {
+
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode moreDataNode = objectMapper.readTree(jsonStringOfStructure);
         JsonNode dataNodes    = moreDataNode.path("data"); // Get the named array        
@@ -26,10 +28,17 @@ public class StructureToBolt {
 
         String crystalName = element;
         String spaceGroup = "TBD";
+        String sg = "TBD";  
 
         // 3. Create Cypher Query for the Bolt protocol
-        cypher = "MERGE (c:Crystal {name: $name}) " +
+        cypher = "MERGE (tn:top {name: $topName}) " +
+                "CREATE (t:type {name: $type}) " +
+                "CREATE (c:Crystal {name: $name}) " +
                 "CREATE (u:UnitCell {spaceGroup: $sg, a: $a, b: $b, c: $c}) " +
+                "CREATE (tn)-[:HAS_TYPE]->(t) " +
+                "WITH t " +
+                "CREATE (t)-[:HAS_HUH]->(c) " +
+                "WITH c " +
                 "CREATE (c)-[:HAS_CELL]->(u) " +
                 "WITH u " +
                 "UNWIND $atoms AS atomData " +
@@ -39,6 +48,8 @@ public class StructureToBolt {
         int cnt = 0;
         // 4. Structure atomic data for parameter mapping
         params = new HashMap<>();
+        params.put("topName", topName);
+        params.put("type", type);
         params.put("name", crystalName);
         params.put("sg", spaceGroup);
         params.put("a", aNode);
