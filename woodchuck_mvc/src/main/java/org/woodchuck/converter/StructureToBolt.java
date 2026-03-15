@@ -1,6 +1,7 @@
 package org.woodchuck.converter;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.woodchuck.clients.Neo4jClient;
@@ -32,7 +33,7 @@ public class StructureToBolt {
                 "CREATE (c)-[:HAS_CELL]->(u) " +
                 "WITH u " +
                 "UNWIND $atoms AS atomData " +
-                "CREATE (a:Atom {element: atomData.element, x: atomData.x, y: atomData.y, z: atomData.z, a: atomData.a, b: atomData.b, c: atomData.c}) " +
+                "CREATE (a:Atom {element: atomData.element, x: atomData.x, y: atomData.y, z: atomData.z}) " +
                 "CREATE (u)-[:HAS_ATOM]->(a)";
 
         int cnt = 0;
@@ -43,6 +44,8 @@ public class StructureToBolt {
         params.put("a", aNode);
         params.put("b", bNode);
         params.put("c", cNode); 
+
+        List<Map<String, Object>> atoms = new java.util.ArrayList<>();
 
         for (JsonNode sNode : siteNodes) {
             System.out.println(sNode.get("label").asString() +
@@ -56,16 +59,24 @@ public class StructureToBolt {
             Double a = sNode.get("abc").get(0).asDouble();
             Double b = sNode.get("abc").get(1).asDouble();
             Double c = sNode.get("abc").get(2).asDouble();
-            params.put("atoms", java.util.List.of(
-                    Map.of("element", elementToNeo, "x", x, "y", y, "z", z),
-                    Map.of("element", elementToNeo, "x", a, "y", b, "z", c)
-                ));
+//            params.put("atoms", java.util.List.of(
+atoms.add(
+                    Map.of("element", elementToNeo, "x", x, "y", y, "z", z)
+  //                  Map.of("element", elementToNeo, "a", a, "b", b, "c", c)
+);
+//                ));
             cnt++;
         }
+        params.put("atoms", atoms); 
         
+        pushToNeo4j();
     }
 
     public void pushToNeo4j() {
         Neo4jClient.runCypher(cypher, params);
     }
+
+    // public void closeDriver() {
+    //     Neo4jClient.closeDriver();
+    // }   
 }

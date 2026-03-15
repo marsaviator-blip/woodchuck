@@ -69,7 +69,7 @@ public class MPService {
 
     public String getCIFfile(String materialId) {
         return restClient.get()
-                .uri("/materials/{materialId}/cif?type=symmeterized", materialId)
+                .uri("/materials/cif?type=symmeterized&material_ids={materialId}", materialId)
                 .retrieve()
                 .body(String.class); //new ParameterizedTypeReference<List<String>>() {});      
     }

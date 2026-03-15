@@ -1,5 +1,6 @@
+# Instructions  for docker instal and run for opensearch and neo4j
 
-Docker install run opensearch and dashboard
+## Docker install run opensearch and dashboard
 
 ar@pop-os:~/desperado/woodchuck/opensearch_docker$ docker pull opensearchproject/opensearch:latest
 latest: Pulling from opensearchproject/opensearch
@@ -13,6 +14,7 @@ dd722a4f4ece: Pull complete
 Digest: sha256:919ff4e7d0d57dbc4bd0999ddf0e43e961bba844ec2a5b6734fc979eb4e32399
 Status: Downloaded newer image for opensearchproject/opensearch:latest
 docker.io/opensearchproject/opensearch:latest
+
 ar@pop-os:~/desperado/woodchuck/opensearch_docker$ docker pull opensearchproject/opensearch-dashboards:latest
 latest: Pulling from opensearchproject/opensearch-dashboards
 3ffbc2e88330: Already exists 
@@ -26,7 +28,7 @@ Status: Downloaded newer image for opensearchproject/opensearch-dashboards:lates
 docker.io/opensearchproject/opensearch-dashboards:latest
 
 -------------------------------------------------------------------------------------------------
-Docker install run neo4j server
+## Docker install run neo4j server
 
 ar@pop-os:~/desperado/woodchuck/opensearch_docker$ docker pull neo4j:latest
 latest: Pulling from library/neo4j
@@ -38,6 +40,7 @@ bb3791b25a58: Pull complete
 Digest: sha256:7bbe414ef4c1e1184284b2f4dcb19fb8c7e03126b540a77907b2e4d07014b4af
 Status: Downloaded newer image for neo4j:latest
 docker.io/library/neo4j:latest
+
 ar@pop-os:~/desperado/woodchuck/opensearch_docker$ docker run \
 --publish=7474:7474 --publish=7687:7687 \
 --volume=$HOME/neo4j/data:/data \
@@ -77,3 +80,6 @@ funky query - need to learn meaning
 MATCH (n) OPTIONAL MATCH (n)-[r]->(m) RETURN n, r, m LIMIT 100
 
 
+cypher delete
+MATCH (n)
+DETACH DELETE n
