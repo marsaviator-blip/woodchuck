@@ -1,0 +1,28 @@
+person:
+  - id: p1
+    name: "self"
+
+interests:
+  - id: i1
+    title: "Aircraft building"
+  - id: i2
+    title: "Aircraft flying"
+  - id: i3
+    title: "House construction"
+  - id: i4
+    title: "Tree logging"
+  - id: i5
+    title: "Tree planting"
+  - id: i5
+    title: "Truck trailering"
+
+
+
+relationships:
+  # self interests
+  - person_id: p1
+    interest_id: i1
+    interest_id: i2
+    interest_id: i3
+    interest_id: i4
+    interest_id: i5 

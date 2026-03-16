@@ -1,5 +1,10 @@
+org/lim/components/YamlPropertySourceFactory.class
 org/lim/components/ClientRunner.class
+org/lim/services/GraphService.class
+org/lim/components/GraphConfig$Interest.class
+org/lim/clients/Neo4jClient.class
+org/lim/components/GraphConfig$Relationship.class
 org/lim/Application.class
 org/woodchuck/converter/StructureToBolt.class
-org/lim/services/GraphService.class
-org/lim/clients/Neo4jClient.class
+org/lim/components/GraphConfig.class
+org/lim/components/GraphConfig$Person.class

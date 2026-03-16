@@ -1,5 +1,7 @@
 /home/ar/desperado/woodchuck/LIM/src/main/java/org/lim/Application.java
 /home/ar/desperado/woodchuck/LIM/src/main/java/org/lim/components/ClientRunner.java
+/home/ar/desperado/woodchuck/LIM/src/main/java/org/lim/components/GraphConfig.java
 /home/ar/desperado/woodchuck/LIM/src/main/java/org/lim/components/Neo4jClient.java
+/home/ar/desperado/woodchuck/LIM/src/main/java/org/lim/components/YamlPropertySourceFactory.java
 /home/ar/desperado/woodchuck/LIM/src/main/java/org/lim/converter/StructureToBolt.java
 /home/ar/desperado/woodchuck/LIM/src/main/java/org/lim/services/GraphService.java
