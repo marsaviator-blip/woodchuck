@@ -33,7 +33,6 @@ public class ClientRunner implements CommandLineRunner {
             JsonNode rootNode = objectMapper.readTree(jsonString);
             JsonNode materialsNode = rootNode.path("data"); // Get the named array
             StructureToBolt structureToBolt = new StructureToBolt();
-            String top = "CaPHO4";
             int index = 0;
             List<String> type = List.of("mono", "tri"); // get real stuff
             
@@ -43,13 +42,13 @@ public class ClientRunner implements CommandLineRunner {
 
                 // make endpoint calls to fetch more data about the material using the m_id, for example:
                 MaterialStructureParams params = new MaterialStructureParams(
-                    m_id, "structure", false, 1000, 0, 
+                    m_id, "structure,symmetry,density,chemsys", false, 1000, 0, 
                     1000, "All");
                 String moreData = mpService.getMaterialDetails(params);
-//                System.out.println("More data for material " + m_id + ": " + moreData);
+                System.out.println("More data for material " + m_id + ": " + moreData);
                 System  .out.println("Structure length: " + moreData.length());
 
-                structureToBolt.convert(top, type.get(index), element, m_id, moreData);
+                structureToBolt.convert(element, type.get(index), m_id, moreData);
 
                 index++;
 

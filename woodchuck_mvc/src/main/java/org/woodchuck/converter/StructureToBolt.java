@@ -14,21 +14,22 @@ public class StructureToBolt {
     private String cypher;
     private Map<String, Object> params;
 
-    public void convert(String topName, String type, String element, 
-        String mp_id, String jsonStringOfStructure) {
+    public void convert(String topName, String type, 
+                    String mp_id, String jsonStringOfStructure) {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode moreDataNode = objectMapper.readTree(jsonStringOfStructure);
-        JsonNode dataNodes    = moreDataNode.path("data"); // Get the named array        
-        JsonNode latticeNode  = dataNodes.findValue("lattice");
-        JsonNode aNode        = latticeNode.path("a");
-        JsonNode bNode        = latticeNode.path("b");
-        JsonNode cNode        = latticeNode.path("c");
-        JsonNode siteNodes    = dataNodes.findValue("sites");
+        JsonNode dataNodes = moreDataNode.path("data"); // Get the named array
+        JsonNode latticeNode = dataNodes.findValue("lattice");
+        JsonNode aNode = latticeNode.path("a");
+        JsonNode bNode = latticeNode.path("b");
+        JsonNode cNode = latticeNode.path("c");
+        JsonNode siteNodes = dataNodes.findValue("sites");
 
-        String crystalName = element;
+        String crystalName = mp_id;
         String spaceGroup = "TBD";
-        String sg = "TBD";  
+        String sg = "TBD";
+        System.out.println(topName + " " + type + " " + mp_id);
 
         // 3. Create Cypher Query for the Bolt protocol
         cypher = "MERGE (tn:top {name: $topName}) " +
@@ -50,19 +51,19 @@ public class StructureToBolt {
         params = new HashMap<>();
         params.put("topName", topName);
         params.put("type", type);
-        params.put("name", crystalName);
+        params.put("name", crystalName); // mp_id for now
         params.put("sg", spaceGroup);
         params.put("a", aNode);
         params.put("b", bNode);
-        params.put("c", cNode); 
+        params.put("c", cNode);
 
         List<Map<String, Object>> atoms = new java.util.ArrayList<>();
 
         for (JsonNode sNode : siteNodes) {
-            System.out.println(sNode.get("label").asString() +
-                    "  x:" + sNode.get("xyz").get(0).asText() +
-                    "  y:" + sNode.get("xyz").get(1).asText() +
-                    "  z:" + sNode.get("xyz").get(2).asText());
+            // System.out.println(sNode.get("label").asString() +
+            //         "  x:" + sNode.get("xyz").get(0).asText() +
+            //         "  y:" + sNode.get("xyz").get(1).asText() +
+            //         "  z:" + sNode.get("xyz").get(2).asText());
             String elementToNeo = sNode.get("label").asString();
             Double x = sNode.get("xyz").get(0).asDouble();
             Double y = sNode.get("xyz").get(1).asDouble();
@@ -70,16 +71,16 @@ public class StructureToBolt {
             Double a = sNode.get("abc").get(0).asDouble();
             Double b = sNode.get("abc").get(1).asDouble();
             Double c = sNode.get("abc").get(2).asDouble();
-//            params.put("atoms", java.util.List.of(
-atoms.add(
+            // params.put("atoms", java.util.List.of(
+            atoms.add(
                     Map.of("element", elementToNeo, "x", x, "y", y, "z", z)
-  //                  Map.of("element", elementToNeo, "a", a, "b", b, "c", c)
-);
-//                ));
+            // Map.of("element", elementToNeo, "a", a, "b", b, "c", c)
+            );
+            // ));
             cnt++;
         }
-        params.put("atoms", atoms); 
-        
+        params.put("atoms", atoms);
+
         pushToNeo4j();
     }
 
@@ -88,6 +89,6 @@ atoms.add(
     }
 
     // public void closeDriver() {
-    //     Neo4jClient.closeDriver();
-    // }   
+    // Neo4jClient.closeDriver();
+    // }
 }
