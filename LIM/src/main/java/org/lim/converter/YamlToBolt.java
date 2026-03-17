@@ -1,10 +1,13 @@
-package org.woodchuck.converter;
+package org.lim.converter;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.lim.clients.Neo4jClient;
+// import org.lim.components.GraphConfig.Interest;
+// import org.lim.components.GraphConfig.Person;
+// import org.lim.components.GraphConfig.Relationship;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
@@ -14,8 +17,13 @@ public class YamlToBolt {
     private String cypher;
     private Map<String, Object> params;
 
-    public void convert(String topName, String type, 
-                    String mp_id, String jsonStringOfStructure) {
+    // public void convert(Person self, List<Interest> interests , 
+    //                 List<Relationship> relationships) {
+    public void convert() {
+        List<String> interests = List.of("Logging", 
+        "Home Construction", "Aircraft Construction", "Aircraft Flying", "Pond Construction",
+         "Tree Planting", "Software Engineering");
+         List<String> relationships = List.of("rel1", "rel2", "rel3", "rel4", "rel5", "rel6", "rel7");
 
     //     ObjectMapper objectMapper = new ObjectMapper();
     //     JsonNode moreDataNode = objectMapper.readTree(jsonStringOfStructure);
@@ -29,10 +37,26 @@ public class YamlToBolt {
     //     String crystalName = mp_id;
     //     String spaceGroup = "TBD";
     //     String sg = "TBD";
-    //     System.out.println(topName + " " + type + " " + mp_id);
-
+        System.out.println(">>>>>>>  "+"junk"+"  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        String name = "Ray Martin";//self.name();
+        System.out.println("Interests:");
+//        String interest = "Logging";
     //     // 3. Create Cypher Query for the Bolt protocol
-    //     cypher = "MERGE (tn:top {name: $topName}) " +
+    int cnt = 1;
+    String iStr = "";
+        for (String interest : interests) { 
+            iStr += "MERGE (i"+cnt+":interest {interest: \""+interest+"\"}) ";
+            cnt++;
+        };
+        cnt = 0;
+        String rStr = "";
+        for (String rel : relationships) {
+            rStr += "MERGE (s)-[:HAS_INTEREST]->(i"+cnt+") ";
+            cnt++;
+        };
+
+        cypher = "MERGE (s:self {name: $name}) "+ iStr+""+rStr;// +""+rStr.substring(0, rStr.length()-9);
+    //             "MERGE (i:interest {interest: $interest}) ";// +
     //             "CREATE (t:type {name: $type}) " +
     //             "CREATE (c:Crystal {name: $name}) " +
     //             "CREATE (u:UnitCell {spaceGroup: $sg, a: $a, b: $b, c: $c}) " +
@@ -48,9 +72,15 @@ public class YamlToBolt {
 
     //     int cnt = 0;
     //     // 4. Structure atomic data for parameter mapping
-    //     params = new HashMap<>();
-    //     params.put("topName", topName);
-    //     params.put("type", type);
+        params = new HashMap<>();
+        params.put("name", name);
+        interests.forEach(interest -> {
+            params.put("interest", interest);
+        });
+        relationships.forEach(rel -> {
+            params.put("relationship", rel);
+        });
+     //     params.put("type", type);
     //     params.put("name", crystalName); // mp_id for now
     //     params.put("sg", spaceGroup);
     //     params.put("a", aNode);
@@ -81,14 +111,10 @@ public class YamlToBolt {
     //     }
     //     params.put("atoms", atoms);
 
-    //     pushToNeo4j();
+         pushToNeo4j();
     }
 
-    // public void pushToNeo4j() {
-    //     Neo4jClient.runCypher(cypher, params);
-    // }
-
-    // public void closeDriver() {
-    // Neo4jClient.closeDriver();
-    // }
-}
+    public void pushToNeo4j() {
+        Neo4jClient.runCypher(cypher, params);
+    }
+}    

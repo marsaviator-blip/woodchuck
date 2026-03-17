@@ -16,8 +16,7 @@ public class Neo4jClient {
 
         try (Session session = driver.session()) {
             session.run(cypherQuery, params);
-        }
+        }  
         driver.close();
     }
-
 }
