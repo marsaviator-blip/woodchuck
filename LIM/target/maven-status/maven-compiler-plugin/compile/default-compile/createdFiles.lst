@@ -1,7 +1,0 @@
-org/lim/converter/YamlToBolt.class
-org/lim/components/YamlPropertySourceFactory.class
-org/lim/components/ClientRunner.class
-org/lim/components/GraphAutoConfiguration.class
-org/lim/Application.class
-org/lim/services/GraphService.class
-org/lim/clients/Neo4jClient.class
