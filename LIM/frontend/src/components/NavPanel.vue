@@ -10,12 +10,12 @@ import { Router, useRoute } from 'vue-router';
     <nav>
       <div class="smallSpace" />
       <h2>Collector agents</h2>
-      <p>Run against Interest</p>
+      <p>Run against an Interest</p>
       <p>Setup agents</p>
       <p>View agents</p>
       <div class="smallSpace" />
       <h2>Interests</h2>
-      <p>Add Interest</p>
+      <p><RouterLink to="/addinterest">Add Interests</RouterLink></p>
       <p>Modify Interest</p>
       <p>Remove Interest</p>
       <p>View Interest</p>
@@ -28,7 +28,7 @@ import { Router, useRoute } from 'vue-router';
       <p>Create</p>
       <p>Delete</p>
       <p>Modify</p>
-      <p>View</p>
+      <p><RouterLink to="/basicmodel">View Basic Model</RouterLink></p>
       <p>
         <!-- <RouterLink to="/carousel">Image carousel</RouterLink> -->
         <RouterLink to="/formview">Form view</RouterLink>

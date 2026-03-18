@@ -8,6 +8,11 @@ const router = createRouter({
       name: 'formview',
       component: () => import('../views/FormView.vue'), 
     },
+    {
+      path: '/addinterest',
+      name: 'addinterest',
+      component: () => import('../components/AddInterest.vue'), 
+    },
   ],
 })
 
