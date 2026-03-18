@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: LIM
+  main:
+    web-application-type: NONE
+  profiles:
+    active: dev
+    

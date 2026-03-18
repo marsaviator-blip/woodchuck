@@ -1,0 +1,67 @@
+<script setup>
+// If you are using PurgeCSS, make sure to whitelist the carousel CSS classes
+import 'vue3-carousel/carousel.css'
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
+
+const carouselConfig = {
+  dir: 'ttb',
+  wrapAround: true,
+  itemsToShow: 2,
+  snapAlign: 'center',
+  height: '900px',
+  gap: 5,
+}
+
+const images = Array.from({ length: 10 }, (_, index) => ({
+  id: index + 1,
+  url: `https://picsum.photos/seed/${Math.random()}/800/600`,
+}))
+</script>
+
+<template>
+  <div class=".carousel-container">
+  <Carousel v-bind="carouselConfig">
+    <Slide v-for="img in images" :key="img.id">
+      <img :src="img.url" />
+    </Slide>
+
+    <template #addons>
+      <Navigation />
+      <Pagination />
+    </template>
+  </Carousel>
+  </div>
+</template>
+
+<style>
+:root {
+  background-color: #242424;
+}
+
+.carousel-container {
+  height: 30%;
+  min-width: 50%;
+  overflow: hidden;  
+  position: relative;
+  margin: 0 auto;
+  padding: 20rem;
+}   
+
+.carousel {
+  --vc-pgn-background-color: rgba(255, 255, 255, 0.7);
+  --vc-pgn-active-color: rgba(255, 255, 255, 1);
+  --vc-nav-background: rgba(255, 255, 255, 0.7);
+  --vc-nav-border-radius: 100%;
+}
+
+.carousel__slide {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+img {
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+}
+</style>

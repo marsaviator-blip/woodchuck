@@ -1,0 +1,17 @@
+<template>
+  <div class="about">
+    <h1>WOOD CHUCK</h1>
+    <p>Sharing descriptions and images of specialty lumber.</p>
+    <p>Types of wood, measurements, and other information.</p>
+  </div>
+</template>
+
+<style>
+@media (min-width: 1024px) {
+  .about {
+    min-height: 95vh;
+    /* display: flex; */
+    align-items: center;
+  }
+}
+</style>
