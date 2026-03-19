@@ -2,9 +2,9 @@
 import { RouterLink, RouterView } from 'vue-router'
 import Splitter from 'primevue/splitter';
 import SplitterPanel from 'primevue/splitterpanel';
-import NavPanel from './components/NavPanel.vue';
-import LeftPanel from './components/LeftPanel.vue';
-import RightPanel from './components/RightPanel.vue';
+import NavPanel from './views/layouts/NavPanel.vue';
+import LeftPanel from './views/layouts/LeftPanel.vue';
+import RightPanel from './views/layouts/RightPanel.vue';
 </script>
 
 <template>

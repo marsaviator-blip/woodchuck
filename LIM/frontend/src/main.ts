@@ -9,6 +9,9 @@ import axios from 'axios'
 import App from './App.vue'
 import router from './router'
 //import { getToken } from '@josempgon/vue-keycloak'
+import "vue-d3-network-graph/dist/style.css"
+import plugin from "vue-d3-network-graph";
+
 
 // Create an instance of axios with the base URL read from the environment
 const baseURL = import.meta.env.VITE_API_URL
@@ -39,6 +42,7 @@ app.use(PrimeVue, {
     }
 });
 app.use(createPinia())
+app.use(plugin)
 app.use(router)
 // app.use(vueKeycloak, {
 //   config: {
