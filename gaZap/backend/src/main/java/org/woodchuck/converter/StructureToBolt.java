@@ -25,37 +25,40 @@ public class StructureToBolt {
         JsonNode bNode = latticeNode.path("b");
         JsonNode cNode = latticeNode.path("c");
         JsonNode siteNodes = dataNodes.findValue("sites");
+        JsonNode csNode = dataNodes.findValue("crystal_system");
 
+        String crystalSystem = csNode.asText();
         String crystalName = mp_id;
+        String name = mp_id;
         String spaceGroup = "TBD";
         String sg = "TBD";
         System.out.println(topName + " " + type + " " + mp_id);
 
         // 3. Create Cypher Query for the Bolt protocol
         cypher = "MERGE (tn:top {name: $topName}) " +
-                "CREATE (t:type {name: $type}) " +
-                "CREATE (c:Crystal {name: $name}) " +
-                "CREATE (u:UnitCell {spaceGroup: $sg, a: $a, b: $b, c: $c}) " +
-                "CREATE (tn)-[:HAS_TYPE]->(t) " +
-                "WITH t " +
-                "CREATE (t)-[:HAS_HUH]->(c) " +
-                "WITH c " +
-                "CREATE (c)-[:HAS_CELL]->(u) " +
-                "WITH u " +
+                "CREATE (cs:crystal {name: $crystalSystem}) " +
+                "CREATE (cn:crystal {name: $crystalName}) " +
+//                "MERGE (u:UnitCell {spaceGroup: $sg, a: $a, b: $b, c: $c}) " +
+                // "CREATE (tn)-[:system]->(cs) " +
+                // "WITH cs " +
+                // "CREATE (cs)-[:HAS_NAME]->(cn) " +
+                // "WITH cn " +
                 "UNWIND $atoms AS atomData " +
                 "CREATE (a:Atom {element: atomData.element, x: atomData.x, y: atomData.y, z: atomData.z}) " +
-                "CREATE (u)-[:HAS_ATOM]->(a)";
+                "CREATE (cn)-[:HAS_ATOM]->(a)";
+
+                System.out.println(cypher);
 
         int cnt = 0;
         // 4. Structure atomic data for parameter mapping
         params = new HashMap<>();
         params.put("topName", topName);
-        params.put("type", type);
-        params.put("name", crystalName); // mp_id for now
-        params.put("sg", spaceGroup);
-        params.put("a", aNode);
-        params.put("b", bNode);
-        params.put("c", cNode);
+        params.put("crystalSystem", crystalSystem);
+        params.put("crystalName", crystalName); // mp_id for now
+//        params.put("sg", spaceGroup);
+        params.put("a", aNode.asText());
+        params.put("b", bNode.asDouble());
+        params.put("c", cNode.asDouble());
 
         List<Map<String, Object>> atoms = new java.util.ArrayList<>();
 

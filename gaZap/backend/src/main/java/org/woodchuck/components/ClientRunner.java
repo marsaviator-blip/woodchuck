@@ -28,7 +28,7 @@ public class ClientRunner implements CommandLineRunner {
         System.out.println("Tried fetching chemical element data for: " + element);
         if (jsonString != null && !jsonString.isEmpty()) {
             System.out.println("Data fetched successfully:");
-            System.out.println(jsonString);
+//            System.out.println(jsonString);
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(jsonString);
             JsonNode materialsNode = rootNode.path("data"); // Get the named array
@@ -54,6 +54,7 @@ public class ClientRunner implements CommandLineRunner {
 
                 // String cif = mpService.getCIFfile(m_id);
                 // System.out.println("CIF file for material " + m_id + ": " + cif);
+        System.exit(0);
             }
 
         } else {

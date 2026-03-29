@@ -1,9 +1,0 @@
-/home/ar/desperado/woodchuck/gaZap/backend/src/main/java/org/woodchuck/Application.java
-/home/ar/desperado/woodchuck/gaZap/backend/src/main/java/org/woodchuck/clients/Neo4jClient.java
-/home/ar/desperado/woodchuck/gaZap/backend/src/main/java/org/woodchuck/components/ApiKeyProperties.java
-/home/ar/desperado/woodchuck/gaZap/backend/src/main/java/org/woodchuck/components/ClientRunner.java
-/home/ar/desperado/woodchuck/gaZap/backend/src/main/java/org/woodchuck/components/CrystalToNeo4j.java
-/home/ar/desperado/woodchuck/gaZap/backend/src/main/java/org/woodchuck/components/CustomRequestInterceptor.java
-/home/ar/desperado/woodchuck/gaZap/backend/src/main/java/org/woodchuck/converter/StructureToBolt.java
-/home/ar/desperado/woodchuck/gaZap/backend/src/main/java/org/woodchuck/dtos/MaterialStructureParams.java
-/home/ar/desperado/woodchuck/gaZap/backend/src/main/java/org/woodchuck/services/MPService.java
