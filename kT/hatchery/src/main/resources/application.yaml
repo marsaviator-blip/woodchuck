@@ -1,3 +1,10 @@
 spring:
+  ai:
+    mcp:
+      server:
+        protocol: STREAMABLE
+        stdio: true
+        annotation-scanner:
+          enabled: true
   application:
-    name: demo
+    name: hatchery

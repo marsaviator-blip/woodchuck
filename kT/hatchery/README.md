@@ -12,4 +12,4 @@ Could this provide context to graph models in the gaZap project?  That is the go
 
 Will hatchery divide into sibling projects?
 
-There may be an MCP server.  A web interface to allow control of agents to gather info for the MCP server.  The server sits in a docker container.  How will gaZap and LIM communicate with the MCP server or other (vector) seervers?
+There may be an MCP server.  A web interface to allow control of agents to gather info for the MCP server.  The server sits in a docker container.  How will gaZap and LIM communicate with the MCP server or other (vector) servers?
