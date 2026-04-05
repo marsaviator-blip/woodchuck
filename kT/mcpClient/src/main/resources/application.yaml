@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: mcpClient
+  ai:
+    mcp:
+      client:
+        streamable-http:
+          connections:
+            my-server:
+              url: http://localhost:8080/mcp
+
