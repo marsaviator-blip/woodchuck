@@ -1,9 +1,11 @@
 package org.hatchery.client.services;
 
-import org.springframework.ai.mcp.annotation.McpClient;
-import org.springframework.ai.mcp.annotation.HttpClientStreamableHttpTransport;
-import org.springframework.ai.mcp.annotation.CallToolRequest;
-import org.springframework.ai.mcp.annotation.CallToolResult;  
+import io.modelcontextprotocol.client.McpClient;
+//import org.springframework.ai.mcp.client.McpClient;
+//import org.springframework.ai.mcp.annotations.McpClient;
+import io.modelcontextprotocol.client.transport.HttpClientStreamableHttpTransport;
+import io.modelcontextprotocol.spec.McpSchema.*; 
+//import org.springframework.ai.mcp.McpSchema.*; //did not work
 import org.springframework.stereotype.Service;
 import java.util.Map;
 

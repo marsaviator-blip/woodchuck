@@ -7,5 +7,5 @@ spring:
         streamable-http:
           connections:
             my-server:
-              url: http://localhost:8080/mcp
+              url: http://localhost:8080/
 
