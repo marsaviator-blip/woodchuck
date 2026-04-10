@@ -27,7 +27,7 @@ in another terminal start an mcp inspector: npx @modelcontextprotocol/inspector
 
 in browser: http://localhost:8080/mcp
 
-i am working at this point to get connected and ccall the weather service
+i am working at this point to get connected and call the weather service
 
 this all comes from: https://spring.io/blog/2025/09/16/spring-ai-mcp-intro-blog 
 
