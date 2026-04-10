@@ -17,5 +17,5 @@ public class Temp {
     }
 }
 
-// From project basde run me like this:
+// From project base run me like this:
 // mvn exec:java -Dexec.mainClass="org.hatchery.testArena.Temp""
