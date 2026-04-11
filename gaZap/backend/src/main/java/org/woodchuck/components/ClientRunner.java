@@ -48,13 +48,21 @@ public class ClientRunner implements CommandLineRunner {
                 System.out.println("More data for material " + m_id + ": " + moreData);
                 System  .out.println("Structure length: " + moreData.length());
 
-                structureToBolt.convert(element, type.get(index), m_id, moreData);
+
+                MaterialStructureParams provParams = new MaterialStructureParams(
+                    m_id, "structure,database_IDs,authors,references", false, 1000, 0, 
+                    1000, "All");
+                String provData = mpService.getProvenance(provParams);
+                System.out.println("Provenance data for material " + m_id + ": " + provData);
+                System.out.println("Provenance data length: " + provData.length());
+
+                //structureToBolt.convert(element, type.get(index), m_id, moreData);
 
                 index++;
 
                 // String cif = mpService.getCIFfile(m_id);
                 // System.out.println("CIF file for material " + m_id + ": " + cif);
-        System.exit(0);
+//        System.exit(0);
             }
 
         } else {

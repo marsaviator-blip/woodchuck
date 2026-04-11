@@ -67,6 +67,14 @@ public class MPService {
                 .body(String.class); //new ParameterizedTypeReference<List<String>>() {});
     }
 
+    public String getProvenance(MaterialStructureParams params) {
+        return restClient.get()
+                .uri("/materials/provenance/?material_ids={materialId}"+
+                "&_fields={fields}",
+                params.getMaterial_id(), params.get_fields())
+                .retrieve()
+                .body(String.class); //new ParameterizedTypeReference<List<String>>() {});
+    }
     public String getCIFfile(String materialId) {
         return restClient.get()
                 .uri("/materials/cif?type=symmeterized&material_ids={materialId}", materialId)
