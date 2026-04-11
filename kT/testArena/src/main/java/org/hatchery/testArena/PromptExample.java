@@ -1,8 +1,8 @@
 package org.hatchery.testArena;
 
 import java.util.Map;
-// import org.springframework.ai.chat.prompt.Prompt;
-// import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.stringtemplate.v4.ST;
@@ -23,16 +23,15 @@ public class PromptExample {
 
         // adding an example of using a template file
 
-    //    getItinerary("Paris", "art");
+        //getItinerary("Paris", "art");
     }
 
     @Value("classpath:/prompts/travel-agent.st")
-    private Resource itineraryTemplate;
-
-    // public String getItinerary(String city, String interest) {
-    //     PromptTemplate template = new PromptTemplate(itineraryTemplate);
-    //     return template.render(Map.of("city", city, "interest", interest));
-    // }
+    private static Resource itineraryTemplate;
+    public static String getItinerary(String city, String interest) {
+        PromptTemplate template = new PromptTemplate(itineraryTemplate);
+        return template.render(Map.of("city", city, "interest", interest));
+    }
 }
 
 // From project base run me like this:

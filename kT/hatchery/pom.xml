@@ -54,6 +54,14 @@
 			<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
 			<version>2.8.16</version>
 		</dependency> -->
+		<!-- <dependency>
+    		<groupId>org.springframework.ai</groupId>
+    		<artifactId>spring-ai-starter-model-vertex-ai-gemini</artifactId>
+		</dependency>
+		<dependency>
+    		<groupId>org.springframework.ai</groupId>
+    		<artifactId>spring-ai-starter-model-vertex-ai-embedding</artifactId>
+		</dependency> -->
 		<dependency>
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-advisors-vector-store</artifactId>
@@ -187,25 +195,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>https://repo.spring.io/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>https://repo.spring.io/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
 
 </project>
