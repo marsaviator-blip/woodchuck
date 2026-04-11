@@ -1,26 +1,33 @@
 package org.woodchuck.services;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+//import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
+import org.woodchuck.components.ApiKeyProperties;
 
+@Service
 public class CitationService {
 
-    private final WebClient webClient;
-    private final String API_KEY = "YOUR_SERPAPI_KEY";
+    private final RestClient restClient;
+    private final String BASE_URL = "https://serapi.com";
+    private String API_KEY;
 
-    public CitationService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("https://serapi.com").build();
+    public CitationService(RestClient.Builder restClientBuilder, ApiKeyProperties apiKeyProperties) {
+        this.API_KEY = apiKeyProperties.getSerpApiKey();
+        this.restClient = restClientBuilder.baseUrl(BASE_URL)
+            .defaultHeader("X-API-KEY", API_KEY) // Add API key to the header for authentication
+            .build();
     }
-    public Mono<String> getCitation(String citationId) {
-        return this.webClient.get()
+    public String getCitation(String citationId) {
+        return this.restClient.get()
             .uri(uriBuilder -> uriBuilder
                 .path("search")
-                .queryParam("engine","g oogle_scholar_cite")
+                .queryParam("engine","google_scholar_cite")
                 .queryParam("q", citationId)
-                .queryParam("api_key", API_KEY)
+//                .queryParam("api_key", this.API_KEY)
                 .build())
             .retrieve()
-            .bodyToMono(String.class); // or a specific POJO
+            .body(String.class);
+            //.bodyToMono(String.class); // or a specific POJO
     }
 }

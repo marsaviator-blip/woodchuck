@@ -12,4 +12,11 @@ public class ApiKeyProperties {
     public String getMpApiKey() {
         return API_KEY;
     }
+
+    @Value("${SERP_API_KEY}")
+    private String SERP_API_KEY;
+
+    public String getSerpApiKey() {
+        return SERP_API_KEY;
+    }
 }

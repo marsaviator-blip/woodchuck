@@ -1,6 +1,5 @@
 package org.woodchuck.services;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -8,7 +7,6 @@ import org.woodchuck.components.ApiKeyProperties;
 import org.woodchuck.components.CustomRequestInterceptor;
 import org.woodchuck.dtos.MaterialStructureParams;
 
-import java.io.File;
 import java.util.List;
 
 @Service
@@ -70,6 +68,15 @@ public class MPService {
     public String getProvenance(MaterialStructureParams params) {
         return restClient.get()
                 .uri("/materials/provenance/?material_ids={materialId}"+
+                "&_fields={fields}",
+                params.getMaterial_id(), params.get_fields())
+                .retrieve()
+                .body(String.class); //new ParameterizedTypeReference<List<String>>() {});
+    }
+
+    public String getDOI(MaterialStructureParams params) {
+        return restClient.get()
+                .uri("/doi?material_ids={materialId}"+
                 "&_fields={fields}",
                 params.getMaterial_id(), params.get_fields())
                 .retrieve()

@@ -56,6 +56,13 @@ public class ClientRunner implements CommandLineRunner {
                 System.out.println("Provenance data for material " + m_id + ": " + provData);
                 System.out.println("Provenance data length: " + provData.length());
 
+                MaterialStructureParams doiParams = new MaterialStructureParams(
+                    m_id, "doi,bibtex", false, 1000, 0,
+                    1000, "All");
+                String doiData = mpService.getDOI(doiParams);
+                System.out.println("DOI data for material " + m_id + ": " + doiData);
+                System.out.println("DOI data length: " + doiData.length());
+
                 //structureToBolt.convert(element, type.get(index), m_id, moreData);
 
                 index++;
