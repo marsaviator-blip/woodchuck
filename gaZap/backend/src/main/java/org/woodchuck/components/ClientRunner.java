@@ -1,24 +1,31 @@
 package org.woodchuck.components;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.woodchuck.converter.StructureToBolt;
 import org.woodchuck.dtos.MaterialStructureParams;
+import org.woodchuck.services.CitationService;
 import org.woodchuck.services.MPService;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ArrayNode;
 
 @Component
 public class ClientRunner implements CommandLineRunner {
 
     private final MPService mpService;
+    private final CitationService citationService; 
 
     // Constructor injection
-    public ClientRunner(MPService mpService) {
+    public ClientRunner(MPService mpService, CitationService citationService) {
         this.mpService = mpService;
+        this.citationService = citationService;
     }
 
     public void fetchChemicalElement(String element) {
@@ -44,9 +51,9 @@ public class ClientRunner implements CommandLineRunner {
                 MaterialStructureParams params = new MaterialStructureParams(
                     m_id, "structure,symmetry,density,chemsys", false, 1000, 0, 
                     1000, "All");
-                String moreData = mpService.getMaterialDetails(params);
-                System.out.println("More data for material " + m_id + ": " + moreData);
-                System  .out.println("Structure length: " + moreData.length());
+                // String moreData = mpService.getMaterialDetails(params);
+                // System.out.println("More data for material " + m_id + ": " + moreData);
+                // System  .out.println("Structure length: " + moreData.length());
 
 
                 MaterialStructureParams provParams = new MaterialStructureParams(
@@ -56,12 +63,40 @@ public class ClientRunner implements CommandLineRunner {
                 System.out.println("Provenance data for material " + m_id + ": " + provData);
                 System.out.println("Provenance data length: " + provData.length());
 
+                String[] articles = provData.split("@article");
+                System.out.println("Articles for material " + m_id + ":"+articles.length);
+                List<String> articleIdList = new java.util.ArrayList<>();
+                List<String> astmIdList = new java.util.ArrayList<>();
+                for (String article : articles) {
+                    String[] parts = article.split(",");
+                    System.out.println("Article parts : " + parts.length);
+                    if(parts.length > 1) {          
+                        System.out.println("Article part: " + parts[0].substring(1, parts[0].length())); 
+                        astmIdList.add(parts[0].substring(1, parts[0].length()));
+                    }
+                    for (String part : parts) {
+                         if(part.contains("ASTM")) {
+                            String[] subparts = part.split("=");
+                            System.out.println("Found ASTM standard: " + subparts[1].substring(3, 9)); 
+                            astmIdList.add(subparts[1].substring(3, 9));
+                        }
+                    }
+                }   // need a better way to parse tis data - what a mess
+
+                List<String> uniqueAstmId= astmIdList.stream()
+                                            .distinct()
+                                            .collect(Collectors.toList()); 
+                String first = uniqueAstmId.get(0);
+
+                String someResult = citationService.getCitation(first);
+                System.out.println("Citation for ASTM standard " + first + ": " + someResult);
+
                 MaterialStructureParams doiParams = new MaterialStructureParams(
-                    m_id, "doi,bibtex", false, 1000, 0,
+                    m_id, "material_id,doi,bibtex", false, 1000, 0,
                     1000, "All");
                 String doiData = mpService.getDOI(doiParams);
-                System.out.println("DOI data for material " + m_id + ": " + doiData);
-                System.out.println("DOI data length: " + doiData.length());
+                // System.out.println("DOI data for material " + m_id + ": " + doiData);
+                // System.out.println("DOI data length: " + doiData.length());
 
                 //structureToBolt.convert(element, type.get(index), m_id, moreData);
 
