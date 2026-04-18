@@ -24,3 +24,6 @@ public class CypherParserExample {
         
     }
 }
+
+// From project base run me like this:
+// mvn exec:java -Dexec.mainClass="org.hatchery.testArena.C
