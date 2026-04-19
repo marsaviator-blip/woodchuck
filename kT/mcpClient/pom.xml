@@ -59,6 +59,14 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 		<dependency>
+    		<groupId>org.springframework.ai</groupId>
+    		<artifactId>spring-ai-mcp-client-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+    		<groupId>org.springframework.ai</groupId>
+    		<artifactId>spring-ai-transformers-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-advisors-vector-store</artifactId>
 		</dependency>

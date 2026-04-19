@@ -1,4 +1,4 @@
-# Instructions  for docker instal and run for opensearch and neo4j
+# Instructions  for docker install and run for opensearch and neo4j
 
 ## Docker install run opensearch and dashboard
 

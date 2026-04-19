@@ -25,6 +25,7 @@ public class CitationService {
         JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient);
             requestFactory.setReadTimeout(Duration.ofSeconds(60));
             this.API_KEY = apiKeyProperties.getSerpApiKey();
+        System.out.println("SERP_API_KEY: " + this.API_KEY);    
         this.restClient = restClientBuilder.baseUrl(BASE_URL)
 //            .requestFactory(requestFactory)
             .defaultHeader("X-API-KEY", API_KEY) // Add API key to the header for authentication
@@ -35,6 +36,8 @@ public class CitationService {
             .path("/search")
             .queryParam("engine", "google_scholar_cite")
             .queryParam("q", "ASTM+" + astmId)
+            .queryParam("api_key", this.API_KEY)
+            .queryParam("location", "USA")
             .build()
             .toUri();
         System.out.println("Final URI: " + targetUrl.toString());

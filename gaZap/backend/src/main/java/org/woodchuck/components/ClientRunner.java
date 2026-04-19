@@ -95,8 +95,8 @@ public class ClientRunner implements CommandLineRunner {
                     m_id, "material_id,doi,bibtex", false, 1000, 0,
                     1000, "All");
                 String doiData = mpService.getDOI(doiParams);
-                // System.out.println("DOI data for material " + m_id + ": " + doiData);
-                // System.out.println("DOI data length: " + doiData.length());
+                System.out.println("DOI data for material " + m_id + ": " + doiData);
+                System.out.println("DOI data length: " + doiData.length());
 
                 //structureToBolt.convert(element, type.get(index), m_id, moreData);
 

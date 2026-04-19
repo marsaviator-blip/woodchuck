@@ -1,0 +1,27 @@
+package org.hatchery.services;
+
+import org.springframework.ai.document.Document;
+import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class VectorIngestionService {
+
+    private final VectorStore vectorStore;
+
+    // The VectorStore bean is auto-configured based on your properties
+    public VectorIngestionService(VectorStore vectorStore) {
+        this.vectorStore = vectorStore;
+    }
+
+    public void saveTextToVectorStore(String content, String category) {
+        // 1. Create a Document with metadata
+        Document document = new Document(content, Map.of("category", category));
+
+        // 2. Save to Vector Store
+        // Behind the scenes, Spring AI calls the EmbeddingModel to generate the vector
+        vectorStore.add(List.of(document));
+    }
+}

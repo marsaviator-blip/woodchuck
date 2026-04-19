@@ -37,4 +37,7 @@ task management, AskUserQuestion
 
 Hierarchical sub-agents
 
+## Google GenAI text embeddings
+Gemini Developer API or Vertex AI
 
+requires API key
