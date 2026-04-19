@@ -16,6 +16,12 @@ public class CypherParserExample {
             Cypher6Lexer lexer = new Cypher6Lexer(charStream);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             Cypher6Parser parser = new Cypher6Parser(tokens);
+            parser.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    System.err.println("Syntax error at line " + line + ":" + charPositionInLine + " - " + msg);
+                }
+            });
             parser.statements();
         } catch (Exception e) {
             System.err.println("Failed to parse Cypher query: " + e.getMessage());
