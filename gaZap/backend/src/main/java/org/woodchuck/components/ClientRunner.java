@@ -7,8 +7,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.woodchuck.converter.StructureToBolt;
 import org.woodchuck.dtos.MaterialStructureParams;
+import org.woodchuck.dtos.SearchQueryParams;
 import org.woodchuck.services.CitationService;
 import org.woodchuck.services.MPService;
+import org.woodchuck.services.RcsbService;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -20,12 +22,14 @@ import tools.jackson.databind.node.ArrayNode;
 public class ClientRunner implements CommandLineRunner {
 
     private final MPService mpService;
-    private final CitationService citationService; 
+    private final CitationService citationService;
+    private final RcsbService rcsbService;
 
     // Constructor injection
-    public ClientRunner(MPService mpService, CitationService citationService) {
+    public ClientRunner(MPService mpService, CitationService citationService, RcsbService rcsbService) {
         this.mpService = mpService;
         this.citationService = citationService;
+        this.rcsbService = rcsbService;
     }
 
     public void fetchChemicalElement(String element) {
@@ -113,14 +117,23 @@ public class ClientRunner implements CommandLineRunner {
         System.out.println("Finished fetching chemical element data for: " + element);
     }
 
+    public void fetchRcsbData(String query) {
+        System.out.println("Fetching RCSB data for query: " + query);
+        SearchQueryParams params = new SearchQueryParams(query, "entry");
+        List<String> results = rcsbService.search(params);
+        System.out.println("RCSB search results for query '" + query + "': " + results);
+    }
+
     // this method can be replaced with REST API calls to fetch data from the
     // Materials Project API using the MPService methods
     @Override
     public void run(String... args) {
         System.out.println("Fetching  using RestClient:");
-        String element = "CaHPO4"; // Example component ID, replace with actual ID as needed
-        fetchChemicalElement(element); // Fetch and print chemical element data
+        //String element = "CaHPO4"; // Example component ID, replace with actual ID as needed
+        //fetchChemicalElement(element); // Fetch and print chemical element data
 
+        System.out.println("Fetching  using RestClient:");
+        fetchRcsbData("pyrophosphatase");
         // do interesting things with the service here, like fetching data or performing
         // operations
 
