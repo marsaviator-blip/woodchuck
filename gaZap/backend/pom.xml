@@ -28,6 +28,8 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<jackson2.databind.version>2.20.2</jackson2.databind.version>
+		<jackson2.annotations.version>2.20</jackson2.annotations.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -44,6 +46,11 @@
 			<artifactId>spring-boot-starter-restclient-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.temporal</groupId>
+			<artifactId>temporal-spring-boot-starter</artifactId>
+			<version>1.34.0</version>
+		</dependency>
 		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
@@ -53,8 +60,18 @@
 		<dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-           <version>2.21.1</version>
+	           <version>${jackson2.databind.version}</version>
         </dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson2.databind.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson2.annotations.version}</version>
+		</dependency>
         <dependency>
 			<groupId>org.neo4j.driver</groupId>
 			<artifactId>neo4j-java-driver</artifactId>

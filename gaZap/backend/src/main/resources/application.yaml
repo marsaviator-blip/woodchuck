@@ -3,6 +3,31 @@ spring:
     name: woodchuck
   main:
     web-application-type: NONE
+    keep-alive: false
   profiles:
     active: dev
-    
+  temporal:
+    start-workers: false
+    connection:
+      target: localhost:7233
+    workers:
+      - name: "MainWorker"
+        task-queue: "BioTaskQueue"
+
+app:
+  runner:
+    enabled: true
+  temporal:
+    bio:
+      search:
+        timeout-seconds: 15
+        initial-interval-seconds: 1
+        backoff-coefficient: 2.0
+        maximum-interval-seconds: 10
+        maximum-attempts: 3
+      data:
+        timeout-seconds: 30
+        initial-interval-seconds: 2
+        backoff-coefficient: 2.0
+        maximum-interval-seconds: 20
+        maximum-attempts: 5

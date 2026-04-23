@@ -1,61 +1,57 @@
 package org.woodchuck.services;
 
-import java.net.URI;
 import java.util.List;
-import java.util.ArrayList;
 
-import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
-import org.springframework.web.util.UriComponentsBuilder;
-import org.woodchuck.components.ApiKeyProperties;
-import org.woodchuck.components.CustomRequestInterceptor;
+import org.woodchuck.config.BioTemporalProperties;
 import org.woodchuck.dtos.SearchQueryParams;
+import org.woodchuck.temporal.workflows.ActivityExecutionSettings;
+import org.woodchuck.temporal.workflows.BioWorkflow;
+import org.woodchuck.temporal.workflows.BioWorkflowRequest;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
-import tools.jackson.databind.node.ArrayNode;
+import io.temporal.client.WorkflowClient;
+import io.temporal.client.WorkflowOptions;
 
 @Service
 public class RcsbService {
-    private final RestClient restClient;
+    private static final String BIO_TASK_QUEUE = "BioTaskQueue";
 
-    private final String BASE_URL = "https://search.rcsb.org";
+    @Autowired
+    private WorkflowClient workflowClient;
 
-	public RcsbService(RestClient.Builder builder, ApiKeyProperties apiKeyProperties, CustomRequestInterceptor customRequestInterceptor) {
-        String API_KEY = apiKeyProperties.getMpApiKey();
-        System.out.println("MP_API_KEY: " + API_KEY);
-
-        // Initialize the RestClient with a base URL
-        this.restClient = builder
-                .requestInterceptor(customRequestInterceptor)
-                .baseUrl(BASE_URL)
-                .build();
-	}
-
+    @Autowired
+    private BioTemporalProperties bioTemporalProperties;
+    
     public List<String> search(SearchQueryParams params) {
-        URI targetUrl = UriComponentsBuilder.fromUriString(BASE_URL)
-            .path("/rcsbsearch/v2/query")
-            .query(params.getQuery())
-            .build(false)
-            .toUri();
-        String response = restClient.get()
-                .uri(targetUrl) // Specify the endpoint URI
-                .retrieve() // Execute the request and retrieve the response
-                .body(String.class); // Map the response body to a List of Post objects
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode rootNode = objectMapper.readTree(response);
-            JsonNode identifierNode = rootNode.path("result_set"); // Get the named array
-            List<String> identifiers = new ArrayList<>(); // get real stuff
-            
-            for (JsonNode node : identifierNode) {
-//                System.out.println(node);
-                String id = node.get("identifier").asString();
-                identifiers.add(id);
-            }   
-        
-        return identifiers;
+        BioWorkflow workflow = newWorkflow();
+        BioWorkflowRequest request = new BioWorkflowRequest();
+        request.setOperation(BioWorkflowRequest.Operation.SEARCH);
+        request.setQuery(params.getQuery());
+        request.setSettings(toSettings(bioTemporalProperties.getSearch()));
+        return workflow.execute(request);
+    }
+
+    public List<String> getData(List<String> entries) {
+        BioWorkflow workflow = newWorkflow();
+        BioWorkflowRequest request = new BioWorkflowRequest();
+        request.setOperation(BioWorkflowRequest.Operation.GET_DATA);
+        request.setEntries(entries);
+        request.setSettings(toSettings(bioTemporalProperties.getData()));
+        return workflow.execute(request);
+    }
+
+    private BioWorkflow newWorkflow() {
+        return workflowClient.newWorkflowStub(BioWorkflow.class,
+            WorkflowOptions.newBuilder().setTaskQueue(BIO_TASK_QUEUE).build());
+    }
+
+    private ActivityExecutionSettings toSettings(BioTemporalProperties.ActivityPolicy policy) {
+        return new ActivityExecutionSettings(
+            policy.getTimeoutSeconds(),
+            policy.getInitialIntervalSeconds(),
+            policy.getBackoffCoefficient(),
+            policy.getMaximumIntervalSeconds(),
+            policy.getMaximumAttempts());
     }
 }

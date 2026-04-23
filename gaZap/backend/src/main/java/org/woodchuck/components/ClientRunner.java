@@ -3,6 +3,7 @@ package org.woodchuck.components;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.woodchuck.converter.StructureToBolt;
@@ -14,11 +15,14 @@ import org.woodchuck.services.RcsbService;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import io.temporal.client.WorkflowFailedException;
+
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.node.ArrayNode;
 
 @Component
+@ConditionalOnProperty(name = "app.runner.enabled", havingValue = "true")
 public class ClientRunner implements CommandLineRunner {
 
     private final MPService mpService;
@@ -122,6 +126,8 @@ public class ClientRunner implements CommandLineRunner {
         SearchQueryParams params = new SearchQueryParams(query, "entry");
         List<String> results = rcsbService.search(params);
         System.out.println("RCSB search results for query '" + query + "': " + results);
+        List<String> data = rcsbService.getData(results);
+        System.out.println("RCSB data for query '" + query + "': " + data.size() + " entries");
     }
 
     // this method can be replaced with REST API calls to fetch data from the
@@ -131,9 +137,12 @@ public class ClientRunner implements CommandLineRunner {
         System.out.println("Fetching  using RestClient:");
         //String element = "CaHPO4"; // Example component ID, replace with actual ID as needed
         //fetchChemicalElement(element); // Fetch and print chemical element data
-
-        System.out.println("Fetching  using RestClient:");
-        fetchRcsbData("pyrophosphatase");
+        try {
+            fetchRcsbData("pyrophosphatase");
+        } catch (WorkflowFailedException ex) {
+            System.err.println("RCSB startup workflow failed: " + ex.getMessage());
+        }
+        System.out.println("ClientRunner completed.");
         // do interesting things with the service here, like fetching data or performing
         // operations
 

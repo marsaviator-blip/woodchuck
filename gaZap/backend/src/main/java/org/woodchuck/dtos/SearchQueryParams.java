@@ -1,7 +1,5 @@
 package org.woodchuck.dtos;
 
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 
 public class SearchQueryParams {
