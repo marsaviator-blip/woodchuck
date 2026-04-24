@@ -17,6 +17,7 @@ spring:
 app:
   runner:
     enabled: true
+    temporal-demo-enabled: true
   temporal:
     bio:
       search:

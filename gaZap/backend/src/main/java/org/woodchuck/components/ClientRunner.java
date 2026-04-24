@@ -1,10 +1,13 @@
 package org.woodchuck.components;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.woodchuck.converter.StructureToBolt;
 import org.woodchuck.dtos.MaterialStructureParams;
@@ -25,15 +28,28 @@ import tools.jackson.databind.node.ArrayNode;
 @ConditionalOnProperty(name = "app.runner.enabled", havingValue = "true")
 public class ClientRunner implements CommandLineRunner {
 
+    private final boolean startupTemporalDemoEnabled;
+
+    private final ExecutorService startupExecutor = Executors.newSingleThreadExecutor(r -> {
+        Thread t = new Thread(r, "startup-rcsb-runner");
+        t.setDaemon(false);
+        return t;
+    });
+
     private final MPService mpService;
     private final CitationService citationService;
     private final RcsbService rcsbService;
 
     // Constructor injection
-    public ClientRunner(MPService mpService, CitationService citationService, RcsbService rcsbService) {
+    public ClientRunner(
+            MPService mpService,
+            CitationService citationService,
+            RcsbService rcsbService,
+            @Value("${app.runner.temporal-demo-enabled:true}") boolean startupTemporalDemoEnabled) {
         this.mpService = mpService;
         this.citationService = citationService;
         this.rcsbService = rcsbService;
+        this.startupTemporalDemoEnabled = startupTemporalDemoEnabled;
     }
 
     public void fetchChemicalElement(String element) {
@@ -134,15 +150,26 @@ public class ClientRunner implements CommandLineRunner {
     // Materials Project API using the MPService methods
     @Override
     public void run(String... args) {
-        System.out.println("Fetching  using RestClient:");
-        //String element = "CaHPO4"; // Example component ID, replace with actual ID as needed
-        //fetchChemicalElement(element); // Fetch and print chemical element data
-        try {
-            fetchRcsbData("pyrophosphatase");
-        } catch (WorkflowFailedException ex) {
-            System.err.println("RCSB startup workflow failed: " + ex.getMessage());
+        if (!startupTemporalDemoEnabled) {
+            System.out.println("ClientRunner startup Temporal demo disabled by app.runner.temporal-demo-enabled=false.");
+            return;
         }
-        System.out.println("ClientRunner completed.");
+
+        System.out.println("ClientRunner scheduling startup Temporal demo call.");
+        startupExecutor.submit(() -> {
+            System.out.println("ClientRunner async task started.");
+            try {
+                fetchRcsbData("pyrophosphatase");
+            } catch (WorkflowFailedException ex) {
+                System.err.println("RCSB startup workflow failed: " + ex.getMessage());
+            } catch (Exception ex) {
+                System.err.println("Unexpected startup runner error: " + ex.getMessage());
+            } finally {
+                System.out.println("ClientRunner async task completed.");
+            }
+        });
+        startupExecutor.shutdown();
+        System.out.println("ClientRunner scheduled; application startup can continue.");
         // do interesting things with the service here, like fetching data or performing
         // operations
 

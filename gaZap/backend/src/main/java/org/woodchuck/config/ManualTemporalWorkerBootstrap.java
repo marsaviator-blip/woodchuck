@@ -2,7 +2,7 @@ package org.woodchuck.config;
 
 import jakarta.annotation.PreDestroy;
 
-import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.woodchuck.temporal.activities.BioActivitiesImpl;
@@ -26,7 +26,7 @@ public class ManualTemporalWorkerBootstrap {
         this.bioActivities = bioActivities;
     }
 
-    @EventListener(ApplicationReadyEvent.class)
+    @EventListener(ApplicationStartedEvent.class)
     public void startWorker() {
         if (workerFactory != null) {
             return;
