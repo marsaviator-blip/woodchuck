@@ -17,11 +17,14 @@ import io.temporal.client.WorkflowOptions;
 public class RcsbService {
     private static final String BIO_TASK_QUEUE = "BioTaskQueue";
 
-    @Autowired
-    private WorkflowClient workflowClient;
+     private final WorkflowClient workflowClient;
+     private final BioTemporalProperties bioTemporalProperties;
 
-    @Autowired
-    private BioTemporalProperties bioTemporalProperties;
+     public RcsbService(WorkflowClient workflowClient, BioTemporalProperties bioTemporalProperties) {
+         this.workflowClient = workflowClient;
+         this.bioTemporalProperties = bioTemporalProperties;
+     }
+
     
     public List<String> search(SearchQueryParams params) {
         BioWorkflow workflow = newWorkflow();
