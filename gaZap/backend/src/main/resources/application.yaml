@@ -13,6 +13,10 @@ spring:
     workers:
       - name: "MainWorker"
         task-queue: "BioTaskQueue"
+    workers-auto-discovery:
+      packages:
+        - "org.woodchuck.temporal"
+
 
 app:
   runner:

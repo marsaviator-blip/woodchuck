@@ -10,13 +10,13 @@ import org.woodchuck.dtos.MaterialStructureParams;
 import java.util.List;
 
 @Service
-public class MPService {
+public class MPServiceOne {
 
     private final RestClient restClient;
 
     private final String BASE_URL = "https://api.materialsproject.org";
 
-    public MPService(RestClient.Builder builder, ApiKeyProperties apiKeyProperties, CustomRequestInterceptor customRequestInterceptor) {
+    public MPServiceOne(RestClient.Builder builder, ApiKeyProperties apiKeyProperties, CustomRequestInterceptor customRequestInterceptor) {
 
         // String MP_API_KEY = env.getProperty("MP"); // need to haveset environment
         // variable for your OS

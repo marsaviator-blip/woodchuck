@@ -10,6 +10,7 @@ mvn clean package
 java -jar target/<jarfile
 
 
+
 ### Running temporal enabled rcsb service ###
 
 In one terminal run
