@@ -13,8 +13,12 @@ public class MPSpec {
     private boolean shouldGetDOI = false;
     private boolean shouldGetCIF = false;
 
+    //private ActivityExecutionSettings settings;
     private ActivityExecutionSettings settings;
 
+    MPSpec() {
+        this.settings = new ActivityExecutionSettings();
+    }
     private boolean deprecated;
     private int per_page;
     private int skip;

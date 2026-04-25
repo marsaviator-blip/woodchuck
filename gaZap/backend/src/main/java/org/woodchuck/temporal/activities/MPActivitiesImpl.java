@@ -1,12 +1,15 @@
 package org.woodchuck.temporal.activities;
 
-import io.temporal.activity.ActivityInterface;
+import io.temporal.spring.boot.ActivityImpl;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.woodchuck.components.ApiKeyProperties;
 import org.woodchuck.components.CustomRequestInterceptor;
 import org.woodchuck.dtos.MaterialStructureParams;
 
+@Component
+@ActivityImpl(taskQueues = "MP_QUEUE")
 public class MPActivitiesImpl implements MPActivities {
 
     private final RestClient restClient;
@@ -32,6 +35,7 @@ public class MPActivitiesImpl implements MPActivities {
     }
 
     public String getChemicalElement(String elementId) {
+         System.out.println("hey - activity kickin");
         return restClient.get()
                 .uri("/materials/summary/?formula={elementId}", elementId)
                 .retrieve()

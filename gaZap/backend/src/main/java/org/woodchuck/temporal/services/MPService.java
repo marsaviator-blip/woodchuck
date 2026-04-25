@@ -6,7 +6,6 @@ import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
 import org.springframework.stereotype.Service;
 import org.woodchuck.temporal.worker.MPWorkflow;
-import org.woodchuck.dtos.MaterialStructureParams;
 import org.woodchuck.temporal.workflows.MPSpec;
 
 @Service

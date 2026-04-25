@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import org.woodchuck.temporal.workflows.MPSpec;
 
-@Configuration
+//@Configuration
 public class TemporalConfig {
     
     // @Bean

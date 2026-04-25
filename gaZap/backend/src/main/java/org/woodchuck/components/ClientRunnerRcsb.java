@@ -26,17 +26,18 @@ import tools.jackson.databind.node.ArrayNode;
 @ConditionalOnProperty(name = "app.runner.temporal-rcsb-enabled", havingValue = "true")
 public class ClientRunnerRcsb implements CommandLineRunner {
 
-    private final ExecutorService startupExecutor = Executors.newSingleThreadExecutor(r -> {
-        Thread t = new Thread(r, "startup-rcsb-runner");
-        t.setDaemon(false);
-        return t;
-    });
+    // private final ExecutorService startupExecutor = Executors.newSingleThreadExecutor(r -> {
+    //     Thread t = new Thread(r, "startup-rcsb-runner");
+    //     t.setDaemon(false);
+    //     return t;
+    // });
 
     private final RcsbService rcsbService;
 
     // Constructor injection
     public ClientRunnerRcsb(RcsbService rcsbService) {
         this.rcsbService = rcsbService;
+        this.rcsbService.startWorkflow();
     }
 
     public void fetchRcsbData(String query) {
@@ -52,22 +53,6 @@ public class ClientRunnerRcsb implements CommandLineRunner {
     public void run(String... args) {
 
         System.out.println("ClientRunner scheduling startup Temporal demo call.");
-        // startupExecutor.submit(() -> {
-        //     System.out.println("ClientRunner async task started.");
-            try {
-                fetchRcsbData("pyrophosphatase");
-            } catch (WorkflowFailedException ex) {
-                System.err.println("RCSB startup workflow failed: " + ex.getMessage());
-            } catch (Exception ex) {
-                System.err.println("Unexpected startup runner error: " + ex.getMessage());
-            } finally {
-                System.out.println("ClientRunner async task completed.");
-            }
-        // });
-        // startupExecutor.shutdown();
-        // System.out.println("ClientRunner scheduled; application startup can continue.");
-        // System.out.println("Starting ClientRunner...");
-        // System.out.println("ClientRunner completed.");
     }
 
     // public static void main(String[] args) {

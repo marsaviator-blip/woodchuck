@@ -19,7 +19,8 @@ public class BioWorkflowImpl implements BioWorkflow {
         BioActivities activities = newActivities(request.getSettings());
 
         if (request.getOperation() == BioWorkflowRequest.Operation.SEARCH) {
-            return activities.searchIdentifiers(request.getQuery());
+            List<String> identifiers = activities.searchIdentifiers(request.getQuery());
+            return activities.fetchEntries(identifiers);
         }
         if (request.getOperation() == BioWorkflowRequest.Operation.GET_DATA) {
             return activities.fetchEntries(request.getEntries());

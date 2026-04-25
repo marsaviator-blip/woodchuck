@@ -19,15 +19,26 @@ public class RcsbService {
 
      private final WorkflowClient workflowClient;
      private final BioTemporalProperties bioTemporalProperties;
+     private final BioWorkflow workflow;
 
      public RcsbService(WorkflowClient workflowClient, BioTemporalProperties bioTemporalProperties) {
-         this.workflowClient = workflowClient;
-         this.bioTemporalProperties = bioTemporalProperties;
-     }
+        this.workflowClient = workflowClient;
+        this.bioTemporalProperties = bioTemporalProperties;
+        this.workflow = newWorkflow();
+}
 
-    
+    public void startWorkflow() {
+        SearchQueryParams params = new SearchQueryParams("pyrophosphatase"  , "entry");
+        BioWorkflowRequest request = new BioWorkflowRequest();
+        request.setOperation(BioWorkflowRequest.Operation.SEARCH);
+        request.setQuery(params.getQuery());
+        request.setSettings(toSettings(bioTemporalProperties.getSearch()));
+             var execution = WorkflowClient.start(workflow::execute, request);
+        String workflowId = execution.getWorkflowId();
+        System.out.println("Started BioWorkflow with ID: " + workflowId);
+    }
+
     public List<String> search(SearchQueryParams params) {
-        BioWorkflow workflow = newWorkflow();
         BioWorkflowRequest request = new BioWorkflowRequest();
         request.setOperation(BioWorkflowRequest.Operation.SEARCH);
         request.setQuery(params.getQuery());
@@ -36,7 +47,6 @@ public class RcsbService {
     }
 
     public List<String> getData(List<String> entries) {
-        BioWorkflow workflow = newWorkflow();
         BioWorkflowRequest request = new BioWorkflowRequest();
         request.setOperation(BioWorkflowRequest.Operation.GET_DATA);
         request.setEntries(entries);

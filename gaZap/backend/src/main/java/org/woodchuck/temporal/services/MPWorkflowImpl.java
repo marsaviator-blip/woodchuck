@@ -23,12 +23,13 @@ import tools.jackson.databind.ObjectMapper;
 @WorkflowImpl(taskQueues = "MP_QUEUE")
 public class MPWorkflowImpl implements MPWorkflow {
 
-    private String element = "CaPHO4";
-
+    private String element = "CaHPO4";
     public void processMP(MPSpec spec) {
+        try{
         //MPActivities activities = WorkflowImpl.getActivityStub(MPActivities.class);
+        System.out.println("Creating activity stub with settings: " + spec.getSettings());
         MPActivities activities = newActivities(spec.getSettings());
-
+        System.out.println("Run first activity");
         String jsonString = activities.getChemicalElement(element); // Fetch and print chemical element data
         System.out.println("Tried fetching chemical element data for: " + element);
         if (jsonString != null && !jsonString.isEmpty()) {
@@ -43,7 +44,7 @@ public class MPWorkflowImpl implements MPWorkflow {
             int index = 0;
             List<String> type = List.of("mono", "tri"); // get real stuff
             for (JsonNode node : materialsNode) {
-//                System.out.println(node);
+                System.out.println(node);
                 String m_id = node.get("material_id").asString();
 
                 // make endpoint calls to fetch more data about the material using the m_id, for example:
@@ -111,6 +112,11 @@ public class MPWorkflowImpl implements MPWorkflow {
             System.out.println("No data found for element: " + element);
         }
         System.out.println("Finished fetching chemical element data for: " + element);
+        } catch (Exception e) {
+            System.err.println("Error in workflow execution: " + e.getMessage());
+            e.printStackTrace();
+            return;
+        }
     }
 
     private MPActivities newActivities(ActivityExecutionSettings settings) {

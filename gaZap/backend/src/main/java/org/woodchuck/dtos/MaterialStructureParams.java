@@ -1,6 +1,8 @@
 package org.woodchuck.dtos;
 
-public class MaterialStructureParams {
+import java.io.Serializable;
+
+public class MaterialStructureParams implements Serializable{
     
     private String  material_id;
     private String  _fields;
@@ -10,6 +12,9 @@ public class MaterialStructureParams {
     private int     _limit;
     private String license;
 
+    public MaterialStructureParams() {
+    }
+    
     public MaterialStructureParams(String material_id, String _fields, boolean deprecated, int _per_page, int _skip, int _limit, String license) {
         this.material_id = material_id;
         this._fields = _fields;
