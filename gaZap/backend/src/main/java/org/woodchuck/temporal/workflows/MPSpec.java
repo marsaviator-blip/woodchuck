@@ -1,44 +1,74 @@
 package org.woodchuck.temporal.workflows;
 
 import org.springframework.stereotype.Component;
+import org.woodchuck.dtos.MaterialStructureParams;
 
 @Component
 public class MPSpec {
-    private String elementId;
-    private String materialId;
-    private String fields;
+    private boolean shouldWorkflowRemainAlive = false;
+    private boolean testSingleMPId = false;
+    private boolean shouldCallNeo4j = false;
+    private boolean shouldGetStructure = false;
+    private boolean shouldGetProvenance = false;
+    private boolean shouldGetDOI = false;
+    private boolean shouldGetCIF = false;
+
+    private ActivityExecutionSettings settings;
+
     private boolean deprecated;
     private int per_page;
     private int skip;
     private int limit;
     private String license;
 
-    // Getters and setters for all fields
-
-    public String getElementId() {
-        return elementId;
+    public boolean isShouldWorkflowRemainAlive() {
+        return shouldWorkflowRemainAlive;
     }
-
-    public void setElementId(String elementId) {
-        this.elementId = elementId;
+    public void setShouldWorkflowRemainAlive(boolean shouldWorkflowRemainAlive) {
+        this.shouldWorkflowRemainAlive = shouldWorkflowRemainAlive;
     }
-
-    public String getMaterialId() {
-        return materialId;
+    public boolean isTestSingleMPId() {
+        return testSingleMPId;
     }
-
-    public void setMaterialId(String materialId) {
-        this.materialId = materialId;
+    public void setTestSingleMPId(boolean testSingleMPId) {
+        this.testSingleMPId = testSingleMPId;
     }
-
-    public String getFields() {
-        return fields;
+    public boolean isShouldCallNeo4j() {
+        return shouldCallNeo4j;
     }
-
-    public void setFields(String fields) {
-        this.fields = fields;
+    public void setShouldCallNeo4j(boolean shouldCallNeo4j) {
+        this.shouldCallNeo4j = shouldCallNeo4j;
     }
-
+    public boolean isShouldGetStructure() {
+        return shouldGetStructure;
+    }
+    public void setShouldGetStructure(boolean shouldGetStructure) {
+        this.shouldGetStructure = shouldGetStructure;
+    }
+    public boolean isShouldGetProvenance() {
+        return shouldGetProvenance;
+    }
+    public void setShouldGetProvenance(boolean shouldGetProvenance) {
+        this.shouldGetProvenance = shouldGetProvenance;
+    }   
+    public boolean isShouldGetDOI() {
+        return shouldGetDOI;
+    }
+    public void setShouldGetDOI(boolean shouldGetDOI) {
+        this.shouldGetDOI = shouldGetDOI;
+    }
+    public boolean isShouldGetCIF() {
+        return shouldGetCIF;
+    }   
+    public void setShouldGetCIF(boolean shouldGetCIF) {
+        this.shouldGetCIF = shouldGetCIF;
+    }   
+    public ActivityExecutionSettings getSettings() {
+        return settings;
+    }
+    public void setSettings(ActivityExecutionSettings settings) {
+        this.settings = settings;
+    }   
     public boolean isDeprecated() {
         return deprecated;
     }

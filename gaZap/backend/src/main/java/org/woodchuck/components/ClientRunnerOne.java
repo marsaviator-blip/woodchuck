@@ -72,10 +72,10 @@ public class ClientRunnerOne {//implements CommandLineRunner {
                 String m_id = node.get("material_id").asString();
 
                 // make endpoint calls to fetch more data about the material using the m_id, for example:
-                MaterialStructureParams params = new MaterialStructureParams(
+                MaterialStructureParams strucParams = new MaterialStructureParams(
                     m_id, "structure,symmetry,density,chemsys", false, 1000, 0, 
                     1000, "All");
-                // String moreData = mpService.getMaterialDetails(params);
+                // String moreData = mpService.getMaterialDetails(strucParams);
                 // System.out.println("More data for material " + m_id + ": " + moreData);
                 // System  .out.println("Structure length: " + moreData.length());
 

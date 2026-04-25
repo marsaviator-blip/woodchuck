@@ -24,10 +24,11 @@ public class MPService {
     public String createMPWorkflow(MPSpec mpSpec) {
         var uuid = UUID.randomUUID();
         var wf = workflowClient.newWorkflowStub(
-          MPWorkflow.class,
-          WorkflowOptions.newBuilder()
-            .setTaskQueue("MP_QUEUE")
-            .setWorkflowId(uuid.toString()).build());
+            MPWorkflow.class,
+            WorkflowOptions.newBuilder()
+                .setTaskQueue("MP_QUEUE")
+                .setWorkflowId(uuid.toString())
+                .build());
         var execution = WorkflowClient.start(wf::processMP, mpSpec);
         return execution.getWorkflowId();
     }
