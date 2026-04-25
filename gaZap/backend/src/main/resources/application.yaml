@@ -7,7 +7,6 @@ spring:
   profiles:
     active: dev
   temporal:
-    start-workers: false
     workers:
       - task-queue: BioTaskQueue
         capacity:
@@ -28,9 +27,9 @@ spring:
 
 app:
   runner:
-    enabled: false
+    enabled: true
     temporal-citation-enabled: false
-    temporal-rcsb-enabled: true
+    temporal-rcsb-enabled: false
     temporal-bootstrap-enabled: false
   temporal:
     bio:

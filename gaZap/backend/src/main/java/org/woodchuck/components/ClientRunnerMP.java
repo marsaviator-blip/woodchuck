@@ -14,15 +14,16 @@ import org.woodchuck.temporal.services.MPService;
 @ConditionalOnProperty(name = "app.runner.enabled", havingValue = "true")
 public class ClientRunnerMP implements CommandLineRunner {
 
-    //private final MPService mpService;
+    private final MPService mpService;
 
     public ClientRunnerMP(MPService mpService, MPSpec mpSpec) {
+        this.mpService = mpService;
         var execution = mpService.createMPWorkflow(mpSpec);
-        var location = UriComponentsBuilder
-                        .fromUriString("/order/{orderExecutionId}")
-                        .build(execution);
+        // var location = UriComponentsBuilder
+        //                 .fromUriString("/order/{orderExecutionId}")
+        //                 .build(execution);
         System.out.println("Workflow started with execution ID: " + execution);
-        System.out.println("Workflow can be accessed at: " + location);               
+        //System.out.println("Workflow can be accessed at: " + location);               
     }
 
     // this method can be replaced with REST API calls to fetch data from the
