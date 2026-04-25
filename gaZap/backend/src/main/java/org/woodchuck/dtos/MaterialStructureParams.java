@@ -3,6 +3,7 @@ package org.woodchuck.dtos;
 import java.io.Serializable;
 
 public class MaterialStructureParams implements Serializable{
+    private static final long serialVersionUID = 1L;
     
     private String  material_id;
     private String  _fields;

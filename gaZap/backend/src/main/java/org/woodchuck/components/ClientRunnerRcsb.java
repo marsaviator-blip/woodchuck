@@ -34,7 +34,7 @@ public class ClientRunnerRcsb implements CommandLineRunner {
 
     private final RcsbService rcsbService;
 
-    // Constructor injection
+    //Constructor injection
     public ClientRunnerRcsb(RcsbService rcsbService) {
         this.rcsbService = rcsbService;
         this.rcsbService.startWorkflow();

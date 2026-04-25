@@ -118,9 +118,9 @@ public class ClientRunnerOne implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        System.out.println("ClientRunner scheduling startup Temporal demo call.");
-        System.out.println("ClientRunner scheduled; application startup can continue.");
-        fetchChemicalElement("CaHPO4"); // example element, can be replaced with any other element or parameter
+        System.out.println("ClientRunnerOne scheduling startup Temporal demo call.");
+        System.out.println("ClientRunnerOne scheduled; application startup can continue.");
+//        fetchChemicalElement("CaHPO4"); // example element, can be replaced with any other element or parameter
         // do interesting things with the service here, like fetching data or performing
         // operations
 
