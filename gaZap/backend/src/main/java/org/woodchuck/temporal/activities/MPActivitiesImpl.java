@@ -32,6 +32,7 @@ public class MPActivitiesImpl implements MPActivities {
     }
 
     public String getChemicalElement(String elementId) {
+         System.out.println("hey - activity kickin");
         return restClient.get()
                 .uri("/materials/summary/?formula={elementId}", elementId)
                 .retrieve()

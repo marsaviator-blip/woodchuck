@@ -19,7 +19,7 @@ public class ClientRunnerMP implements CommandLineRunner {
     public ClientRunnerMP(MPService mpService, MPSpec mpSpec) {
         var execution = mpService.createMPWorkflow(mpSpec);
         var location = UriComponentsBuilder
-                        .fromUriString("/order/{orderExecutionId}")
+                        .fromUriString("/mp/{mpExecutionId}")
                         .build(execution);
         System.out.println("Workflow started with execution ID: " + execution);
         System.out.println("Workflow can be accessed at: " + location);               

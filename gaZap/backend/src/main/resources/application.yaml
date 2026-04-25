@@ -7,7 +7,6 @@ spring:
   profiles:
     active: dev
   temporal:
-    start-workers: false
     workers:
       - task-queue: BioTaskQueue
         capacity:

@@ -5,11 +5,11 @@ import java.io.Serializable;
 public class ActivityExecutionSettings implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private int timeoutSeconds;
-    private int initialIntervalSeconds;
-    private double backoffCoefficient;
-    private int maximumIntervalSeconds;
-    private int maximumAttempts;
+    private int timeoutSeconds = 30;
+    private int initialIntervalSeconds = 2;
+    private double backoffCoefficient = 2.0;
+    private int maximumIntervalSeconds = 20;
+    private int maximumAttempts = 5;
 
     public ActivityExecutionSettings() {
     }
