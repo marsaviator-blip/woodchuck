@@ -14,39 +14,6 @@ public interface MPWorkflow {
    
     @WorkflowMethod
     void processMP(MPSpec spec);
-
-    // @SignalMethod
-    // void paymentAuthorized(String transactionId, String authorizationId);
-
-    // @SignalMethod
-    // void paymentDeclined(String transactionId, String cause);
-
-    // @SignalMethod
-    // void getChemicalElement(String elementId);
-    
-    // @SignalMethod
-    // void getMaterialDetails(MaterialStructureParams params);
-
-    // @SignalMethod
-    // void getProvenance(MaterialStructureParams params);
-
-    // @SignalMethod
-    // void getDOI(MaterialStructureParams params);
-
-    // @SignalMethod
-    // void getCIFfile(String materialId);
-
-    // @QueryMethod
-    // Order getOrder();
-
-    // @QueryMethod
-    // Shipping getShipping();
-
-    // @QueryMethod
-    // PaymentAuthorization getPayment();
-
-    // @QueryMethod
-    // RefundRequest getRefund();
 }
 
 

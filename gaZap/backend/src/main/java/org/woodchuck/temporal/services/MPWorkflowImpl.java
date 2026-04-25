@@ -1,108 +1,132 @@
 package org.woodchuck.temporal.services;
 
-import org.springframework.core.annotation.Order;
+import java.time.Duration;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
-import org.woodchuck.components.ApiKeyProperties;
-import org.woodchuck.components.CustomRequestInterceptor;
+import org.woodchuck.converter.StructureToBolt;
 import org.woodchuck.dtos.MaterialStructureParams;
 import org.woodchuck.temporal.worker.MPWorkflow;
+import org.woodchuck.temporal.workflows.ActivityExecutionSettings;
 import org.woodchuck.temporal.workflows.MPSpec;
+import org.woodchuck.temporal.activities.MPActivities;
 
-import io.temporal.spring.boot.ActivityImpl;
+import io.temporal.activity.ActivityOptions;
+import io.temporal.common.RetryOptions;
 import io.temporal.spring.boot.WorkflowImpl;
-import io.temporal.workflow.SignalMethod;
+import io.temporal.workflow.Workflow;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 @Service
 @WorkflowImpl(taskQueues = "MP_QUEUE")
 public class MPWorkflowImpl implements MPWorkflow {
 
-    private final RestClient restClient;
-
-    private final String BASE_URL = "https://api.materialsproject.org";
-
-    public MPWorkflowImpl(RestClient.Builder builder, ApiKeyProperties apiKeyProperties, CustomRequestInterceptor customRequestInterceptor) {
-
-        // String MP_API_KEY = env.getProperty("MP"); // need to haveset environment
-        // variable for your OS
-        // RestClient.Builder is auto-configured by Spring boot
-        // with useful settings like metrics and message converters.
-
-        String API_KEY = apiKeyProperties.getMpApiKey();
-        System.out.println("MP_API_KEY: " + API_KEY);
-
-        // Initialize the RestClient with a base URL
-        this.restClient = builder
-                .requestInterceptor(customRequestInterceptor)
-                .baseUrl(BASE_URL)
-                .defaultHeader("X-API-KEY", API_KEY) // Add API key to the header for authentication
-                .build();
-    }
-
+    private String element = "CaPHO4";
 
     public void processMP(MPSpec spec) {
-        System.out.println("Processing MP workflow with spec: " + spec);
+        //MPActivities activities = WorkflowImpl.getActivityStub(MPActivities.class);
+        MPActivities activities = newActivities(spec.getSettings());
+
+        String jsonString = activities.getChemicalElement(element); // Fetch and print chemical element data
+        System.out.println("Tried fetching chemical element data for: " + element);
+        if (jsonString != null && !jsonString.isEmpty()) {
+            System.out.println("Data fetched successfully:");
+//            System.out.println(jsonString);
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(jsonString);
+            JsonNode materialsNode = rootNode.path("data"); // Get the named array
+            if(spec.isShouldCallNeo4j()) {  
+                StructureToBolt structureToBolt = new StructureToBolt();
+            }
+            int index = 0;
+            List<String> type = List.of("mono", "tri"); // get real stuff
+            for (JsonNode node : materialsNode) {
+//                System.out.println(node);
+                String m_id = node.get("material_id").asString();
+
+                // make endpoint calls to fetch more data about the material using the m_id, for example:
+                MaterialStructureParams strucParams = new MaterialStructureParams(
+                    m_id, "structure,symmetry,density,chemsys", false, 1000, 0, 
+                    1000, "All");
+                 String moreData = activities.getMaterialDetails(strucParams);
+                 System.out.println("More data for material " + m_id + ": " + moreData);
+                 System  .out.println("Structure length: " + moreData.length());
+
+
+                MaterialStructureParams provParams = new MaterialStructureParams(
+                    m_id, "structure,database_IDs,authors,references", false, 1000, 0, 
+                    1000, "All");
+                String provData = activities.getProvenance(provParams);
+                System.out.println("Provenance data for material " + m_id + ": " + provData);
+                System.out.println("Provenance data length: " + provData.length());
+
+                String[] articles = provData.split("@article");
+                System.out.println("Articles for material " + m_id + ":"+articles.length);
+                List<String> articleIdList = new java.util.ArrayList<>();
+                List<String> astmIdList = new java.util.ArrayList<>();
+                for (String article : articles) {
+                    String[] parts = article.split(",");
+                    System.out.println("Article parts : " + parts.length);
+                    if(parts.length > 1) {          
+                        System.out.println("Article part: " + parts[0].substring(1, parts[0].length())); 
+                        astmIdList.add(parts[0].substring(1, parts[0].length()));
+                    }
+                    for (String part : parts) {
+                         if(part.contains("ASTM")) {
+                            String[] subparts = part.split("=");
+                            System.out.println("Found ASTM standard: " + subparts[1].substring(3, 9)); 
+                            astmIdList.add(subparts[1].substring(3, 9));
+                        }
+                    }
+                }   // need a better way to parse tis data - what a mess
+
+                List<String> uniqueAstmId= astmIdList.stream()
+                                            .distinct()
+                                            .collect(Collectors.toList()); 
+                String first = uniqueAstmId.get(0);
+
+                // String someResult = citationService.getCitation(first);
+                // System.out.println("Citation for ASTM standard " + first + ": " + someResult);
+
+                if(spec.isShouldGetDOI()) {
+                    MaterialStructureParams doiParams = new MaterialStructureParams(
+                        m_id, "material_id,doi,bibtex", false, 1000, 0,
+                        1000, "All");
+                    String doiData = activities.getDOI(doiParams);
+                    System.out.println("DOI data for material " + m_id + ": " + doiData);
+                    System.out.println("DOI data length: " + doiData.length());
+                }
+
+                //structureToBolt.convert(element, type.get(index), m_id, moreData);
+
+                index++;
+
+                // String cif = mpService.getCIFfile(m_id);
+                // System.out.println("CIF file for material " + m_id + ": " + cif);
+            }
+
+        } else {
+            System.out.println("No data found for element: " + element);
+        }
+        System.out.println("Finished fetching chemical element data for: " + element);
     }
 
-    public String getChemicalElement(String elementId) {
-        System.out.println("Fetching chemical element data for: " + elementId);
-        return restClient.get()
-                .uri("/materials/summary/?formula={elementId}", elementId)
-                .retrieve()
-                .body(String.class); //new ParameterizedTypeReference<List<String>>() {
-                
+    private MPActivities newActivities(ActivityExecutionSettings settings) {
+        return Workflow.newActivityStub(
+            MPActivities.class,
+            ActivityOptions.newBuilder()
+                .setStartToCloseTimeout(Duration.ofSeconds(settings.getTimeoutSeconds()))
+                .setRetryOptions(
+                    RetryOptions.newBuilder()
+                        .setInitialInterval(Duration.ofSeconds(settings.getInitialIntervalSeconds()))
+                        .setBackoffCoefficient(settings.getBackoffCoefficient())
+                        .setMaximumInterval(Duration.ofSeconds(settings.getMaximumIntervalSeconds()))
+                        .setMaximumAttempts(settings.getMaximumAttempts())
+                        .build())
+                .build());
     }
-    // Add more methods to interact with other endpoints of the Materials Project
-    // API as needed
-
-    public String getMaterialDetails(MaterialStructureParams params) {
-        return restClient.get()
-                .uri("/materials/core/?material_ids={materialId}"+
-                "&_fields={fields}&deprecated={deprecated}&_per_page={perPage}"+
-                "&_skip={skip}&_limit={limit}&license={license}", 
-                params.getMaterial_id(), params.get_fields(), params.isDeprecated(), 
-                params.get_per_page(), params.get_skip(), params.get_limit(), params.getLicense())
-                .retrieve()
-                .body(String.class); //new ParameterizedTypeReference<List<String>>() {});
-    }
-
-    public String getProvenance(MaterialStructureParams params) {
-        return restClient.get()
-                .uri("/materials/provenance/?material_ids={materialId}"+
-                "&_fields={fields}",
-                params.getMaterial_id(), params.get_fields())
-                .retrieve()
-                .body(String.class); //new ParameterizedTypeReference<List<String>>() {});
-    }
-
-    public String getDOI(MaterialStructureParams params) {
-        return restClient.get()
-                .uri("/doi?material_ids={materialId}"+
-                "&_fields={fields}",
-                params.getMaterial_id(), params.get_fields())
-                .retrieve()
-                .body(String.class); //new ParameterizedTypeReference<List<String>>() {});
-    }
-    public String getCIFfile(String materialId) {
-        return restClient.get()
-                .uri("/materials/cif?type=symmeterized&material_ids={materialId}", materialId)
-                .retrieve()
-                .body(String.class); //new ParameterizedTypeReference<List<String>>() {});      
-    }
-
-        
-// @Override
-// public void paymentAuthorized(String transactionId, String authorizationId) {
-//     Workflow.await(() -> payment != null);
-//     payment = new PaymentAuthorization(
-//       payment.info(),
-//       PaymentStatus.APPROVED,
-//       payment.orderId(),
-//       transactionId,
-//       authorizationId,
-//       null
-//     );
-// } 
 
     // @Override
     // public void reserveOrderItems(Order order) {
