@@ -11,8 +11,8 @@ import io.temporal.common.RetryOptions;
 import io.temporal.spring.boot.WorkflowImpl;
 import io.temporal.workflow.Workflow;
 
-//@Component
-//@WorkflowImpl(taskQueues = "BioTaskQueue")
+@Component
+@WorkflowImpl(taskQueues = "BioTaskQueue")
 public class BioWorkflowImpl implements BioWorkflow {
     @Override
     public List<String> execute(BioWorkflowRequest request) {
