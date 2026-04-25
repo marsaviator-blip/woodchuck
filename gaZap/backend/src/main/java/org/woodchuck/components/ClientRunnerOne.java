@@ -1,55 +1,32 @@
 package org.woodchuck.components;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.core.annotation.Order;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.woodchuck.converter.StructureToBolt;
 import org.woodchuck.dtos.MaterialStructureParams;
-import org.woodchuck.dtos.SearchQueryParams;
 import org.woodchuck.services.CitationService;
 import org.woodchuck.services.MPServiceOne;
-import org.woodchuck.services.RcsbService;
-
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import io.temporal.client.WorkflowFailedException;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
-import tools.jackson.databind.node.ArrayNode;
 
 @Component
-@ConditionalOnProperty(name = "app.runner.enabled", havingValue = "true")
-public class ClientRunnerOne {//implements CommandLineRunner {
-
-    private final boolean startupTemporalDemoEnabled;
-
-    private final ExecutorService startupExecutor = Executors.newSingleThreadExecutor(r -> {
-        Thread t = new Thread(r, "startup-rcsb-runner");
-        t.setDaemon(false);
-        return t;
-    });
+@Order(2)
+@ConditionalOnProperty(name = "app.runner.temporal-citation-enabled", havingValue = "true")
+public class ClientRunnerOne implements CommandLineRunner {
 
     private final MPServiceOne mpService;
     private final CitationService citationService;
-    private final RcsbService rcsbService;
 
     // Constructor injection
-    public ClientRunnerOne(
-            MPServiceOne mpService,
-            CitationService citationService,
-            RcsbService rcsbService,
-            @Value("${app.runner.temporal-demo-enabled:true}") boolean startupTemporalDemoEnabled) {
+    public ClientRunnerOne(MPServiceOne mpService, CitationService citationService) {
         this.mpService = mpService;
         this.citationService = citationService;
-        this.rcsbService = rcsbService;
-        this.startupTemporalDemoEnabled = startupTemporalDemoEnabled;
     }
 
     public void fetchChemicalElement(String element) {
@@ -63,7 +40,6 @@ public class ClientRunnerOne {//implements CommandLineRunner {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(jsonString);
             JsonNode materialsNode = rootNode.path("data"); // Get the named array
-            StructureToBolt structureToBolt = new StructureToBolt();
             int index = 0;
             List<String> type = List.of("mono", "tri"); // get real stuff
             
@@ -137,45 +113,20 @@ public class ClientRunnerOne {//implements CommandLineRunner {
         System.out.println("Finished fetching chemical element data for: " + element);
     }
 
-    public void fetchRcsbData(String query) {
-        System.out.println("Fetching RCSB data for query: " + query);
-        SearchQueryParams params = new SearchQueryParams(query, "entry");
-        List<String> results = rcsbService.search(params);
-        System.out.println("RCSB search results for query '" + query + "': " + results);
-        List<String> data = rcsbService.getData(results);
-        System.out.println("RCSB data for query '" + query + "': " + data.size() + " entries");
-    }
-
     // this method can be replaced with REST API calls to fetch data from the
     // Materials Project API using the MPService methods
-    // @Override
-    // public void run(String... args) {
-    //     if (!startupTemporalDemoEnabled) {
-    //         System.out.println("ClientRunner startup Temporal demo disabled by app.runner.temporal-demo-enabled=false.");
-    //         return;
-    //     }
+    @Override
+    public void run(String... args) {
 
-    //     System.out.println("ClientRunner scheduling startup Temporal demo call.");
-    //     startupExecutor.submit(() -> {
-    //         System.out.println("ClientRunner async task started.");
-    //         try {
-    //             fetchRcsbData("pyrophosphatase");
-    //         } catch (WorkflowFailedException ex) {
-    //             System.err.println("RCSB startup workflow failed: " + ex.getMessage());
-    //         } catch (Exception ex) {
-    //             System.err.println("Unexpected startup runner error: " + ex.getMessage());
-    //         } finally {
-    //             System.out.println("ClientRunner async task completed.");
-    //         }
-    //     });
-    //     startupExecutor.shutdown();
-    //     System.out.println("ClientRunner scheduled; application startup can continue.");
-    //     // do interesting things with the service here, like fetching data or performing
-    //     // operations
+        System.out.println("ClientRunner scheduling startup Temporal demo call.");
+        System.out.println("ClientRunner scheduled; application startup can continue.");
+        fetchChemicalElement("CaHPO4"); // example element, can be replaced with any other element or parameter
+        // do interesting things with the service here, like fetching data or performing
+        // operations
 
-    //     // give nice names to the methods in MPService and use them here, for example:
+        // give nice names to the methods in MPService and use them here, for example:
 
-    // }
+    }
 
     // public static void main(String[] args) {
     // This main method is not needed for Spring Boot applications, as the

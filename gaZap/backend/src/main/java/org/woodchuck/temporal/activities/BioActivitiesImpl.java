@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.temporal.spring.boot.ActivityImpl;
 
 @Component
-@ActivityImpl(workers = "MainWorker")
+@ActivityImpl(taskQueues = "BioTaskQueue")
 public class BioActivitiesImpl implements BioActivities {
     private static final String BASE_SEARCH_URL = "https://search.rcsb.org";
     private static final String BASE_DATA_URL = "https://data.rcsb.org";

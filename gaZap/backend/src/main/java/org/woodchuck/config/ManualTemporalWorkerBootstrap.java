@@ -2,6 +2,7 @@ package org.woodchuck.config;
 
 import jakarta.annotation.PreDestroy;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import io.temporal.worker.Worker;
 import io.temporal.worker.WorkerFactory;
 
 @Component
+@ConditionalOnProperty(name = "app.runner.temporal-bootstrap-enabled", havingValue = "true")
 public class ManualTemporalWorkerBootstrap {
     private static final String BIO_TASK_QUEUE = "BioTaskQueue";
 

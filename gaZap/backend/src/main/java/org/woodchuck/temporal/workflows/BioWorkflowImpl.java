@@ -12,7 +12,7 @@ import io.temporal.spring.boot.WorkflowImpl;
 import io.temporal.workflow.Workflow;
 
 @Component
-@WorkflowImpl(workers = "MainWorker")
+@WorkflowImpl(taskQueues = "BioTaskQueue")
 public class BioWorkflowImpl implements BioWorkflow {
     @Override
     public List<String> execute(BioWorkflowRequest request) {

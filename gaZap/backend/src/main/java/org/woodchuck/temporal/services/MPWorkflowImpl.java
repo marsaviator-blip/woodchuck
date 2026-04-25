@@ -41,10 +41,11 @@ public class MPWorkflowImpl implements MPWorkflow {
 
 
     public void processMP(MPSpec spec) {
-
+        System.out.println("Processing MP workflow with spec: " + spec);
     }
 
     public String getChemicalElement(String elementId) {
+        System.out.println("Fetching chemical element data for: " + elementId);
         return restClient.get()
                 .uri("/materials/summary/?formula={elementId}", elementId)
                 .retrieve()

@@ -1,12 +1,17 @@
 package org.woodchuck.components;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.woodchuck.temporal.workflows.MPSpec;
 import org.woodchuck.temporal.services.MPService;
 
 @Component
+@Order(1)
+@ConditionalOnProperty(name = "app.runner.enabled", havingValue = "true")
 public class ClientRunnerMP implements CommandLineRunner {
 
     //private final MPService mpService;
@@ -24,8 +29,7 @@ public class ClientRunnerMP implements CommandLineRunner {
     // Materials Project API using the MPService methods
     @Override
     public void run(String... args) {
-
-        System.out.println("Starting ClientRunner...");
+        System.out.println("Starting ClientRunnerMP...");
     }
 
     // public static void main(String[] args) {

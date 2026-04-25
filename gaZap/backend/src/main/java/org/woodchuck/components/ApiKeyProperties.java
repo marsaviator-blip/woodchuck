@@ -6,14 +6,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApiKeyProperties {
     
-    @Value("${MP_API_KEY}")
+    @Value("${MP_API_KEY:}")
     private String API_KEY;
 
     public String getMpApiKey() {
         return API_KEY;
     }
 
-    @Value("${SERP_API_KEY}")
+    @Value("${SERP_API_KEY:}")
     private String SERP_API_KEY;
 
     public String getSerpApiKey() {
