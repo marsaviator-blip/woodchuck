@@ -21,9 +21,9 @@ spring:
       max-threads: 10
     connection:
       target: localhost:7233
-    workers-auto-discovery:
-      packages:
-        - "org.woodchuck.temporal"
+    # workers-auto-discovery:
+    #   packages:
+    #     - "org.woodchuck.temporal"
 
 
 app:

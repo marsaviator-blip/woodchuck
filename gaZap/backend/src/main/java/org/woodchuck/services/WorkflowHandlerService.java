@@ -23,18 +23,12 @@ public class WorkflowHandlerService {
         this.pwService = pwService;
     }
 
+    // need to pass input from controller to this service, and then to the workflow
     public void handleWorkflow() {
-        System.out.println("ClientRunnerParentWorkflow scheduling startup Temporal workflows.");
+        System.out.println("WorkflowHandlerService handling Temporal workflows.");
         // You can customize the BioWorkflowRequest and MPSpec as needed
-        BioWorkflowRequest bioRequest = new BioWorkflowRequest();
-        bioRequest.setOperation(BioWorkflowRequest.Operation.SEARCH);
-        bioRequest.setQuery("example query");
-        bioRequest.setSettings(new ActivityExecutionSettings(30, 5, 2.0, 60, 3));
 
-        MPSpec mpSpec = new MPSpec();
-//        mpSpec.setParameter("example parameter");
-
-        pwService.startBioWorkflow(bioRequest);
-        pwService.startMPWorkflow(mpSpec);
+        // pwService.startBioWorkflow();
+        pwService.startMPWorkflow();
     }
 }

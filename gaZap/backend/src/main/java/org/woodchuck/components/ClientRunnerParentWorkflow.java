@@ -2,9 +2,6 @@ package org.woodchuck.components;
 
 import org.springframework.stereotype.Component;
 import org.woodchuck.services.WorkflowHandlerService;
-import org.woodchuck.temporal.services.ParentWorkflowServiceImpl;
-import org.woodchuck.temporal.workflows.specs.BioWorkflowRequest;
-import org.woodchuck.temporal.workflows.specs.MPSpec;
 import org.springframework.boot.CommandLineRunner;
 
 @Component
@@ -15,9 +12,6 @@ public class ClientRunnerParentWorkflow implements CommandLineRunner {
     //Constructor injection
     public ClientRunnerParentWorkflow(WorkflowHandlerService wfhService) {
         this.wfhService = wfhService;
-    }
-
-    public void handleWorkflow() {
     }
 
     // public void fetchRcsbData(String query) {
@@ -32,7 +26,8 @@ public class ClientRunnerParentWorkflow implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        System.out.println("ClientRunner scheduling startup Temporal workflow.");
+        System.out.println("ClientRunnerParentWorkflow run method scheduling startup Temporal workflow.");
+        wfhService.handleWorkflow();
     }
 
     // public static void main(String[] args) {
