@@ -23,11 +23,21 @@ import tools.jackson.databind.ObjectMapper;
 @WorkflowImpl(taskQueues = "MP_QUEUE")
 public class MPWorkflowImpl implements MPWorkflow {
 
+    private boolean isStarted = false;  
     private String elementId = "CaHPO4";
+    private MPActivities activities;
+
+    public void startUp(MPSpec spec) {
+       activities = newActivities(spec.getSettings());
+       
+       isStarted = true;    
+       System.out.println("MPWorkflowImpl started up.");
+    }   
+
     public void processMP(MPSpec spec) {
         //MPActivities activities = WorkflowImpl.getActivityStub(MPActivities.class);
-        MPActivities activities = newActivities(spec.getSettings());
-
+        Workflow.await(() -> isStarted);
+        activities = newActivities(spec.getSettings());
         System.out.println("Run first activity");
         String jsonString = activities.getChemicalElement(elementId); // Fetch and print chemical element data
         System.out.println("Tried fetching chemical element data for: " + elementId);

@@ -1,6 +1,7 @@
 package org.woodchuck.temporal.services;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
@@ -12,12 +13,14 @@ import org.woodchuck.temporal.workflows.specs.MPSpec;
 public class MPWorkflowService {
     private final WorkflowClient workflowClient;
 
+    private String wfId;
+
     public MPWorkflowService(WorkflowClient workflowClient) {
         this.workflowClient = workflowClient;
     }
 
-    public MPWorkflow getWorkflow(String mpExecutionId) {
-        return workflowClient.newWorkflowStub(MPWorkflow.class, mpExecutionId);
+    public MPWorkflow getWorkflow(String wfId) {
+        return workflowClient.newWorkflowStub(MPWorkflow.class, wfId);
     }
 
     public String createMPWorkflow(MPSpec mpSpec) {
@@ -28,7 +31,13 @@ public class MPWorkflowService {
                 .setTaskQueue("MP_QUEUE")
                 .setWorkflowId(uuid.toString())
                 .build());
-        var execution = WorkflowClient.start(wf::processMP, mpSpec);
-        return execution.getWorkflowId();
+//        WorkflowClient.execute(wf::processMP, mpSpec);
+        var execution = WorkflowClient.start(wf::startUp, mpSpec);
+        this.wfId = execution.getWorkflowId();
+        return wfId;
+    }
+
+    public String getWorkflowId() {
+        return wfId;
     }
 }

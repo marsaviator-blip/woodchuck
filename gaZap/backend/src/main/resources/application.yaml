@@ -21,27 +21,27 @@ spring:
       max-threads: 10
     connection:
       target: localhost:7233
-    # workers-auto-discovery:
-    #   packages:
-    #     - "org.woodchuck.temporal"
+    workers-auto-discovery:
+      packages:
+        - "org.woodchuck.temporal"
 
 
-app:
-  runner:
-    enabled: false
-    temporal-citation-enabled: false
-    temporal-rcsb-enabled: true
-  temporal:
-    bio:
-      search:
-        timeout-seconds: 15
-        initial-interval-seconds: 1
-        backoff-coefficient: 2.0
-        maximum-interval-seconds: 10
-        maximum-attempts: 3
-      data:
-        timeout-seconds: 30
-        initial-interval-seconds: 2
-        backoff-coefficient: 2.0
-        maximum-interval-seconds: 20
-        maximum-attempts: 5
+# app:
+#   runner:
+#     enabled: false
+#     temporal-citation-enabled: false
+#     temporal-rcsb-enabled: true
+#   temporal:
+#     bio:
+#       search:
+#         timeout-seconds: 15
+#         initial-interval-seconds: 1
+#         backoff-coefficient: 2.0
+#         maximum-interval-seconds: 10
+#         maximum-attempts: 3
+#       data:
+#         timeout-seconds: 30
+#         initial-interval-seconds: 2
+#         backoff-coefficient: 2.0
+#         maximum-interval-seconds: 20
+#         maximum-attempts: 5

@@ -13,7 +13,11 @@ import io.temporal.workflow.WorkflowMethod;
 public interface MPWorkflow {
    
     @WorkflowMethod
+    void startUp(MPSpec spec);
+
+    @SignalMethod
     void processMP(MPSpec spec);
+
 }
 
 

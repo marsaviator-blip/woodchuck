@@ -15,6 +15,8 @@ public class MPSpec {
 
     private ActivityExecutionSettings settings = new ActivityExecutionSettings();
 
+    private String elementId;
+    
     private boolean deprecated;
     private int per_page;
     private int skip;
@@ -69,6 +71,12 @@ public class MPSpec {
     public void setSettings(ActivityExecutionSettings settings) {
         this.settings = settings;
     }   
+    public String getElementId() {
+        return elementId;
+    }
+    public void setElementId(String elementId) {
+        this.elementId = elementId;
+    }
     public boolean isDeprecated() {
         return deprecated;
     }

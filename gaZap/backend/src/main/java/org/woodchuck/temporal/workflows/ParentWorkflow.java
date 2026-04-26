@@ -13,5 +13,5 @@ public interface ParentWorkflow {
     void startBioWorkflow();  
 
     @WorkflowMethod 
-    void startMPWorkflow();
+    void startMPWorkflow(String input);
 }
