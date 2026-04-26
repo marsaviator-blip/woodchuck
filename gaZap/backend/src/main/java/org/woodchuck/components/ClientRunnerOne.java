@@ -16,9 +16,9 @@ import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
 @Component
-@Order(2)
-@ConditionalOnProperty(name = "app.runner.temporal-citation-enabled", havingValue = "true")
-public class ClientRunnerOne implements CommandLineRunner {
+// @Order(2)
+// @ConditionalOnProperty(name = "app.runner.temporal-citation-enabled", havingValue = "true")
+public class ClientRunnerOne {//implements CommandLineRunner {
 
     private final MPServiceOne mpService;
     private final CitationService citationService;
@@ -115,18 +115,18 @@ public class ClientRunnerOne implements CommandLineRunner {
 
     // this method can be replaced with REST API calls to fetch data from the
     // Materials Project API using the MPService methods
-    @Override
-    public void run(String... args) {
+    // @Override
+    // public void run(String... args) {
 
-        System.out.println("ClientRunnerOne scheduling startup Temporal demo call.");
-        System.out.println("ClientRunnerOne scheduled; application startup can continue.");
+    //     System.out.println("ClientRunnerOne scheduling startup Temporal demo call.");
+    //     System.out.println("ClientRunnerOne scheduled; application startup can continue.");
 //        fetchChemicalElement("CaHPO4"); // example element, can be replaced with any other element or parameter
         // do interesting things with the service here, like fetching data or performing
         // operations
 
         // give nice names to the methods in MPService and use them here, for example:
 
-    }
+    //}
 
     // public static void main(String[] args) {
     // This main method is not needed for Spring Boot applications, as the

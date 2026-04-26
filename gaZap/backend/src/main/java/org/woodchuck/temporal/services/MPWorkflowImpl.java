@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.woodchuck.converter.StructureToBolt;
 import org.woodchuck.dtos.MaterialStructureParams;
-import org.woodchuck.temporal.worker.MPWorkflow;
 import org.woodchuck.temporal.workflows.ActivityExecutionSettings;
-import org.woodchuck.temporal.workflows.MPSpec;
+import org.woodchuck.temporal.workflows.MPWorkflow;
+import org.woodchuck.temporal.workflows.specs.MPSpec;
 import org.woodchuck.temporal.activities.MPActivities;
 
 import io.temporal.activity.ActivityOptions;
@@ -23,15 +23,14 @@ import tools.jackson.databind.ObjectMapper;
 @WorkflowImpl(taskQueues = "MP_QUEUE")
 public class MPWorkflowImpl implements MPWorkflow {
 
-    private String element = "CaHPO4";
+    private String elementId = "CaHPO4";
     public void processMP(MPSpec spec) {
-        try{
         //MPActivities activities = WorkflowImpl.getActivityStub(MPActivities.class);
-        System.out.println("Creating activity stub with settings: " + spec.getSettings());
         MPActivities activities = newActivities(spec.getSettings());
+
         System.out.println("Run first activity");
-        String jsonString = activities.getChemicalElement(element); // Fetch and print chemical element data
-        System.out.println("Tried fetching chemical element data for: " + element);
+        String jsonString = activities.getChemicalElement(elementId); // Fetch and print chemical element data
+        System.out.println("Tried fetching chemical element data for: " + elementId);
         if (jsonString != null && !jsonString.isEmpty()) {
             System.out.println("Data fetched successfully:");
 //            System.out.println(jsonString);
@@ -44,7 +43,7 @@ public class MPWorkflowImpl implements MPWorkflow {
             int index = 0;
             List<String> type = List.of("mono", "tri"); // get real stuff
             for (JsonNode node : materialsNode) {
-                System.out.println(node);
+//                System.out.println(node);
                 String m_id = node.get("material_id").asString();
 
                 // make endpoint calls to fetch more data about the material using the m_id, for example:
@@ -109,14 +108,9 @@ public class MPWorkflowImpl implements MPWorkflow {
             }
 
         } else {
-            System.out.println("No data found for element: " + element);
+            System.out.println("No data found for element: " + elementId);
         }
-        System.out.println("Finished fetching chemical element data for: " + element);
-        } catch (Exception e) {
-            System.err.println("Error in workflow execution: " + e.getMessage());
-            e.printStackTrace();
-            return;
-        }
+        System.out.println("Finished fetching chemical element data for: " + elementId);
     }
 
     private MPActivities newActivities(ActivityExecutionSettings settings) {

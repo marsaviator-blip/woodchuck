@@ -1,10 +1,14 @@
-package org.woodchuck.temporal.workflows;
+package org.woodchuck.temporal.services;
 
 import java.time.Duration;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 import org.woodchuck.temporal.activities.BioActivities;
+import org.woodchuck.temporal.workflows.ActivityExecutionSettings;
+import org.woodchuck.temporal.workflows.BioWorkflow;
+import org.woodchuck.temporal.workflows.specs.BioWorkflowRequest;
+import org.woodchuck.temporal.workflows.specs.BioWorkflowRequest.Operation;
 
 import io.temporal.activity.ActivityOptions;
 import io.temporal.common.RetryOptions;

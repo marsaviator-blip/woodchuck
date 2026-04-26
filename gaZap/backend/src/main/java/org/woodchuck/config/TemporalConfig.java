@@ -2,8 +2,7 @@ package org.woodchuck.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import org.woodchuck.temporal.workflows.MPSpec;
+import org.woodchuck.temporal.workflows.specs.MPSpec;
 
 //@Configuration
 public class TemporalConfig {

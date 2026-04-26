@@ -1,7 +1,7 @@
-package org.woodchuck.temporal.workflows;
+package org.woodchuck.temporal.workflows.specs;
 
 import org.springframework.stereotype.Component;
-import org.woodchuck.dtos.MaterialStructureParams;
+import org.woodchuck.temporal.workflows.ActivityExecutionSettings;
 
 @Component
 public class MPSpec {
@@ -13,12 +13,8 @@ public class MPSpec {
     private boolean shouldGetDOI = false;
     private boolean shouldGetCIF = false;
 
-    //private ActivityExecutionSettings settings;
-    private ActivityExecutionSettings settings;
+    private ActivityExecutionSettings settings = new ActivityExecutionSettings();
 
-    MPSpec() {
-        this.settings = new ActivityExecutionSettings();
-    }
     private boolean deprecated;
     private int per_page;
     private int skip;

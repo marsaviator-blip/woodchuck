@@ -8,7 +8,7 @@ import org.woodchuck.config.BioTemporalProperties;
 import org.woodchuck.dtos.SearchQueryParams;
 import org.woodchuck.temporal.workflows.ActivityExecutionSettings;
 import org.woodchuck.temporal.workflows.BioWorkflow;
-import org.woodchuck.temporal.workflows.BioWorkflowRequest;
+import org.woodchuck.temporal.workflows.specs.BioWorkflowRequest;
 
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;

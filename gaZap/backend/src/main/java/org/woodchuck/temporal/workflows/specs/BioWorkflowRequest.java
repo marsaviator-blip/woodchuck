@@ -1,8 +1,12 @@
-package org.woodchuck.temporal.workflows;
+package org.woodchuck.temporal.workflows.specs;
 
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+import org.woodchuck.temporal.workflows.ActivityExecutionSettings;
+
+@Component
 public class BioWorkflowRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 

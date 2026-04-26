@@ -1,14 +1,17 @@
 package org.woodchuck.temporal.workflows;
 
-import java.util.List;
-
 import org.woodchuck.temporal.workflows.specs.BioWorkflowRequest;
+import org.woodchuck.temporal.workflows.specs.MPSpec;
 
 import io.temporal.workflow.WorkflowInterface;
 import io.temporal.workflow.WorkflowMethod;
 
 @WorkflowInterface
-public interface BioWorkflow {
+public interface ParentWorkflow {
+
     @WorkflowMethod
-    List<String> execute(BioWorkflowRequest request);
+    void startBioWorkflow(BioWorkflowRequest request);  
+
+    @WorkflowMethod 
+    void startMPWorkflow(MPSpec spec);
 }

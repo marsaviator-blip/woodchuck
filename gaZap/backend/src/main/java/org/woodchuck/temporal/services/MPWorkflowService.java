@@ -5,14 +5,14 @@ import java.util.UUID;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
 import org.springframework.stereotype.Service;
-import org.woodchuck.temporal.worker.MPWorkflow;
-import org.woodchuck.temporal.workflows.MPSpec;
+import org.woodchuck.temporal.workflows.MPWorkflow;
+import org.woodchuck.temporal.workflows.specs.MPSpec;
 
 @Service
-public class MPService {
+public class MPWorkflowService {
     private final WorkflowClient workflowClient;
 
-    public MPService(WorkflowClient workflowClient) {
+    public MPWorkflowService(WorkflowClient workflowClient) {
         this.workflowClient = workflowClient;
     }
 

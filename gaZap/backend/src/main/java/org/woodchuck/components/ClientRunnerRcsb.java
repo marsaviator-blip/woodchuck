@@ -22,9 +22,9 @@ import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.node.ArrayNode;
 
 @Component
-@Order(3)
-@ConditionalOnProperty(name = "app.runner.temporal-rcsb-enabled", havingValue = "true")
-public class ClientRunnerRcsb implements CommandLineRunner {
+// @Order(3)
+// @ConditionalOnProperty(name = "app.runner.temporal-rcsb-enabled", havingValue = "true")
+public class ClientRunnerRcsb {//implements CommandLineRunner {
 
     // private final ExecutorService startupExecutor = Executors.newSingleThreadExecutor(r -> {
     //     Thread t = new Thread(r, "startup-rcsb-runner");
@@ -49,11 +49,11 @@ public class ClientRunnerRcsb implements CommandLineRunner {
         System.out.println("RCSB data for query '" + query + "': " + data.size() + " entries");
     }
 
-    @Override
-    public void run(String... args) {
+    // @Override
+    // public void run(String... args) {
 
-        System.out.println("ClientRunner scheduling startup Temporal demo call.");
-    }
+    //     System.out.println("ClientRunner scheduling startup Temporal demo call.");
+    // }
 
     // public static void main(String[] args) {
     // This main method is not needed for Spring Boot applications, as the
