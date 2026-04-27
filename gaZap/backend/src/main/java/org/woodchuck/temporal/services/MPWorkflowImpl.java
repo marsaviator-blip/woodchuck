@@ -24,21 +24,34 @@ import tools.jackson.databind.ObjectMapper;
 public class MPWorkflowImpl implements MPWorkflow {
 
     private boolean isStarted = false;  
-    private String elementId = "CaHPO4";
+    private boolean notProcessed = true;
+    private boolean processed = false;
+    private String elementId;// = "CaHPO4";
     private MPActivities activities;
 
+    public void resetFlags() {
+        Workflow.await(() -> processed); 
+        this.isStarted = false;
+        this.notProcessed = true;
+        this.processed = false;
+    }   
+
     public void startUp(MPSpec spec) {
-       activities = newActivities(spec.getSettings());
+        Workflow.await(() -> notProcessed);
+        activities = newActivities(spec.getSettings());
        
-       isStarted = true;    
-       System.out.println("MPWorkflowImpl started up.");
+        isStarted = true;  
+        Workflow.await(() -> processed); 
+        System.out.println("MPWorkflowImpl started up.");
     }   
 
     public void processMP(MPSpec spec) {
         //MPActivities activities = WorkflowImpl.getActivityStub(MPActivities.class);
         Workflow.await(() -> isStarted);
-        activities = newActivities(spec.getSettings());
+//        activities = newActivities(spec.getSettings());
         System.out.println("Run first activity");
+        //Workflow.await(() -> Workflow.isEveryHandlerFinished());
+        elementId = spec.getElementId();    
         String jsonString = activities.getChemicalElement(elementId); // Fetch and print chemical element data
         System.out.println("Tried fetching chemical element data for: " + elementId);
         if (jsonString != null && !jsonString.isEmpty()) {
@@ -116,7 +129,9 @@ public class MPWorkflowImpl implements MPWorkflow {
                 // String cif = mpService.getCIFfile(m_id);
                 // System.out.println("CIF file for material " + m_id + ": " + cif);
             }
-
+            Workflow.await(() -> Workflow.isEveryHandlerFinished());
+            notProcessed = false;
+            processed = true;
         } else {
             System.out.println("No data found for element: " + elementId);
         }

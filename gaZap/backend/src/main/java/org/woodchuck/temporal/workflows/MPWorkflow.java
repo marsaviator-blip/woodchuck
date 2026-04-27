@@ -18,6 +18,9 @@ public interface MPWorkflow {
     @SignalMethod
     void processMP(MPSpec spec);
 
+    @SignalMethod
+    void resetFlags();
+
 }
 
 

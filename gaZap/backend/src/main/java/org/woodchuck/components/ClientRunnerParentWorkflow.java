@@ -11,6 +11,7 @@ import io.temporal.client.WorkflowClient;
 import io.temporal.worker.Worker;
 import io.temporal.worker.WorkerFactory;
 
+import org.checkerframework.checker.units.qual.m;
 import org.springframework.boot.CommandLineRunner;
 
 @Component
@@ -72,12 +73,26 @@ public class ClientRunnerParentWorkflow implements CommandLineRunner {
     public void run(String... args) {
 
         System.out.println("ClientRunnerParentWorkflow run method scheduling startup Temporal workflow.");
-//        wfhService.handleWorkflow("CaHPO4");
+        try {
+            Thread.sleep(1000); // Sleep for 1 second to allow the worker to start up and be ready to receive workflow tasks
+        } catch (InterruptedException e) {
+            e.printStackTrace();   
+        } 
         String wfId = mpService.getWorkflowId();
         MPWorkflow mpWorkflow = this.workflowClient.newWorkflowStub(
                         MPWorkflow.class, wfId);
+        mpSpec.setElementId("CaHPO4");
         mpWorkflow.processMP(this.mpSpec);
 
+        try {
+            Thread.sleep(1000); 
+        } catch (InterruptedException e) {
+            e.printStackTrace();   
+        } 
+        mpWorkflow.resetFlags();
+        mpSpec.setElementId("P2O5");
+        mpWorkflow.processMP(this.mpSpec);
+        System.out.println("ClientRunnerParentWorkflow run method completed scheduling Temporal workflow.");    
     }
 
     // public static void main(String[] args) {

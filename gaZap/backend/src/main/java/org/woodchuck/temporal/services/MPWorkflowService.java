@@ -34,6 +34,7 @@ public class MPWorkflowService {
 //        WorkflowClient.execute(wf::processMP, mpSpec);
         var execution = WorkflowClient.start(wf::startUp, mpSpec);
         this.wfId = execution.getWorkflowId();
+       // WorkflowClient.execute(wf::processMP, mpSpec);  
         return wfId;
     }
 
