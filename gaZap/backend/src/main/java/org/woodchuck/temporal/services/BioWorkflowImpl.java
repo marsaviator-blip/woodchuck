@@ -54,7 +54,6 @@ public class BioWorkflowImpl implements BioWorkflow {
         if (request.getOperation() == BioWorkflowRequest.Operation.SEARCH) {
             List<String> identifiers = activities.searchIdentifiers(request.getQuery());
             List<String> entries = activities.fetchEntries(identifiers);
-            Workflow.await(() -> Workflow.isEveryHandlerFinished());
             notProcessed = false;
             processed = true;
 
@@ -62,7 +61,6 @@ public class BioWorkflowImpl implements BioWorkflow {
         }
         if (request.getOperation() == BioWorkflowRequest.Operation.GET_DATA) {
             List<String> entries = activities.fetchEntries(request.getEntries());
-            Workflow.await(() -> Workflow.isEveryHandlerFinished());
             notProcessed = false;
             processed = true;
             return entries;
