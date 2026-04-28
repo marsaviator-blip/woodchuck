@@ -26,6 +26,7 @@ public class MPWorkflowImpl implements MPWorkflow {
     private boolean isStarted = false;  
     private boolean notProcessed = true;
     private boolean processed = false;
+    private boolean completed = false;
     private String elementId;// = "CaHPO4";
     private MPActivities activities;
 
@@ -34,7 +35,14 @@ public class MPWorkflowImpl implements MPWorkflow {
         this.isStarted = false;
         this.notProcessed = true;
         this.processed = false;
-    }   
+        this.completed = false;
+    }
+
+    public void complete() {
+        Workflow.await(() -> processed);
+        this.isStarted = true;
+        this.completed = true;
+    }
 
     public void startUp(MPSpec spec) {
         Workflow.await(() -> notProcessed);
@@ -47,7 +55,12 @@ public class MPWorkflowImpl implements MPWorkflow {
 
     public void processMP(MPSpec spec) {
         //MPActivities activities = WorkflowImpl.getActivityStub(MPActivities.class);
-        Workflow.await(() -> isStarted);
+        while (!completed) {
+         Workflow.await(() -> isStarted);
+         System.out.println("isStarted: " + isStarted+", notProcessed: " + notProcessed + ", processed: " + processed + ", completed: " + completed);
+         if(completed) {
+            break;
+         }
 //        activities = newActivities(spec.getSettings());
         System.out.println("Run first activity");
         //Workflow.await(() -> Workflow.isEveryHandlerFinished());
@@ -129,13 +142,14 @@ public class MPWorkflowImpl implements MPWorkflow {
                 // String cif = mpService.getCIFfile(m_id);
                 // System.out.println("CIF file for material " + m_id + ": " + cif);
             }
-            Workflow.await(() -> Workflow.isEveryHandlerFinished());
+            //Workflow.await(() -> Workflow.isEveryHandlerFinished());
             notProcessed = false;
             processed = true;
         } else {
             System.out.println("No data found for element: " + elementId);
         }
         System.out.println("Finished fetching chemical element data for: " + elementId);
+    }
     }
 
     private MPActivities newActivities(ActivityExecutionSettings settings) {

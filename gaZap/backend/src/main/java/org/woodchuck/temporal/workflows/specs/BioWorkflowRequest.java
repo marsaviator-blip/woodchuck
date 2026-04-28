@@ -18,7 +18,7 @@ public class BioWorkflowRequest implements Serializable {
     private Operation operation;
     private String query;
     private List<String> entries;
-    private ActivityExecutionSettings settings;
+    private ActivityExecutionSettings settings= new ActivityExecutionSettings();
 
     public Operation getOperation() {
         return operation;

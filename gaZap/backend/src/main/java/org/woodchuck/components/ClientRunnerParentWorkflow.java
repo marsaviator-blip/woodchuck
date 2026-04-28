@@ -6,6 +6,12 @@ import org.woodchuck.temporal.services.MPWorkflowImpl;
 import org.woodchuck.temporal.services.MPWorkflowService;
 import org.woodchuck.temporal.workflows.MPWorkflow;
 import org.woodchuck.temporal.workflows.specs.MPSpec;
+import org.woodchuck.dtos.SearchQueryParams;
+import org.woodchuck.temporal.activities.BioActivitiesImpl;
+import org.woodchuck.temporal.services.BioWorkflowImpl;
+import org.woodchuck.temporal.services.BioWorkflowService;
+import org.woodchuck.temporal.workflows.BioWorkflow;
+import org.woodchuck.temporal.workflows.specs.BioWorkflowRequest;
 
 import io.temporal.client.WorkflowClient;
 import io.temporal.worker.Worker;
@@ -25,17 +31,25 @@ public class ClientRunnerParentWorkflow implements CommandLineRunner {
     // }
     
     private final MPWorkflowService mpService;
-    //private final MPWorkflowImpl mpWorkflowImpl;  
     private final MPSpec mpSpec;
+    private final BioWorkflowService bioService;
+    private final BioWorkflowRequest bioRequest;
     private WorkflowClient workflowClient;
 
 
-    public ClientRunnerParentWorkflow(MPWorkflowService mpService, MPSpec mpSpec, WorkflowClient wfClient) {
+    public ClientRunnerParentWorkflow(MPWorkflowService mpService, MPSpec mpSpec, BioWorkflowService bioService, BioWorkflowRequest bioRequest, WorkflowClient wfClient) {
         this.mpService = mpService;
-        this.workflowClient = wfClient;
         this.mpSpec = mpSpec;
+        this.workflowClient = wfClient;
+        this.bioService = bioService;
+        this.bioRequest = bioRequest;
+
         this.mpSpec.setElementId("CaHPO4");
-        mpService.createMPWorkflow(mpSpec);
+        this.mpService.createMPWorkflow(mpSpec);
+        SearchQueryParams params = new SearchQueryParams("pyrophosphatase"  , "entry");
+        this.bioRequest.setQuery(params.getQuery());
+        this.bioRequest.setOperation(BioWorkflowRequest.Operation.SEARCH);
+        this.bioService.createBioWorkflow(bioRequest);
         // var wfId = mpService.createMPWorkflow(mpSpec);
         // MPWorkflow mpWorkflow = this.workflowClient.newWorkflowStub(
         //                 MPWorkflow.class, wfId);
@@ -82,7 +96,11 @@ public class ClientRunnerParentWorkflow implements CommandLineRunner {
         MPWorkflow mpWorkflow = this.workflowClient.newWorkflowStub(
                         MPWorkflow.class, wfId);
         mpSpec.setElementId("CaHPO4");
-        mpWorkflow.processMP(this.mpSpec);
+        mpWorkflow.startUp(this.mpSpec);
+
+        BioWorkflow bioWorkflow = this.workflowClient.newWorkflowStub(
+                        BioWorkflow.class, bioService.getWorkflowId());
+        bioWorkflow.startUp(this.bioRequest);
 
         try {
             Thread.sleep(1000); 
@@ -91,8 +109,9 @@ public class ClientRunnerParentWorkflow implements CommandLineRunner {
         } 
         mpWorkflow.resetFlags();
         mpSpec.setElementId("P2O5");
-        mpWorkflow.processMP(this.mpSpec);
-        System.out.println("ClientRunnerParentWorkflow run method completed scheduling Temporal workflow.");    
+        mpWorkflow.startUp(this.mpSpec);
+        System.out.println("ClientRunnerParentWorkflow run method completed scheduling Temporal workflow.");
+        mpWorkflow.complete();
     }
 
     // public static void main(String[] args) {

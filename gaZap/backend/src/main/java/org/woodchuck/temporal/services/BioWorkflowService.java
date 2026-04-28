@@ -1,38 +1,36 @@
 package org.woodchuck.temporal.services;
 
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
-import io.temporal.client.WorkflowClient;
 import org.springframework.stereotype.Service;
+import org.woodchuck.temporal.workflows.specs.BioWorkflowRequest;
+import org.woodchuck.temporal.workflows.BioWorkflow;
+import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
-import org.woodchuck.temporal.workflows.MPWorkflow;
-import org.woodchuck.temporal.workflows.specs.MPSpec;
 
 @Service
-public class MPWorkflowService {
+public class BioWorkflowService {
     private final WorkflowClient workflowClient;
 
     private String wfId;
 
-    public MPWorkflowService(WorkflowClient workflowClient) {
+    public BioWorkflowService(WorkflowClient workflowClient) {
         this.workflowClient = workflowClient;
     }
 
-    public MPWorkflow getWorkflow(String wfId) {
-        return workflowClient.newWorkflowStub(MPWorkflow.class, wfId);
+    public BioWorkflow getWorkflow(String wfId) {
+        return workflowClient.newWorkflowStub(BioWorkflow.class, wfId);
     }
 
-    public String createMPWorkflow(MPSpec mpSpec) {
+    public String createBioWorkflow(BioWorkflowRequest bioSpec) {
         var uuid = UUID.randomUUID();
         var wf = workflowClient.newWorkflowStub(
-            MPWorkflow.class,
+            BioWorkflow.class,
             WorkflowOptions.newBuilder()
-                .setTaskQueue("MP_QUEUE")
+                .setTaskQueue("BioTaskQueue")
                 .setWorkflowId(uuid.toString())
                 .build());
-//        WorkflowClient.execute(wf::processMP, mpSpec);
-        var execution = WorkflowClient.start(wf::processMP, mpSpec);
+        var execution = WorkflowClient.start(wf::execute, bioSpec);
         this.wfId = execution.getWorkflowId();
        // WorkflowClient.execute(wf::processMP, mpSpec);  
         return wfId;
