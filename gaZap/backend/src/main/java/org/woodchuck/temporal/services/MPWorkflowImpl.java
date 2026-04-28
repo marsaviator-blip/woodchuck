@@ -47,7 +47,8 @@ public class MPWorkflowImpl implements MPWorkflow {
     public void startUp(MPSpec spec) {
         Workflow.await(() -> notProcessed);
         activities = newActivities(spec.getSettings());
-       
+        elementId = spec.getElementId();    
+      
         isStarted = true;  
         Workflow.await(() -> processed); 
         System.out.println("MPWorkflowImpl started up.");
@@ -64,7 +65,6 @@ public class MPWorkflowImpl implements MPWorkflow {
 //        activities = newActivities(spec.getSettings());
         System.out.println("Run first activity");
         //Workflow.await(() -> Workflow.isEveryHandlerFinished());
-        elementId = spec.getElementId();    
         String jsonString = activities.getChemicalElement(elementId); // Fetch and print chemical element data
         System.out.println("Tried fetching chemical element data for: " + elementId);
         if (jsonString != null && !jsonString.isEmpty()) {
