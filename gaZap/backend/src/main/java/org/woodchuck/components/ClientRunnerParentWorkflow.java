@@ -11,11 +11,16 @@ import org.woodchuck.temporal.activities.BioActivitiesImpl;
 import org.woodchuck.temporal.services.BioWorkflowImpl;
 import org.woodchuck.temporal.services.BioWorkflowService;
 import org.woodchuck.temporal.workflows.BioWorkflow;
+import org.woodchuck.temporal.workflows.CrossrefWorkflow;
+import org.woodchuck.temporal.services.CrossrefWorkflowService;
 import org.woodchuck.temporal.workflows.specs.BioWorkflowRequest;
 
 import io.temporal.client.WorkflowClient;
+import io.temporal.client.WorkflowOptions;
 import io.temporal.worker.Worker;
 import io.temporal.worker.WorkerFactory;
+
+import java.util.UUID;
 
 import org.checkerframework.checker.units.qual.m;
 import org.springframework.boot.CommandLineRunner;
@@ -34,15 +39,17 @@ public class ClientRunnerParentWorkflow implements CommandLineRunner {
     private final MPSpec mpSpec;
     private final BioWorkflowService bioService;
     private final BioWorkflowRequest bioRequest;
+    private final CrossrefWorkflowService crossrefService;
     private WorkflowClient workflowClient;
 
 
-    public ClientRunnerParentWorkflow(MPWorkflowService mpService, MPSpec mpSpec, BioWorkflowService bioService, BioWorkflowRequest bioRequest, WorkflowClient wfClient) {
+    public ClientRunnerParentWorkflow(MPWorkflowService mpService, MPSpec mpSpec, BioWorkflowService bioService, BioWorkflowRequest bioRequest, CrossrefWorkflowService crossrefService, WorkflowClient wfClient) {
         this.mpService = mpService;
         this.mpSpec = mpSpec;
-        this.workflowClient = wfClient;
         this.bioService = bioService;
         this.bioRequest = bioRequest;
+        this.crossrefService = crossrefService;
+        this.workflowClient = wfClient;
 
         this.mpSpec.setElementId("CaHPO4");
         this.mpService.createMPWorkflow(mpSpec);
@@ -50,6 +57,8 @@ public class ClientRunnerParentWorkflow implements CommandLineRunner {
         this.bioRequest.setQuery(params.getQuery());
         this.bioRequest.setOperation(BioWorkflowRequest.Operation.SEARCH);
         this.bioService.createBioWorkflow(bioRequest);
+        this.crossrefService.createCrossrefWorkflow("10.1038/s41586-020-2649-2");
+        //String cwfId = execution.getWorkflowId();
         // var wfId = mpService.createMPWorkflow(mpSpec);
         // MPWorkflow mpWorkflow = this.workflowClient.newWorkflowStub(
         //                 MPWorkflow.class, wfId);
@@ -102,6 +111,9 @@ public class ClientRunnerParentWorkflow implements CommandLineRunner {
                         BioWorkflow.class, bioService.getWorkflowId());
         bioWorkflow.startUp(this.bioRequest);
 
+        // CrossrefWorkflow crossrefWorkflow = this.workflowClient.newWorkflowStub(
+        //                 CrossrefWorkflow.class, crossrefService.getWorkflowId());
+        // crossrefWorkflow.startUp("10.1038/s41586-020-2649-2");
         try {
             Thread.sleep(1000); 
         } catch (InterruptedException e) {
@@ -110,6 +122,7 @@ public class ClientRunnerParentWorkflow implements CommandLineRunner {
         mpWorkflow.resetFlags();
         mpSpec.setElementId("P2O5");
         mpWorkflow.startUp(this.mpSpec);
+
         System.out.println("ClientRunnerParentWorkflow run method completed scheduling Temporal workflow.");
         mpWorkflow.complete();
     }
