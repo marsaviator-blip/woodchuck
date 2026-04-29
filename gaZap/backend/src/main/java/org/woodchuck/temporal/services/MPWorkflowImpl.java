@@ -87,7 +87,7 @@ public class MPWorkflowImpl implements MPWorkflow {
                     m_id, "structure,symmetry,density,chemsys", false, 1000, 0, 
                     1000, "All");
                  String moreData = activities.getMaterialDetails(strucParams);
-                 System.out.println("More data for material " + m_id + ": " + moreData);
+                 //System.out.println("More data for material " + m_id + ": " + moreData);
                  System  .out.println("Structure length: " + moreData.length());
 
 
@@ -95,7 +95,7 @@ public class MPWorkflowImpl implements MPWorkflow {
                     m_id, "structure,database_IDs,authors,references", false, 1000, 0, 
                     1000, "All");
                 String provData = activities.getProvenance(provParams);
-                System.out.println("Provenance data for material " + m_id + ": " + provData);
+                //System.out.println("Provenance data for material " + m_id + ": " + provData);
                 System.out.println("Provenance data length: " + provData.length());
 
                 String[] articles = provData.split("@article");

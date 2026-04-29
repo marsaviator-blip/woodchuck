@@ -57,7 +57,7 @@ public class ClientRunnerParentWorkflow implements CommandLineRunner {
         this.bioRequest.setQuery(params.getQuery());
         this.bioRequest.setOperation(BioWorkflowRequest.Operation.SEARCH);
         this.bioService.createBioWorkflow(bioRequest);
-        this.crossrefService.createCrossrefWorkflow("10.1038/s41586-020-2649-2");
+        this.crossrefService.createCrossrefWorkflow("10.1107/S0108767317098695");
         //String cwfId = execution.getWorkflowId();
         // var wfId = mpService.createMPWorkflow(mpSpec);
         // MPWorkflow mpWorkflow = this.workflowClient.newWorkflowStub(
@@ -113,7 +113,7 @@ public class ClientRunnerParentWorkflow implements CommandLineRunner {
 
         // CrossrefWorkflow crossrefWorkflow = this.workflowClient.newWorkflowStub(
         //                 CrossrefWorkflow.class, crossrefService.getWorkflowId());
-        // crossrefWorkflow.startUp("10.1038/s41586-020-2649-2");
+        // crossrefWorkflow.startUp("10.1107/S0108767317098695");
         try {
             Thread.sleep(1000); 
         } catch (InterruptedException e) {
