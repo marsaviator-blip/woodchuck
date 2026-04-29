@@ -1,9 +1,8 @@
+server:
+  port: 8085 # Port for your REST API
 spring:
   application:
-    name: woodchuck
-  main:
-    web-application-type: NONE
-    keep-alive: false
+    name: gaZap-backend
   profiles:
     active: dev
   temporal:

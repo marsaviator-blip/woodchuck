@@ -1,4 +1,4 @@
-package com.multi-media-backend;
+package org.multimediabackend.inventory.controller;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,6 +23,12 @@ import jakarta.servlet.ServletContext;
 public class ImageController {
 
     private final ServletContext servletContext;    
+
+    private final String imageStoragePath = "path/to/your/image/storage";
+
+    private ImageController(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
 
     @GetMapping(path = "/images/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<Resource> getImage(@PathVariable String imageName) throws Exception {
