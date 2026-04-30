@@ -15,11 +15,11 @@ import io.temporal.client.WorkflowOptions;
 
 @RestController
 @RequestMapping("/gaZap/workflows") // Base path for all endpoints in this class
-public class WorkflowController {
-    
+public class TaskingController {
+
     private final WorkflowClient workflowClient;
 
-    public WorkflowController(WorkflowClient workflowClient) {
+    public TaskingController(WorkflowClient workflowClient) {
         this.workflowClient = workflowClient;
     }
 
@@ -42,48 +42,41 @@ public class WorkflowController {
             .setWorkflowId("mp-" + "mpId") // You can generate a unique ID or use a meaningful one
             .setTaskQueue("MP_QUEUE")
             .build();
-
-        // 2. Create a typed stub for the Workflow interface
         MPWorkflow workflow = workflowClient.newWorkflowStub(MPWorkflow.class, options);
-
-
-        // 3. Start the workflow asynchronously
-        // This returns immediately; the workflow runs in the background on a Worker
         WorkflowClient.start(workflow::processMP, mpSpec);
-
-        return "Workflow started successfully!";
+        return "MP wflow started successfully!";
     }
 
-    @PostMapping
-    @Operation(summary = "Start an BIO workflow", 
-                description = "Starts a new workflow based on the provided input.") 
-    @Parameters(value = {
-        @Parameter(name = "FlowParameters", description = "Input data for the workflow", required = true)
-    })   
-    public String startBIOWorkflow(@RequestBody String FlowParameters) {
-        //wfhService.handleWorkflow(stuffHere);
-        return "Workflow started successfully!";
-    }
+    // @PostMapping
+    // @Operation(summary = "Start an BIO workflow", 
+    //             description = "Starts a new workflow based on the provided input.") 
+    // @Parameters(value = {
+    //     @Parameter(name = "FlowParameters", description = "Input data for the workflow", required = true)
+    // })   
+    // public String startBIOWorkflow(@RequestBody String FlowParameters) {
+    //     //wfhService.handleWorkflow(stuffHere);
+    //     return "Workflow started successfully!";
+    // }
 
-    @PostMapping
-    @Operation(summary = "Start an Citation workflow", 
-                description = "Starts a new workflow based on the provided input.") 
-    @Parameters(value = {
-        @Parameter(name = "FlowParameters", description = "Input data for the workflow", required = true)
-    })   
-    public String startCitationWorkflow(@RequestBody String FlowParameters) {
-        //wfhService.handleWorkflow(stuffHere);
-        return "Workflow started successfully!";
-    }
+    // @PostMapping
+    // @Operation(summary = "Start an Citation workflow", 
+    //             description = "Starts a new workflow based on the provided input.") 
+    // @Parameters(value = {
+    //     @Parameter(name = "FlowParameters", description = "Input data for the workflow", required = true)
+    // })   
+    // public String startCitationWorkflow(@RequestBody String FlowParameters) {
+    //     //wfhService.handleWorkflow(stuffHere);
+    //     return "Workflow started successfully!";
+    // }
 
-    @PostMapping
-    @Operation(summary = "Start an Docling workflow", 
-                description = "Starts a new workflow based on the provided input.") 
-    @Parameters(value = {
-        @Parameter(name = "FlowParameters", description = "Input data for the workflow", required = true)
-    })   
-    public String startDoclingWorkflow(@RequestBody String FlowParameters) {
-        //wfhService.handleWorkflow(stuffHere);
-        return "Workflow started successfully!";
-    }
+    // @PostMapping
+    // @Operation(summary = "Start an Docling workflow", 
+    //             description = "Starts a new workflow based on the provided input.") 
+    // @Parameters(value = {
+    //     @Parameter(name = "FlowParameters", description = "Input data for the workflow", required = true)
+    // })   
+    // public String startDoclingWorkflow(@RequestBody String FlowParameters) {
+    //     //wfhService.handleWorkflow(stuffHere);
+    //     return "Workflow started successfully!";
+    // }
 }

@@ -25,8 +25,8 @@ import java.util.UUID;
 import org.checkerframework.checker.units.qual.m;
 import org.springframework.boot.CommandLineRunner;
 
-@Component
-public class ClientRunnerParentWorkflow implements CommandLineRunner {
+//@Component
+public class ClientRunnerParentWorkflow {//} CommandLineRunner {
 
     // private final WorkflowHandlerService wfhService;
 
@@ -93,7 +93,7 @@ public class ClientRunnerParentWorkflow implements CommandLineRunner {
     //     System.out.println("RCSB data for query '" + query + "': " + data.size() + " entries");
     // }
 
-    @Override
+   // @Override
     public void run(String... args) {
 
         System.out.println("ClientRunnerParentWorkflow run method scheduling startup Temporal workflow.");

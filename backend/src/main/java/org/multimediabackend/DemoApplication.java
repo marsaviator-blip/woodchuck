@@ -1,4 +1,4 @@
-package com.multi-media-backend;
+package org.multimediabackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
