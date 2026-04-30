@@ -58,6 +58,7 @@ public class ClientRunnerParentWorkflow implements CommandLineRunner {
         this.bioRequest.setOperation(BioWorkflowRequest.Operation.SEARCH);
         this.bioService.createBioWorkflow(bioRequest);
         this.crossrefService.createCrossrefWorkflow("10.1107/S0108767317098695");
+        this.bioService.createPublicationWorkflow("10.1111/1751-7915.70355");
         //String cwfId = execution.getWorkflowId();
         // var wfId = mpService.createMPWorkflow(mpSpec);
         // MPWorkflow mpWorkflow = this.workflowClient.newWorkflowStub(

@@ -5,6 +5,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.woodchuck.temporal.workflows.specs.BioWorkflowRequest;
 import org.woodchuck.temporal.workflows.BioWorkflow;
+import org.woodchuck.temporal.workflows.PublicationWorkflow;
+
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
 
@@ -13,6 +15,7 @@ public class BioWorkflowService {
     private final WorkflowClient workflowClient;
 
     private String wfId;
+    private String publicationWfId;
 
     public BioWorkflowService(WorkflowClient workflowClient) {
         this.workflowClient = workflowClient;
@@ -38,5 +41,23 @@ public class BioWorkflowService {
 
     public String getWorkflowId() {
         return wfId;
+    }
+
+   public String createPublicationWorkflow(String doi) {
+        var uuid = UUID.randomUUID();
+        var wf = workflowClient.newWorkflowStub(
+            PublicationWorkflow.class,
+            WorkflowOptions.newBuilder()
+                .setTaskQueue("PublicationQueue")
+                .setWorkflowId(uuid.toString())
+                .build());
+        var execution = WorkflowClient.start(wf::retrieve, doi);
+        this.publicationWfId = execution.getWorkflowId();
+       // WorkflowClient.execute(wf::processMP, mpSpec);  
+        return publicationWfId;
+    }
+
+    public String getPublicationWorkflowId() {
+        return publicationWfId;
     }
 }

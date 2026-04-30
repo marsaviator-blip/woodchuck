@@ -11,7 +11,6 @@ import io.temporal.spring.boot.WorkflowImpl;
 import io.temporal.workflow.Workflow;
 
 import org.woodchuck.temporal.workflows.ActivityExecutionSettings;
-import org.woodchuck.temporal.workflows.CrossrefWorkflow;
 import org.woodchuck.dtos.CrossrefRecord;
 import org.woodchuck.temporal.activities.CrossrefActivities;
 import tools.jackson.databind.JsonNode;
