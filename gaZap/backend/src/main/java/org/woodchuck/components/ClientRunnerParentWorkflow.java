@@ -7,8 +7,6 @@ import org.woodchuck.temporal.services.MPWorkflowService;
 import org.woodchuck.temporal.workflows.MPWorkflow;
 import org.woodchuck.temporal.workflows.specs.MPSpec;
 import org.woodchuck.dtos.SearchQueryParams;
-import org.woodchuck.temporal.activities.BioActivitiesImpl;
-import org.woodchuck.temporal.services.BioWorkflowImpl;
 import org.woodchuck.temporal.services.BioWorkflowService;
 import org.woodchuck.temporal.workflows.BioWorkflow;
 import org.woodchuck.temporal.workflows.CrossrefWorkflow;
