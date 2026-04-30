@@ -1,7 +1,7 @@
 
 
 In your .bashrc set the following:
-export MP_API_KEY="<your api key for MP>"
+export MP_API_KEY="\<your api key for MP\>"
 
 variable is used in MPservice.java to pass into the RestClient
 
@@ -30,5 +30,5 @@ java  -jar ./target/woodchuck_mvc-0.0.1-SNAPSHOT.jar
 
 Should be the same results as before.  The app stays up with
 ```
-ManualTemporalWorkerBootstrap: workerFactory started for BioTaskQueue
+workers-auto-discovery: workerFactory started for app
 ```
