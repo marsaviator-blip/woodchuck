@@ -13,5 +13,5 @@ public interface CrossrefWorkflow {
     void startUp(String doi);
 
     @WorkflowMethod
-    CrossrefRecord execute(String doi);
+    CrossrefRecord cross(String doi);
 }

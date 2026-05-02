@@ -5,8 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 import org.woodchuck.temporal.workflows.ActivityExecutionSettings;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@Component
+@Schema(description = "Specification for Bio workflow execution")
 public class BioWorkflowRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -15,9 +16,13 @@ public class BioWorkflowRequest implements Serializable {
         GET_DATA
     }
 
+    @Schema(description = "The operation to perform: SEARCH or GET_DATA")   
     private Operation operation;
+
+    @Schema(description = "The search query to execute when operation is SEARCH")
     private String query;
     private List<String> entries;
+    @Schema(hidden = true)
     private ActivityExecutionSettings settings= new ActivityExecutionSettings();
 
     public Operation getOperation() {

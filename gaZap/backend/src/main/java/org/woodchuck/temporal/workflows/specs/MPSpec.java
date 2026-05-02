@@ -1,9 +1,9 @@
 package org.woodchuck.temporal.workflows.specs;
 
-import org.springframework.stereotype.Component;
 import org.woodchuck.temporal.workflows.ActivityExecutionSettings;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@Component
+@Schema(description = "Specification for MP workflow execution")
 public class MPSpec {
     private boolean shouldWorkflowRemainAlive = false;
     private boolean testSingleMPId = false;
@@ -13,14 +13,17 @@ public class MPSpec {
     private boolean shouldGetDOI = false;
     private boolean shouldGetCIF = false;
 
+    @Schema(hidden = true)
     private ActivityExecutionSettings settings = new ActivityExecutionSettings();
 
+    @Schema(example = "CaHPO4", description = "The element ID to process.")
     private String elementId;
     
     private boolean deprecated;
     private int per_page;
     private int skip;
     private int limit;
+    @Schema(hidden = true)
     private String license;
 
     public boolean isShouldWorkflowRemainAlive() {
@@ -70,7 +73,9 @@ public class MPSpec {
     }
     public void setSettings(ActivityExecutionSettings settings) {
         this.settings = settings;
-    }   
+    }
+
+
     public String getElementId() {
         return elementId;
     }

@@ -38,20 +38,21 @@ public class BioWorkflowImpl implements BioWorkflow {
     }
 
     public void startUp(BioWorkflowRequest request) {
-        Workflow.await(() -> notProcessed);
+        //Workflow.await(() -> notProcessed);
          activities = newActivities(request.getSettings());
       
         isStarted = true;  
-        Workflow.await(() -> processed); 
+        //Workflow.await(() -> processed); 
         System.out.println("BioWorkflowImpl started up.");
     }  
 
     @Override
     public List<String> execute(BioWorkflowRequest request) {
-        Workflow.await(() -> isStarted);
-        //activities = newActivities(request.getSettings());
+        //Workflow.await(() -> isStarted);
+        activities = newActivities(request.getSettings());
 
         if (request.getOperation() == BioWorkflowRequest.Operation.SEARCH) {
+            System.out.println("Executing SEARCH operation with query: " + request.getQuery());
             List<String> identifiers = activities.searchIdentifiers(request.getQuery());
             List<String> entries = activities.fetchEntries(identifiers);
             notProcessed = false;

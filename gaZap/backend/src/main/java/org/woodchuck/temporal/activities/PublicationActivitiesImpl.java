@@ -43,12 +43,15 @@ public class PublicationActivitiesImpl implements PublicationActivities {
             try{
             XmlMapper xmlMapper = new XmlMapper();
             JsonNode rootNode = xmlMapper.readTree(pmcResponse);
-            
+            String status = rootNode.get("status").asText();
+           
             JsonNode recordsNode = rootNode.path("record");
             String pmcID = recordsNode.get("pmcid").asText();
             String pmcVersion = recordsNode.path("versions").path("version").get("pmcid").asText();
-        System.out.println("PublicationActivitiesImpl.getPublication called with PMCID: " + pmcID + " "+ pmcVersion);
-
+        System.out.println("PublicationActivitiesImpl.getPublication called with PMCID: " + pmcID + " "+ pmcVersion+" with status: " + status);
+            if(!"ok".equalsIgnoreCase(status)) {
+                throw new IllegalStateException("PMC API returned non-ok status for DOI: " + doi);
+            }
         URI targetUrl = UriComponentsBuilder.fromUriString(BASE_URL)
             .path("/{pmcVersion}/{pmcVersion}.xml")
             //.query("format=xml")

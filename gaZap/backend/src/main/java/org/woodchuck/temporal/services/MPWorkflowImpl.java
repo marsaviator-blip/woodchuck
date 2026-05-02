@@ -45,23 +45,20 @@ public class MPWorkflowImpl implements MPWorkflow {
     }
 
     public void startUp(MPSpec spec) {
-        Workflow.await(() -> notProcessed);
+        //Workflow.await(() -> notProcessed);
         activities = newActivities(spec.getSettings());
         elementId = spec.getElementId();    
       
         isStarted = true;  
-        Workflow.await(() -> processed); 
+        //Workflow.await(() -> processed); 
         System.out.println("MPWorkflowImpl started up.");
     }   
 
     public void processMP(MPSpec spec) {
-        //MPActivities activities = WorkflowImpl.getActivityStub(MPActivities.class);
-        while (!completed) {
-         Workflow.await(() -> isStarted);
+        activities = newActivities(spec.getSettings());
+        elementId = spec.getElementId();
+         //Workflow.await(() -> isStarted);
          System.out.println("isStarted: " + isStarted+", notProcessed: " + notProcessed + ", processed: " + processed + ", completed: " + completed);
-         if(completed) {
-            break;
-         }
 //        activities = newActivities(spec.getSettings());
         System.out.println("Run first activity");
         //Workflow.await(() -> Workflow.isEveryHandlerFinished());
@@ -149,7 +146,6 @@ public class MPWorkflowImpl implements MPWorkflow {
             System.out.println("No data found for element: " + elementId);
         }
         System.out.println("Finished fetching chemical element data for: " + elementId);
-    }
     }
 
     private MPActivities newActivities(ActivityExecutionSettings settings) {

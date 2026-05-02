@@ -2,6 +2,9 @@ package org.woodchuck.dtos;
 
 import java.text.MessageFormat;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "DTO for search query parameters")
 public class SearchQueryParams {
     private String value;
     private String returnType;

@@ -29,7 +29,7 @@ public class CrossrefWorkflowImpl implements org.woodchuck.temporal.workflows.Cr
         }
     
         @Override
-        public CrossrefRecord execute(String doi) {
+        public CrossrefRecord cross(String doi) {
             Workflow.await(() -> true);
             CrossrefActivities activities = Workflow.newActivityStub(CrossrefActivities.class,
                 ActivityOptions.newBuilder()
