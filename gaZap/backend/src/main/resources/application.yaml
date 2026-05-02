@@ -3,7 +3,12 @@ arconia:
     services:
       docling:
         enabled: true
-        image-name: ghcr.io/docling-project/docling-serve
+        base-url: ghttp://localhost:5001
+
+management:
+  endpoint:
+    health:
+      show-components: always
 
 server:
   port: 8085 # Port for your REST API

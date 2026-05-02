@@ -6,6 +6,9 @@ import ai.docling.serve.api.DoclingServeApi;
 import ai.docling.serve.api.convert.request.source.FileSource;
 import ai.docling.serve.api.convert.request.source.HttpSource;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -32,21 +35,24 @@ import org.springframework.web.bind.annotation.RestController;
 class DocumentProcessingController {
 
   private final DoclingServeApi doclingServeApi;
+  private final Executor doclingTaskExecutor;
 
-  DocumentProcessingController(DoclingServeApi doclingServeApi) {
+  DocumentProcessingController(DoclingServeApi doclingServeApi, Executor doclingTaskExecutor) {
     this.doclingServeApi = doclingServeApi;
-  }
+    this.doclingTaskExecutor = doclingTaskExecutor;}
 
   @GetMapping("/http/{url}")
   @Operation(summary = "Use Docling to convert a document from a given URL", 
                 description = "will provide more description soon.\n"+
                 "Cut n paste a url to a document, and Docling will convert it to a structured format.  ") 
-  String convertDocumentFromHttp(@RequestParam("url") String url) {
-    ConvertDocumentResponse response = doclingServeApi
-      .convertSource(ConvertDocumentRequest.builder()
-        .source(HttpSource.builder().url(URI.create(url)).build())
-        .build());
-      return response.getResponseType().name();
+  CompletableFuture<String>  convertDocumentFromHttp(@RequestParam("url") String url) {
+      return CompletableFuture.supplyAsync(() -> {
+          ConvertDocumentResponse response = doclingServeApi.convertSource(
+              ConvertDocumentRequest.builder()
+                  .source(HttpSource.builder().url(URI.create(url)).build())
+                  .build());
+          return response.getResponseType().name();
+      }, doclingTaskExecutor);
   }
 
   @GetMapping("/file/{fullpath}")
