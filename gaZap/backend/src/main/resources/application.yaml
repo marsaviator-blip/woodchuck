@@ -1,3 +1,10 @@
+arconia:
+  dev:
+    services:
+      docling:
+        enabled: true
+        image-name: ghcr.io/docling-project/docling-serve
+
 server:
   port: 8085 # Port for your REST API
 spring:

@@ -9,6 +9,8 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.woodchuck.components.ApiKeyProperties;
 
+import io.temporal.spring.boot.ActivityImpl;
+
 @ActivityImpl(taskQueues = "CitationQueue")
 public class CitationActivitiesImpl implements CitationActivities {
 

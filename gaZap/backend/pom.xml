@@ -105,6 +105,7 @@
 			<artifactId>arconia-dev-services-docling</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

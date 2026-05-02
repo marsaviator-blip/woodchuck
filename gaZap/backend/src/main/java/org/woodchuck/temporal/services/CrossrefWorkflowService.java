@@ -33,7 +33,7 @@ public class CrossrefWorkflowService {
                 .setWorkflowId(uuid.toString())
                 .build());
         System.out.println("Created CrossrefWorkflow with ID: " + uuid.toString());
-        var execution = WorkflowClient.start(wf::execute, doi);
+        var execution = WorkflowClient.start(wf::cross, doi);
         this.wfId = execution.getWorkflowId();
         return wfId;
     }

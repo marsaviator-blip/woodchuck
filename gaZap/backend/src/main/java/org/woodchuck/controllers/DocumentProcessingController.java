@@ -1,10 +1,9 @@
 package org.woodchuck.controllers;
 
-import io.arconia.docling.api.DoclingServeApi;
-import io.arconia.docling.api.model.ConvertDocumentRequest;
-import io.arconia.docling.api.model.ConvertDocumentResponse;  
-import io.arconia.docling.api.model.HttpSource;
-
+import ai.docling.serve.api.convert.request.ConvertDocumentRequest;
+import ai.docling.serve.api.convert.response.ConvertDocumentResponse;
+import ai.docling.serve.api.DoclingServeApi;
+import ai.docling.serve.api.convert.request.source.HttpSource;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/convert")
+@RequestMapping("/gaZap/document/processing")
 class DocumentProcessingController {
 
   private final DoclingServeApi doclingServeApi;
@@ -34,7 +33,6 @@ class DocumentProcessingController {
       .convertSource(ConvertDocumentRequest.builder()
         .source(HttpSource.builder().url(URI.create(url)).build())
         .build());
-      return response.getDocument().getMarkdownContent();
+      return response.getResponseType().name();
   }
-
 }
