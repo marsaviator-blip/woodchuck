@@ -12,12 +12,15 @@ arconia:
     client:
         connect-timeout: 600
         read-timeout: 600
+    polling:
+      delay-seconds: 2
+      max-attempts: 60
   dev:
     services:
       docling:
         image-name: ghcr.io/docling-project/docling-servev1.17.0
         startup-timeout: 300s
-        enabled: false
+        enabled: true
         base-url: http://localhost:5001
         serve:
           url: http://localhost:5001

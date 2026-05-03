@@ -19,6 +19,7 @@ import jakarta.validation.constraints.NotBlank;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,16 +36,15 @@ public class DocumentProcessingController {
         this.doclingAsyncService = doclingAsyncService;
     }
 
-    @GetMapping("/http")
+    @PostMapping("/http")
     @Operation(summary = "Convert a document from a URL",
             description = "Provide a URL and Docling will convert it to a structured format.")
-    public CompletableFuture<String> convertDocumentFromHttp(@RequestParam("url") @NotBlank String url) {
-        return doclingAsyncService.processDocumentAsync(
+    public String convertDocumentFromHttp(@RequestParam("url") @NotBlank String url) {
+      CompletableFuture<ConvertDocumentResponse> future = doclingAsyncService.processDocumentAsync(
                 ConvertDocumentRequest.builder()
                         .source(HttpSource.builder().url(URI.create(url)).build())
-                        .build())
-                .thenApply(ConvertDocumentResponse::getResponseType)
-                .thenApply(Enum::name);
+                        .build());
+      return future.state().toString();
     }
 
     @GetMapping("/file")
@@ -57,18 +57,17 @@ public class DocumentProcessingController {
                 byte[] fileBytes = Files.readAllBytes(filePath);
                 String base64File = Base64.getEncoder().encodeToString(fileBytes);
                 String filename = filePath.getFileName().toString();
-                ConvertDocumentResponse response = doclingAsyncService.processDocumentAsync(
-                        ConvertDocumentRequest.builder()
-                                .source(FileSource.builder()
-                                        .filename(filename)
-                                        .base64String(base64File)
-                                        .build())
+                return ConvertDocumentRequest.builder()
+                        .source(FileSource.builder()
+                                .filename(filename)
+                                .base64String(base64File)
                                 .build())
-                        .join();
-                return response.getResponseType().name();
+                        .build();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        });
+        }).thenCompose(doclingAsyncService::processDocumentAsync)
+          .thenApply(ConvertDocumentResponse::getResponseType)
+          .thenApply(Enum::name);
     }
 }
