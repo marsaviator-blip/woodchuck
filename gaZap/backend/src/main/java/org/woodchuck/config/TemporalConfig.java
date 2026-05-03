@@ -23,11 +23,11 @@ public class TemporalConfig  implements TemporalOptionsCustomizer<WorkflowClient
     return optionsBuilder;
  }
 
-   //   @Bean
-   //  public DoclingServeApi doclingServeApi(@Value("${arconia.dev.services.docling.serve.url}") String baseUrl) {
-   //      return DoclingServeApi.builder().readTimeout(Duration.ofSeconds(600))
-   //          .baseUrl(baseUrl)
-   //          .build();
-   //  }
+ @Bean
+ public DoclingServeApi doclingServeApi(@Value("${arconia.dev.services.docling.serve.url}") String baseUrl) {
+     return DoclingServeApi.builder().readTimeout(Duration.ofSeconds(600))
+         .baseUrl(baseUrl)
+         .build();
+ }
 
 }
