@@ -1,9 +1,34 @@
 arconia:
+  otel:
+    enabled: false
+    exporter:
+      type: none
+    logs:
+      logback-bridge:
+        enabled: false
+    compatibility:
+      environment-variable-specification: false
+  docling:
+    client:
+        connect-timeout: 600
+        read-timeout: 600
   dev:
     services:
       docling:
-        enabled: true
-        base-url: ghttp://localhost:5001
+        image-name: ghcr.io/docling-project/docling-servev1.17.0
+        startup-timeout: 300s
+        enabled: false
+        base-url: http://localhost:5001
+        serve:
+          url: http://localhost:5001
+          timeout-seconds: 300
+          initial-interval-seconds: 2
+          backoff-coefficient: 2.0
+          maximum-interval-seconds: 20
+          maximum-attempts: 5
+        environment:
+          # Sets the backend sync processing limit (e.g., 10 minutes)
+          DOCLING_SERVE_MAX_SYNC_WAIT: "600" 
 
 management:
   endpoint:
@@ -12,7 +37,17 @@ management:
 
 server:
   port: 8085 # Port for your REST API
+  connection-timeout: 60000
+  ssl:
+    enabled: false # Set to true if you want to enable SSL
 spring:
+  mvc:
+    async:
+      request-timeout: 600000
+  http:
+    client:
+      connect-timeout: 600
+      read-timeout: 600
   application:
     name: gaZap-backend
   profiles:
@@ -35,6 +70,48 @@ spring:
     workers-auto-discovery:
       packages:
         - "org.woodchuck.temporal"
+springdoc:
+  swagger-ui:
+    request-timeout: 300000
+
+
+# arconia:
+#   dev:
+#     services:
+#       docling:
+#         enabled: true
+#         base-url: ghttp://localhost:5001
+
+# management:
+#   endpoint:
+#     health:
+#       show-components: always
+
+# server:
+#   port: 8085 # Port for your REST API
+# spring:
+#   application:
+#     name: gaZap-backend
+#   profiles:
+#     active: dev
+#   temporal:
+#     start-workers: true
+#     workers:
+#       - task-queue: BioTaskQueue
+#         capacity:
+#           max-concurrent-workflow-task-pollers: 6
+#           max-concurrent-activity-task-pollers: 6
+#         rate-limits:
+#           max-worker-activities-per-second: 0
+#           max-task-queue-activities-per-second: 0
+#     workflow-cache:
+#       max-instances: 10
+#       max-threads: 10
+#     connection:
+#       target: localhost:7233
+#     workers-auto-discovery:
+#       packages:
+#         - "org.woodchuck.temporal"
 
 
 # app:
