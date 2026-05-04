@@ -10,6 +10,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import io.temporal.spring.boot.ActivityImpl;
 
@@ -50,7 +52,12 @@ System.out.println("BioActivitiesImpl.searchIdentifiers: targetUrl=" + targetUrl
                     identifiers.add(idNode.asText());
                 }
             }
-
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode root = mapper.createObjectNode();
+            ArrayNode structures = root.putArray("entries");
+            structures.addAll((ArrayNode) mapper.valueToTree(identifiers));
+    
+            System.out.println("BioActivitiesImpl.searchIdentifiers: identifiers=" + root.toString());  
             return identifiers;
         } catch (Exception ex) {
             throw new IllegalStateException("Failed to fetch RCSB search identifiers", ex);

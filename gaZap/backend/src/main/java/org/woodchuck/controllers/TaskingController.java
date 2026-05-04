@@ -1,6 +1,7 @@
 package org.woodchuck.controllers;
 
 import java.util.UUID;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.woodchuck.dtos.SearchQueryParams;
 import org.woodchuck.temporal.workflows.BioWorkflow;
+import org.woodchuck.temporal.workflows.AlignmentWorkflow;
 import org.woodchuck.temporal.workflows.MPWorkflow;
 import org.woodchuck.temporal.workflows.PublicationWorkflow;
 import org.woodchuck.temporal.workflows.CitationWorkflow;
@@ -68,6 +70,20 @@ public class TaskingController {
         var execution = WorkflowClient.start(wf::execute, bioSpec);
         //this.wfId = execution.getWorkflowId();
         return "BIO Workflow started successfully with query: " + queryValue;
+    }
+
+    @PostMapping(value = "/alignment")
+    @Operation(summary = "Start an Alignment workflow", 
+                description = "Starts a new workflow based on the provided list of entries.") 
+    public String startAlignmentWorkflow(@RequestBody(required = true) List<String> entries) {
+        var uuid = UUID.randomUUID();
+        WorkflowOptions options = WorkflowOptions.newBuilder()
+            .setWorkflowId(uuid.toString())
+            .setTaskQueue("ALIGNMENT_QUEUE")
+            .build();
+        AlignmentWorkflow workflow = workflowClient.newWorkflowStub(AlignmentWorkflow.class, options);
+        WorkflowClient.start(workflow::execute, entries);
+        return "Alignment Workflow started successfully with entries: " + entries;
     }
 
     @GetMapping(value = "/citation")
