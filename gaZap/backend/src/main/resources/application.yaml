@@ -49,6 +49,12 @@ server:
   ssl:
     enabled: false # Set to true if you want to enable SSL
 spring:
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      embedding:
+        options:
+          model: nomic-embed-text # Popular model for embeddings
   mvc:
     async:
       request-timeout: 600000
