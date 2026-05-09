@@ -34,9 +34,14 @@ arconia:
           DOCLING_SERVE_MAX_SYNC_WAIT: "600" 
 
 management:
-  endpoint:
+  server:
+    port: 8086 # Port for management endpoints
+  endpoints:
     health:
       show-components: always
+    web:
+      exposure:
+        include: "*" # Expose all management endpoints
 
 server:
   port: 8085 # Port for your REST API
