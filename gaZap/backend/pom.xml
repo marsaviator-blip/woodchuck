@@ -135,6 +135,11 @@
 			<artifactId>docling-core</artifactId>
 			<version>0.5.2</version> 
 		</dependency>
+		<dependency>
+			<groupId>org.rcsb</groupId>
+			<artifactId>ciftools-java</artifactId>
+			<version>8.0.1</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
