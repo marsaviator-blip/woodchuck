@@ -10,7 +10,7 @@ import ai.docling.serve.api.convert.request.source.HttpSource;
 import ai.docling.serve.api.convert.response.ConvertDocumentResponse;
 import ai.docling.serve.api.convert.response.InBodyConvertDocumentResponse;
 
-import ai.docling.serve.client.operations.ChunkOperations;
+//import ai.docling.serve.client.operations.ChunkOperations;
 
 import org.springframework.ai.document.Document;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
@@ -27,6 +27,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.woodchuck.services.OllamaEmbeddingService;
+
 @Service
 public class DoclingAsyncService {
 
@@ -38,9 +40,11 @@ public class DoclingAsyncService {
 
     private final DoclingServeApi doclingServeApi;
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    private final OllamaEmbeddingService embeddingService;
 
-    public DoclingAsyncService(DoclingServeApi doclingServeApi) {
+    public DoclingAsyncService(DoclingServeApi doclingServeApi, OllamaEmbeddingService embeddingService) {
         this.doclingServeApi = doclingServeApi;
+        this.embeddingService = embeddingService;
     }
 
     public CompletableFuture<ConvertDocumentResponse> processDocumentAsync(ConvertDocumentRequest request) {
@@ -68,8 +72,10 @@ public class DoclingAsyncService {
                     // chunker.setTextSplitter(TokenTextSplitter.builder().withChunkSize(700).build());
                     // List<Document> chunks = chunker.chunk(doc);
                     chunks.forEach(chunk -> {
-                        System.out.println("Chunk: " + chunk.getText());
+                    //    System.out.println("Chunk: " + chunk.getText());
                         System.out.println("Metadata: " + chunk.getMetadata());
+                        float[] vecs = embeddingService.getEmbeddings(chunk.getText());
+                        System.out.println("Embedding length: " + vecs.length);
                     });
                 }
             }
