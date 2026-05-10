@@ -15,10 +15,9 @@ import ai.docling.serve.api.convert.request.source.HttpSource;
 import ai.docling.serve.api.convert.response.ConvertDocumentResponse;
 import ai.docling.serve.api.convert.response.InBodyConvertDocumentResponse;
 
-//import ai.docling.serve.client.operations.ChunkOperations;
-
 import org.springframework.ai.document.Document;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -50,11 +49,12 @@ public class DoclingAsyncService {
     private final DoclingServeApi doclingServeApi;
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private final OllamaEmbeddingService embeddingService;
+    private final VectorStore vectorStore;
 
-    public DoclingAsyncService(DoclingServeApi doclingServeApi, OllamaEmbeddingService embeddingService) {
+    public DoclingAsyncService(DoclingServeApi doclingServeApi, OllamaEmbeddingService embeddingService, VectorStore vectorStore) {
         this.doclingServeApi = doclingServeApi;
         this.embeddingService = embeddingService;
-    }
+        this.vectorStore = vectorStore;}
 
     public CompletableFuture<ChunkDocumentResponse> processDocumentAsync(HybridChunkDocumentRequest request) {
         CompletionStage<ChunkDocumentResponse> stage = doclingServeApi.chunkSourceWithHybridChunkerAsync(request);
@@ -87,6 +87,7 @@ public class DoclingAsyncService {
                         System.out.println("Metadata: " + chunk.getMetadata());
                         float[] vecs = embeddingService.getEmbeddings(chunk.getText());
                         System.out.println("Embedding length: " + vecs.length);
+                        vectorStore.add(chunks);
                     });
                     return response;
         }).exceptionally(throwable -> {
