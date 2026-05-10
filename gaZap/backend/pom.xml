@@ -30,7 +30,7 @@
 		<java.version>21</java.version>
 		<jackson2.databind.version>2.20.2</jackson2.databind.version>
 		<jackson2.annotations.version>2.20</jackson2.annotations.version>
-		<org.springframework.ai.version>2.0.0-M5</org.springframework.ai.version> 
+		<org.springframework.ai.version>2.0.0-M6</org.springframework.ai.version> 
 
 	</properties>
 	<dependencies>
@@ -122,13 +122,18 @@
 		</dependency>
 		<dependency>
 			<groupId>ai.docling</groupId>
+			<artifactId>docling-serve-api</artifactId>
+			<version>0.5.2</version>
+		</dependency>
+		<dependency>
+			<groupId>ai.docling</groupId>
 			<artifactId>docling-serve-client</artifactId>
 			<version>0.5.2</version>
 		</dependency>
 		<dependency>
 			<groupId>ai.docling</groupId>
 			<artifactId>docling-core</artifactId>
-			<version>0.5.1</version> 
+			<version>0.5.2</version> 
 		</dependency>
 	</dependencies>
 	<dependencyManagement>

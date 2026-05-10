@@ -1,5 +1,10 @@
 package org.woodchuck.services;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import ai.docling.serve.api.DoclingServeApi;
 import ai.docling.serve.api.chunk.request.HybridChunkDocumentRequest;
 import ai.docling.serve.api.chunk.request.options.ChunkerOptions;
@@ -19,9 +24,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -47,38 +56,44 @@ public class DoclingAsyncService {
         this.embeddingService = embeddingService;
     }
 
-    public CompletableFuture<ConvertDocumentResponse> processDocumentAsync(ConvertDocumentRequest request) {
-        CompletableFuture<ConvertDocumentResponse> resultFuture = new CompletableFuture<>();
-        pollConvertSource(request, resultFuture, 0);
-        resultFuture.whenComplete((response, throwable) -> {
-            if (throwable != null) {
-                System.err.println("Document conversion failed: " + throwable.getMessage());
-            } else {
+    public CompletableFuture<ChunkDocumentResponse> processDocumentAsync(HybridChunkDocumentRequest request) {
+        CompletionStage<ChunkDocumentResponse> stage = doclingServeApi.chunkSourceWithHybridChunkerAsync(request);
+        CompletableFuture<ChunkDocumentResponse> resultFuture =stage.toCompletableFuture().thenApply(response -> {
                 System.out.println("Document conversion succeeded: ");
    
-                if (response instanceof InBodyConvertDocumentResponse inBodyResult) {
-                    String markdown = inBodyResult.getDocument().getMarkdownContent();
-                    Document doc = new Document(markdown);
-                    // Chunking (Split into smaller pieces)
-                    TokenTextSplitter splitter = TokenTextSplitter.builder().withChunkSize(700).build();
-                    List<Document> chunks = splitter.apply(List.of(doc));
-                    // var tokenizer = HuggingFaceTokenizer.fromPretrained("Xenova/text-embedding-ada-002")
-                    // HybridChunkDocumentRequest chunker = new HybridChunkDocumentRequest();
-                    // HybridChunkerOptions chunkingOptions = chunker.getChunkingOptions();//.setChunkSize(700);
-                    // chunker.setChunkOverlap(280);
-                    // chunkesetMaxTokens(8000);
-                    // chunker.setIncr.ludeMetadata(true);
-                    // //chunker.setTokenizer(OpenAiTokenizer.builder().build());
-                    // chunker.setTextSplitter(TokenTextSplitter.builder().withChunkSize(700).build());
-                    // List<Document> chunks = chunker.chunk(doc);
+                    List<Document> chunks = response.getChunks().stream()
+                            .map(doclingChunk -> {
+                                // 1. Extract the text content from the Docling chunk
+                                String text = doclingChunk.getText();
+                                //System.out.println("Chunk text: " + text); // Debug: Print the chunk text
+                                // 2. Map Docling metadata (headings, pages, etc.) to a Map
+                                Map<String, Object> metadata = new HashMap<>();
+                                // Use the flattened getters directly on the chunk
+                                if (doclingChunk.getHeadings() != null) {
+                                    metadata.put("headings", doclingChunk.getHeadings());
+                                }
+                                
+                                // Page info or unique identifier
+                                if (doclingChunk.getPageNumbers() != null) {
+                                    metadata.put("page_numbers", doclingChunk.getPageNumbers());
+                                }
+
+                                return (text != null) ? new org.springframework.ai.document.Document(text, metadata) : null;
+                            })
+                            .filter(Objects::nonNull)
+                            .toList();
                     chunks.forEach(chunk -> {
                     //    System.out.println("Chunk: " + chunk.getText());
                         System.out.println("Metadata: " + chunk.getMetadata());
                         float[] vecs = embeddingService.getEmbeddings(chunk.getText());
                         System.out.println("Embedding length: " + vecs.length);
                     });
-                }
-            }
+                    return response;
+        }).exceptionally(throwable -> {
+            // Only runs if there was an error
+            System.err.println("Document conversion failed: " + throwable.getMessage());
+            //log.error("Something went wrong", throwable);
+            return null; 
         });         
         return resultFuture;
     }

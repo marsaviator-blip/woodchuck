@@ -1,5 +1,7 @@
 package org.woodchuck.controllers;
 
+import ai.docling.serve.api.chunk.request.HybridChunkDocumentRequest;
+import ai.docling.serve.api.chunk.response.ChunkDocumentResponse;
 import ai.docling.serve.api.convert.request.ConvertDocumentRequest;
 import ai.docling.serve.api.convert.response.ConvertDocumentResponse;
 import ai.docling.serve.api.convert.request.source.FileSource;
@@ -40,8 +42,8 @@ public class DocumentProcessingController {
     @Operation(summary = "Convert a document from a URL",
             description = "Provide a URL and Docling will convert it to a structured format.")
     public String convertDocumentFromHttp(@RequestParam("url") @NotBlank String url) {
-      CompletableFuture<ConvertDocumentResponse> future = doclingAsyncService.processDocumentAsync(
-                ConvertDocumentRequest.builder()
+      CompletableFuture<ChunkDocumentResponse> future = doclingAsyncService.processDocumentAsync(
+                HybridChunkDocumentRequest.builder()
                         .source(HttpSource.builder().url(URI.create(url)).build())
                         .build());
       return future.state().toString();
@@ -50,24 +52,22 @@ public class DocumentProcessingController {
     @GetMapping("/file")
     @Operation(summary = "Convert a local file",
             description = "Provide a local file path and Docling will convert the file.")
-    public CompletableFuture<String> convertDocumentFromFile(@RequestParam("fullpath") @NotBlank String fullpath) {
-        return CompletableFuture.supplyAsync(() -> {
+    public String convertDocumentFromFile(@RequestParam("fullpath") @NotBlank String fullpath) {
             try {
                 Path filePath = Paths.get(fullpath);
                 byte[] fileBytes = Files.readAllBytes(filePath);
                 String base64File = Base64.getEncoder().encodeToString(fileBytes);
                 String filename = filePath.getFileName().toString();
-                return ConvertDocumentRequest.builder()
+                CompletableFuture<ChunkDocumentResponse> future = doclingAsyncService.processDocumentAsync(
+                    HybridChunkDocumentRequest.builder()
                         .source(FileSource.builder()
                                 .filename(filename)
                                 .base64String(base64File)
                                 .build())
-                        .build();
+                        .build());
+                return future.state().toString();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }).thenCompose(doclingAsyncService::processDocumentAsync)
-          .thenApply(ConvertDocumentResponse::getResponseType)
-          .thenApply(Enum::name);
     }
 }

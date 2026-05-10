@@ -24,11 +24,13 @@ arconia:
         base-url: http://localhost:5001
         serve:
           url: http://localhost:5001
-          timeout-seconds: 300
+          timeout-seconds: 600s
           initial-interval-seconds: 2
           backoff-coefficient: 2.0
           maximum-interval-seconds: 20
           maximum-attempts: 5
+          async-poll-interval: 2s
+          async-timeout: 600s
         environment:
           # Sets the backend sync processing limit (e.g., 10 minutes)
           DOCLING_SERVE_MAX_SYNC_WAIT: "600" 

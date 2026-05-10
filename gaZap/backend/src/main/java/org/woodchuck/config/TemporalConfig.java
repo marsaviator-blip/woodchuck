@@ -24,8 +24,13 @@ public class TemporalConfig  implements TemporalOptionsCustomizer<WorkflowClient
  }
 
      @Bean
-    public DoclingServeApi doclingServeApi(@Value("${arconia.dev.services.docling.serve.url}") String baseUrl) {
-        return DoclingServeApi.builder().readTimeout(Duration.ofSeconds(600))
+    public DoclingServeApi doclingServeApi(@Value("${arconia.dev.services.docling.serve.url}") String baseUrl,
+                                            @Value("${arconia.dev.services.docling.serve.timeout-seconds}") Duration timeoutSeconds,
+                                            @Value("${arconia.dev.services.docling.serve.async-timeout}") Duration asyncTimeout,
+                                            @Value("${arconia.dev.services.docling.serve.async-poll-interval}") Duration asyncPollInterval) {
+        return DoclingServeApi.builder().readTimeout(timeoutSeconds)
+            .asyncPollInterval(asyncPollInterval) // Match the polling delay configured in application.yaml
+            .asyncTimeout(asyncTimeout) // Set a timeout for async operations
             .baseUrl(baseUrl)
             .build();
     }
