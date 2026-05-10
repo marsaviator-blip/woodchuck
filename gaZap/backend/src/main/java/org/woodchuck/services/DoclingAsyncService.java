@@ -33,6 +33,15 @@ public class DoclingAsyncService {
     public CompletableFuture<ConvertDocumentResponse> processDocumentAsync(ConvertDocumentRequest request) {
         CompletableFuture<ConvertDocumentResponse> resultFuture = new CompletableFuture<>();
         pollConvertSource(request, resultFuture, 0);
+        resultFuture.whenComplete((response, throwable) -> {
+            if (throwable != null) {
+                System.err.println("Document conversion failed: " + throwable.getMessage());
+            } else {
+                System.out.println("Document conversion succeeded: " + response);
+                String s = response.toString();
+                System.out.println("Response: " + s);
+            }
+        });         
         return resultFuture;
     }
 

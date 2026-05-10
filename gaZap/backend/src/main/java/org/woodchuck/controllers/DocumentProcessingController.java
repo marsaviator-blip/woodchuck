@@ -1,5 +1,8 @@
 package org.woodchuck.controllers;
 
+import ai.docling.serve.api.chunk.request.ChunkDocumentRequest;
+import ai.docling.serve.api.chunk.request.ChunkDocumentRequest.ChunkDocumentRequestBuilder;
+import ai.docling.serve.api.chunk.response.ChunkDocumentResponse;
 import ai.docling.serve.api.convert.request.ConvertDocumentRequest;
 import ai.docling.serve.api.convert.response.ConvertDocumentResponse;
 import ai.docling.serve.api.convert.request.source.FileSource;
@@ -44,7 +47,7 @@ public class DocumentProcessingController {
                 ConvertDocumentRequest.builder()
                         .source(HttpSource.builder().url(URI.create(url)).build())
                         .build());
-      return future.state().toString();
+      return future.state().toString(); 
     }
 
     @GetMapping("/file")
