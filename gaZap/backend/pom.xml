@@ -123,7 +123,12 @@
 		<dependency>
 			<groupId>ai.docling</groupId>
 			<artifactId>docling-serve-client</artifactId>
-			<version>0.5.0</version>
+			<version>0.5.2</version>
+		</dependency>
+		<dependency>
+			<groupId>ai.docling</groupId>
+			<artifactId>docling-core</artifactId>
+			<version>0.5.1</version> 
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
@@ -156,6 +161,13 @@
 		<repository>
 			<id>central</id>
 			<url>https://repo.maven.apache.org/maven2</url>
+		</repository>
+		<repository>
+			<id>github</id>
+			<url>https://github.com</url>
+			<snapshots>
+			<enabled>true</enabled>
+			</snapshots>
 		</repository>
 		<!-- Spring Milestone Repository -->
     <!-- <repository>
