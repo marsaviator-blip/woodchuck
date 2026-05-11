@@ -54,7 +54,8 @@ public class DoclingAsyncService {
     public DoclingAsyncService(DoclingServeApi doclingServeApi, OllamaEmbeddingService embeddingService, VectorStore vectorStore) {
         this.doclingServeApi = doclingServeApi;
         this.embeddingService = embeddingService;
-        this.vectorStore = vectorStore;}
+        this.vectorStore = vectorStore;
+}
 
     public CompletableFuture<ChunkDocumentResponse> processDocumentAsync(HybridChunkDocumentRequest request) {
         CompletionStage<ChunkDocumentResponse> stage = doclingServeApi.chunkSourceWithHybridChunkerAsync(request);
@@ -82,13 +83,14 @@ public class DoclingAsyncService {
                             })
                             .filter(Objects::nonNull)
                             .toList();
-                    chunks.forEach(chunk -> {
-                    //    System.out.println("Chunk: " + chunk.getText());
-                        System.out.println("Metadata: " + chunk.getMetadata());
-                        float[] vecs = embeddingService.getEmbeddings(chunk.getText());
-                        System.out.println("Embedding length: " + vecs.length);
-                        vectorStore.add(chunks);
-                    });
+                    // chunks.forEach(chunk -> {
+                    // //    System.out.println("Chunk: " + chunk.getText());
+                    //     System.out.println("Metadata: " + chunk.getMetadata());
+                    //     float[] vecs = embeddingService.getEmbeddings(chunk.getText());
+                    //     System.out.println("Embedding length: " + vecs.length);
+                        
+                    // });
+                    vectorStore.add(chunks);
                     return response;
         }).exceptionally(throwable -> {
             // Only runs if there was an error
