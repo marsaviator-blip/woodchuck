@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.woodchuck.converter.StructureToBolt;
+import org.woodchuck.converter.StructureToCif;
 import org.woodchuck.dtos.MaterialStructureParams;
 import org.woodchuck.temporal.workflows.ActivityExecutionSettings;
 import org.woodchuck.temporal.workflows.MPWorkflow;
@@ -81,12 +82,13 @@ public class MPWorkflowImpl implements MPWorkflow {
 
                 // make endpoint calls to fetch more data about the material using the m_id, for example:
                 MaterialStructureParams strucParams = new MaterialStructureParams(
-                    m_id, "structure,symmetry,density,chemsys", false, 1000, 0, 
+                    m_id, "structure,formula_pretty,symmetry,density,chemsys", false, 1000, 0, 
                     1000, "All");
                  String moreData = activities.getMaterialDetails(strucParams);
                  //System.out.println("More data for material " + m_id + ": " + moreData);
                  System  .out.println("Structure length: " + moreData.length());
-
+                StructureToCif structureToCif = new StructureToCif();
+                List<String> cifStrings = structureToCif.convert(moreData);
 
                 MaterialStructureParams provParams = new MaterialStructureParams(
                     m_id, "structure,database_IDs,authors,references", false, 1000, 0, 

@@ -79,6 +79,22 @@ System.out.println("BioActivitiesImpl.searchIdentifiers: targetUrl=" + targetUrl
                     .retrieve()
                     .body(String.class);
                 data.add(response);
+                //System.out.println("BioActivitiesImpl.fetchEntries: entry=" + entry + ", response=" + response);
+            JsonNode rootNode = objectMapper.readTree(response);
+            if(rootNode.has("rcsb_external_references")){
+                JsonNode externalReferenceNode = rootNode.get("rcsb_external_references");
+                for(JsonNode refNode : externalReferenceNode){
+                    if(refNode.has("id") && refNode.has("link") && refNode.has("type")){
+                        String emid = refNode.get("id").asText();
+                        System.out.println("BioActivitiesImpl.fetchEntries: entry=" + entry + ", EMID=" + emid);
+                        String link = refNode.get("link").asText();
+                        System.out.println("BioActivitiesImpl.fetchEntries: entry=" + entry + ", Link=" + link);
+                        String type = refNode.get("type").asText();
+                        System.out.println("BioActivitiesImpl.fetchEntries: entry=" + entry + ", Type=" + type);
+                    }
+                }
+
+            }
             }
             return data;
         } catch (Exception ex) {
