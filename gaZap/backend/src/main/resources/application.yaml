@@ -41,9 +41,14 @@ management:
   endpoints:
     health:
       show-components: always
+      show-details: always
+    info:
+      enabled: true
     web:
       exposure:
         include: "*" # Expose all management endpoints
+    prometheus:
+      enabled: true # Enable Prometheus endpoint
 
 server:
   port: 8085 # Port for your REST API

@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.woodchuck</groupId>
-	<artifactId>woodchuck_mvc</artifactId>
+	<artifactId>gaZap-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>woodchuck-mvc</name>
+	<name>gaZap-backend</name>
 	<description>MVC client</description>
 	<url/>
 	<licenses>
@@ -86,6 +86,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
 		</dependency>
 		<dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
