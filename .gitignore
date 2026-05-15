@@ -9,4 +9,6 @@ ui/node
 ui/dist/
 ui/*.pem
 gaZap/backend/target
+gaZap/vsConsumer/target
+gaZap/vsProducer/target
 LIM/backend/target

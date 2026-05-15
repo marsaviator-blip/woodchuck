@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../../../../../crud_jpa"
+		},
+		{
+			"path": "../../../../../../../../../bootify1"
+		},
+		{
+			"path": "../../../../../../../.."
+		},
+		{
+			"path": "../../../../../../../../../../secondApp/my-second-app"
+		},
+		{
+			"path": "../../../../../../../../kT"
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "automatic",
+		"java.compile.nullAnalysis.mode": "automatic",
+		"java.project.sourcePaths": [
+			"kT/mcpClient/src/main/java"
+		]
+	}
+}
