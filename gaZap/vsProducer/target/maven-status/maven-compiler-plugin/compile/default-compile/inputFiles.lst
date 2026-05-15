@@ -1,3 +1,4 @@
+/home/ar/desperado/woodchuck/gaZap/vsProducer/src/main/java/org/woodchuck/VsbusProducerApplication.java
+/home/ar/desperado/woodchuck/gaZap/vsProducer/src/main/java/org/woodchuck/components/TempRun.java
 /home/ar/desperado/woodchuck/gaZap/vsProducer/src/main/java/org/woodchuck/configs/KafkaProducerConfig.java
 /home/ar/desperado/woodchuck/gaZap/vsProducer/src/main/java/org/woodchuck/services/VSmessageSender.java
-/home/ar/desperado/woodchuck/gaZap/vsProducer/src/main/java/org/woodchuck/vsbus/VsbusProducerApplication.java
