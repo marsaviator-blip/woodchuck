@@ -1,0 +1,4 @@
+org/woodchuck/VsbusConsumerApplication.class
+org/woodchuck/services/VSmessageReceiver.class
+org/woodchuck/configs/KafkaConsumerConfig.class
+org/woodchuck/configs/KafkaTopicConfig.class

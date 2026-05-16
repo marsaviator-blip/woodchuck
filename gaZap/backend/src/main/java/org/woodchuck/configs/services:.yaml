@@ -1,0 +1,11 @@
+services:
+  db:
+    build: .
+    image: my-postgres-pgvector
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecret
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d
+    command: CREATE EXTENSION IF NOT EXISTS pgvector;

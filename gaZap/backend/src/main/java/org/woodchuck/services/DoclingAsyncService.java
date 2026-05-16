@@ -48,14 +48,17 @@ public class DoclingAsyncService {
 
     private final DoclingServeApi doclingServeApi;
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-    private final OllamaEmbeddingService embeddingService;
-    private final VectorStore vectorStore;
+    // private final OllamaEmbeddingService embeddingService;
+    // private final VectorStore vectorStore;
+    private final VSmessageSender messageSender;
 
-    public DoclingAsyncService(DoclingServeApi doclingServeApi, OllamaEmbeddingService embeddingService, VectorStore vectorStore) {
+
+    public DoclingAsyncService(DoclingServeApi doclingServeApi, VSmessageSender messageSender) {
         this.doclingServeApi = doclingServeApi;
-        this.embeddingService = embeddingService;
-        this.vectorStore = vectorStore;
-}
+        // this.embeddingService = embeddingService;
+        // this.vectorStore = vectorStore;
+        this.messageSender = messageSender;
+    }
 
     public CompletableFuture<ChunkDocumentResponse> processDocumentAsync(HybridChunkDocumentRequest request) {
         CompletionStage<ChunkDocumentResponse> stage = doclingServeApi.chunkSourceWithHybridChunkerAsync(request);
@@ -83,14 +86,14 @@ public class DoclingAsyncService {
                             })
                             .filter(Objects::nonNull)
                             .toList();
-                    // chunks.forEach(chunk -> {
-                    // //    System.out.println("Chunk: " + chunk.getText());
-                    //     System.out.println("Metadata: " + chunk.getMetadata());
-                    //     float[] vecs = embeddingService.getEmbeddings(chunk.getText());
-                    //     System.out.println("Embedding length: " + vecs.length);
-                        
-                    // });
-                    vectorStore.add(chunks);
+                    chunks.forEach(chunk -> {
+                    //    System.out.println("Chunk: " + chunk.getText());
+                        System.out.println("Metadata: " + chunk.getMetadata());
+                        //float[] vecs = embeddingService.getEmbeddings(chunk.getText());
+                        //System.out.println("Embedding length: " + vecs.length);
+                        messageSender.sendMessage("Chunk: " + chunk.getText() + " | Metadata: " + chunk.getMetadata() );
+                    });
+                        //vectorStore.add(chunks);
                     return response;
         }).exceptionally(throwable -> {
             // Only runs if there was an error
