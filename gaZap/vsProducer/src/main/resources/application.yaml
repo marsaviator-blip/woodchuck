@@ -1,9 +1,10 @@
 spring:
   application:
-    name: vsbus
+    name: vsProducer
   kafka:
     bootstrap-servers: localhost:9092
 # Serializers required to translate your keys and values to byte arrays
     producer:
+      group-id: vsGroup
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: vsbus
+    name: vsConsumer
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
