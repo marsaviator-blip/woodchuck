@@ -1,5 +1,8 @@
-org/woodchuck/VsbusConsumerApplication.class
+org/woodchuck/controllers/ModelOptionsController.class
+org/woodchuck/controllers/SearchVectorStoreController.class
 org/woodchuck/services/VSmessageReceiver.class
 org/woodchuck/configs/KafkaConsumerConfig.class
-org/woodchuck/services/DoclingAsyncService.class
 org/woodchuck/configs/KafkaTopicConfig.class
+org/woodchuck/VsbusConsumerApplication.class
+org/woodchuck/services/SearchVectorStoreService.class
+org/woodchuck/services/DoclingAsyncService.class

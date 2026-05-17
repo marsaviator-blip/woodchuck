@@ -1,5 +1,8 @@
 /home/ar/desperado/woodchuck/gaZap/pgStore/src/main/java/org/woodchuck/VsbusConsumerApplication.java
 /home/ar/desperado/woodchuck/gaZap/pgStore/src/main/java/org/woodchuck/configs/KafkaConsumerConfig.java
 /home/ar/desperado/woodchuck/gaZap/pgStore/src/main/java/org/woodchuck/configs/KafkaTopicConfig.java
+/home/ar/desperado/woodchuck/gaZap/pgStore/src/main/java/org/woodchuck/controllers/ModelOptionsController.java
+/home/ar/desperado/woodchuck/gaZap/pgStore/src/main/java/org/woodchuck/controllers/SearchVectorStoreController.java
 /home/ar/desperado/woodchuck/gaZap/pgStore/src/main/java/org/woodchuck/services/DoclingAsyncService.java
+/home/ar/desperado/woodchuck/gaZap/pgStore/src/main/java/org/woodchuck/services/SearchVectorStoreService.java
 /home/ar/desperado/woodchuck/gaZap/pgStore/src/main/java/org/woodchuck/services/VSmessageReceiver.java
