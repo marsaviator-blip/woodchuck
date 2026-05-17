@@ -1,6 +1,6 @@
 management:
   server:
-    port: 8086 # Port for management endpoints
+    port: 8088 # Port for management endpoints
   endpoints:
     health:
       show-components: always
@@ -14,6 +14,12 @@ management:
          # Expose all management endpoints
     prometheus:
       enabled: true # Enable Prometheus endpoint
+server:
+  port: 8087 # Port for your REST API
+  connection-timeout: 60000
+  ssl:
+    enabled: false # Set to true if you want to enable SSL
+
 spring:
   application:
     name: pgStore

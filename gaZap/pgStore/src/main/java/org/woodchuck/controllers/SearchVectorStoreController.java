@@ -1,10 +1,15 @@
 package org.woodchuck.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+
+import jakarta.validation.constraints.NotBlank;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
@@ -25,10 +30,12 @@ public class SearchVectorStoreController {
     }
 
     // need to add swagger.  need to pass the question in the request
-    // @PostMapping("/search-pgStore")
-    // public ResponseEntity<List<Document>> search(@RequestBody request) {
-    //     String question = "What are the subjects/topics in this model?";
-    //     List<Document> results = searchVectorStoreService.search(request, question);
-    //     return ResponseEntity.ok(results);
-    // }
+    @PostMapping("/search-pgStore")
+    @Operation(summary = "Ask a question of the pgvector store",
+            description = "Can the model answer your question")
+    public ResponseEntity<List<Document>> search(@RequestParam("question") @NotBlank String question) {
+        String questionStart = "What are the subjects/topics in this model?";
+        List<Document> results = searchVectorStoreService.search(question);
+        return ResponseEntity.ok(results);
+    }
 }
