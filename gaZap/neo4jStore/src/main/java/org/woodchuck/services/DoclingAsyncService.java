@@ -87,7 +87,9 @@ public class DoclingAsyncService {
                     //     //System.out.println("Embedding length: " + vecs.length);
                     //     messageSender.sendMessage("Chunk: " + chunk.getText() + " | Metadata: " + chunk.getMetadata() );
                     // });
+                    System.out.println("Adding " + chunks.size() + " chunks to the vector store.");
                     vectorStore.add(chunks);
+                    System.out.println("Chunks added to vector store successfully.");
                     return response;
         }).exceptionally(throwable -> {
             // Only runs if there was an error

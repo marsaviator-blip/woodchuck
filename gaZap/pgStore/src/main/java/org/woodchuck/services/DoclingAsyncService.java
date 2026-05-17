@@ -59,13 +59,13 @@ public class DoclingAsyncService {
     public CompletableFuture<ChunkDocumentResponse> processDocumentAsync(HybridChunkDocumentRequest request) {
         CompletionStage<ChunkDocumentResponse> stage = doclingServeApi.chunkSourceWithHybridChunkerAsync(request);
         CompletableFuture<ChunkDocumentResponse> resultFuture =stage.toCompletableFuture().thenApply(response -> {
-                System.out.println("Document conversion succeeded: ");
+                System.out.println("pgStore - Document conversion succeeded: ");
    
                     List<Document> chunks = response.getChunks().stream()
                             .map(doclingChunk -> {
                                 // 1. Extract the text content from the Docling chunk
                                 String text = doclingChunk.getText();
-                                //System.out.println("Chunk text: " + text); // Debug: Print the chunk text
+                                System.out.println("Chunk text: " + text); // Debug: Print the chunk text
                                 // 2. Map Docling metadata (headings, pages, etc.) to a Map
                                 Map<String, Object> metadata = new HashMap<>();
                                 // Use the flattened getters directly on the chunk
@@ -89,7 +89,9 @@ public class DoclingAsyncService {
                     //     //System.out.println("Embedding length: " + vecs.length);
                     //     messageSender.sendMessage("Chunk: " + chunk.getText() + " | Metadata: " + chunk.getMetadata() );
                     // });
+                    System.out.println("Adding " + chunks.size() + " chunks to the vector store.");
                     vectorStore.add(chunks);
+                    System.out.println("Chunks added to vector store successfully.");
                     return response;
         }).exceptionally(throwable -> {
             // Only runs if there was an error

@@ -6,3 +6,4 @@ org/woodchuck/configs/KafkaTopicConfig.class
 org/woodchuck/VsbusConsumerApplication.class
 org/woodchuck/services/SearchVectorStoreService.class
 org/woodchuck/services/DoclingAsyncService.class
+org/woodchuck/configs/DoclingConfig.class

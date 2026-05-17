@@ -17,6 +17,7 @@ public class SearchVectorStoreService {
     }
 
     public List<Document> search(String question) {
+        System.out.println("Searching vector store with question: " + question);
         List<Document> results = vectorStore.similaritySearch(
         SearchRequest.builder()
             .query(question)

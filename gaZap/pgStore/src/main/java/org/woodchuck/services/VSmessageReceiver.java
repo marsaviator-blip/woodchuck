@@ -27,11 +27,12 @@ public class VSmessageReceiver {
     @KafkaListener(topics = TOPIC_NAME)
     public void receiveMessage(String url) {
         logger.info("Received message: {}", url);
+        System.out.println("Received message: " + url);
         // Process the message as needed
         CompletableFuture<ChunkDocumentResponse> future = doclingAsyncService.processDocumentAsync(
                 HybridChunkDocumentRequest.builder()
                         .source(HttpSource.builder().url(URI.create(url)).build())
                         .build());
-        //future.state().toString();
+       System.out.println("Future state: " + future.state().toString()  );
     }
 }
