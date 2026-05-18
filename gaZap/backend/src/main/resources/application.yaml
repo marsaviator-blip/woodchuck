@@ -41,9 +41,16 @@ management:
   endpoints:
     health:
       show-components: always
+      show-details: always
+    info:
+      enabled: true
     web:
       exposure:
-        include: "*" # Expose all management endpoints
+        include: "*"
+        
+         # Expose all management endpoints
+    prometheus:
+      enabled: true # Enable Prometheus endpoint
 
 server:
   port: 8085 # Port for your REST API
@@ -57,6 +64,24 @@ spring:
       embedding:
         options:
           model: nomic-embed-text # Popular model for embeddings
+    vectorstore:
+      # opensearch:
+      #   uris: http://localhost:9200
+      #   index-name: my-ai-index
+      #   initialize-schema: true
+      #   similarity-function: cosine  # Options: cosine, l1, l2, linf
+      # pgvector:
+      #   dimensions: 768  # Match your embedding model (e.g., OpenAI)
+      #   distance-type: COSINE_DISTANCE
+      #   index-type: HNSW
+      #   initialize-schema: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
   mvc:
     async:
       request-timeout: 600000

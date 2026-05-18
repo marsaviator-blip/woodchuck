@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: opsStore
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: opsGroup
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      missing-topics-fatal: false
+management:
+  server:
+    port: 8086 # Port for management endpoints
+  endpoints:
+    health:
+      show-components: always
+      show-details: always
+    info:
+      enabled: true
+    web:
+      exposure:
+        include: "*"
+        
+         # Expose all management endpoints
+    prometheus:
+      enabled: true # Enable Prometheus endpoint
+
+# server:
+#   port: 8085 # Port for your REST API
+#   connection-timeout: 60000
+#   ssl:
+#     enabled: false # Set to true if you want to enable SSL
+spring:
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      embedding:
+        options:
+          model: nomic-embed-text # Popular model for embeddings
+    vectorstore:
+      # opensearch:
+      #   uris: http://localhost:9200
+      #   index-name: my-ai-index
+      #   initialize-schema: true
+      #   similarity-function: cosine  # Options: cosine, l1, l2, linf
+      pgvector:
+        dimensions: 768  # Match your embedding model (e.g., OpenAI)
+        distance-type: COSINE_DISTANCE
+        index-type: HNSW
+        initialize-schema: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver

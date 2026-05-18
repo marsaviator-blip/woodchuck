@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.woodchuck.config.BioTemporalProperties;
+import org.woodchuck.configs.BioTemporalProperties;
 import org.woodchuck.dtos.SearchQueryParams;
 import org.woodchuck.temporal.workflows.ActivityExecutionSettings;
 import org.woodchuck.temporal.workflows.BioWorkflow;

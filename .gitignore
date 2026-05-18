@@ -9,4 +9,8 @@ ui/node
 ui/dist/
 ui/*.pem
 gaZap/backend/target
+gaZap/vsConsumer/target
+gaZap/vsProducer/target
+gaZap/pgStore/target
+gaZap/neo4jStore/target
 LIM/backend/target

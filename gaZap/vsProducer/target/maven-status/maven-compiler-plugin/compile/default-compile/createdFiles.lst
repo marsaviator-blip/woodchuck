@@ -1,0 +1,3 @@
+org/woodchuck/components/TempRun.class
+org/woodchuck/services/VSmessageSender.class
+org/woodchuck/configs/KafkaProducerConfig.class

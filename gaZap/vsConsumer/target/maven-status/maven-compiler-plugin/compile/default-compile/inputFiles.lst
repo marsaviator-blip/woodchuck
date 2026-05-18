@@ -1,0 +1,4 @@
+/home/ar/desperado/woodchuck/gaZap/vsConsumer/src/main/java/org/woodchuck/VsbusConsumerApplication.java
+/home/ar/desperado/woodchuck/gaZap/vsConsumer/src/main/java/org/woodchuck/configs/KafkaConsumerConfig.java
+/home/ar/desperado/woodchuck/gaZap/vsConsumer/src/main/java/org/woodchuck/configs/KafkaTopicConfig.java
+/home/ar/desperado/woodchuck/gaZap/vsConsumer/src/main/java/org/woodchuck/services/VSmessageReceiver.java

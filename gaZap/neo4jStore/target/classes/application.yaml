@@ -1,0 +1,100 @@
+arconia:
+  otel:
+    enabled: false
+    exporter:
+      type: none
+    logs:
+      logback-bridge:
+        enabled: false
+    compatibility:
+      environment-variable-specification: false
+  docling:
+    client:
+        connect-timeout: 600
+        read-timeout: 600
+    polling:
+      delay-seconds: 2
+      max-attempts: 60
+  dev:
+    services:
+      docling:
+        image-name: ghcr.io/docling-project/docling-servev1.17.0
+        startup-timeout: 300s
+        enabled: true
+        base-url: http://localhost:5001
+        serve:
+          url: http://localhost:5001
+          timeout-seconds: 600s
+          initial-interval-seconds: 2
+          backoff-coefficient: 2.0
+          maximum-interval-seconds: 20
+          maximum-attempts: 5
+          async-poll-interval: 2s
+          async-timeout: 600s
+        environment:
+          # Sets the backend sync processing limit (e.g., 10 minutes)
+          DOCLING_SERVE_MAX_SYNC_WAIT: "900" 
+management:
+  server:
+    port: 8086 # Port for management endpoints
+  endpoints:
+    health:
+      show-components: always
+      show-details: always
+    info:
+      enabled: true
+    web:
+      exposure:
+        include: "*"
+        
+         # Expose all management endpoints
+    prometheus:
+      enabled: true # Enable Prometheus endpoint
+
+server:
+  port: 8085 # Port for your REST API
+  connection-timeout: 60000
+  ssl:
+    enabled: false # Set to true if you want to enable SSL
+    spring:
+  application:
+    name: neo4jStore
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: neoGroup
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      missing-topics-fatal: false
+spring:
+  application:
+    name: neo4jStore
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: neoGroup
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      missing-topics-fatal: false
+  neo4j:
+    uri: neo4j://localhost:7687
+    authentication:
+      username: neo4j
+      password: neo4j
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      embedding:
+        options:
+          model: nomic-embed-text # Popular model for embeddings
+    vectorstore:
+      neo4j:
+        initialize-schema: true 
+        similarity-function: COSINE_SIMILARITY # Options: COSINE_SIMILARITY, EUCLIDEAN_DISTANCE, MANHATTAN_DISTANCE
+        index-name: custom-vector-index   # Optional: Name of the vector index in Neo4j
+        label: CustomDocument             # Optional: Node label used to store documents
+        embedding-dimension: 1536         # Matches the dimension of your embedding model (e.g., 1536 for OpenAI)
