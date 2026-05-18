@@ -1,0 +1,15 @@
+services:
+  docling-serve:
+    image: quay.io/docling-project/docling-serve
+    container_name: docling-serve
+    restart: unless-stopped
+    ports:
+      - "5001:5001"
+    environment:
+      - DOCLING_SERVE_ENABLE_UI=1
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:5001/health || exit 1"]
+      interval: 10s
+      timeout: 2s
+      retries: 20
+
