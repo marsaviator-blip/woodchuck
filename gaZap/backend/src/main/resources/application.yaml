@@ -70,11 +70,11 @@ spring:
       #   index-name: my-ai-index
       #   initialize-schema: true
       #   similarity-function: cosine  # Options: cosine, l1, l2, linf
-      pgvector:
-        dimensions: 768  # Match your embedding model (e.g., OpenAI)
-        distance-type: COSINE_DISTANCE
-        index-type: HNSW
-        initialize-schema: true
+      # pgvector:
+      #   dimensions: 768  # Match your embedding model (e.g., OpenAI)
+      #   distance-type: COSINE_DISTANCE
+      #   index-type: HNSW
+      #   initialize-schema: true
 
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
