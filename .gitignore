@@ -8,7 +8,8 @@ ui/node_modules/
 ui/node
 ui/dist/
 ui/*.pem
-gaZap/backend/target
+gaZap/frontend/node_modules
+gaZap/workflows/target
 gaZap/vsConsumer/target
 gaZap/vsProducer/target
 gaZap/pgStore/target
