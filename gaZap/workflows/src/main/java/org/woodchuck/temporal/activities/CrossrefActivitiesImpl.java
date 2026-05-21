@@ -34,4 +34,20 @@ System.out.println("CrossrefActivitiesImpl.getWorks: targetUrl=" + targetUrl);
 
     }
 
+    @Override
+    public String getWorksBy(String title, String author) {
+        System.out.println("CrossrefActivitiesImpl.getWorks called with title: " + title + ", author: " + author);
+        URI targetUrl = UriComponentsBuilder.fromUriString(BASE_URL)
+            .path("/works")
+            .queryParam("query.title", title)
+            .queryParam("query.author", author)
+            .build()
+            .toUri();
+System.out.println("CrossrefActivitiesImpl.getWorks: targetUrl=" + targetUrl);  
+        return restClient.get()
+            .uri(targetUrl)
+            .retrieve()
+            .body(String.class);
+    }
+
 }

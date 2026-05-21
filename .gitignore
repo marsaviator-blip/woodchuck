@@ -4,6 +4,7 @@ backend/target/
 crud_scaffold/target/
 crud_scaffold/.*
 crud_scaffold/node/
+crud_scaffold/node_modules/
 ui/node_modules/
 ui/node
 ui/dist/
