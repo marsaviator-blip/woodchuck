@@ -1,10 +1,10 @@
-package com.example.demo;
+package org.woodchuck.zChecker;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class ZCheckerApplicationTests {
 
 	@Test
 	void contextLoads() {
