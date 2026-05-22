@@ -3,15 +3,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.3</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<groupId>org.woodchuck</groupId>
+		<artifactId>monorepo-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath> 
 	</parent>
+
 	<groupId>org.woodchuck</groupId>
-	<artifactId>gaZap-backend</artifactId>
+	<artifactId>gaZap-workflows</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>gaZap-backend</name>
+	<name>gaZap-workflows</name>
 	<description>MVC client</description>
 	<url/>
 	<licenses>
@@ -28,8 +29,6 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-		<jackson2.databind.version>2.20.2</jackson2.databind.version>
-		<jackson2.annotations.version>2.20</jackson2.annotations.version>
 		<org.springframework.ai.version>2.0.0-M6</org.springframework.ai.version> 
 
 	</properties>
@@ -52,16 +51,16 @@
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-starter-vector-store-pgvector</artifactId>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-starter-model-openai</artifactId>
 			<version>${org.springframework.ai.version}</version>
-		</dependency> -->
-		<dependency>
+		</dependency>
+		<!--dependency>
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-starter-model-ollama</artifactId>
  			<version>${org.springframework.ai.version}</version>
-		</dependency>
+		</dependency-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-restclient</artifactId>
@@ -102,24 +101,10 @@
 			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
 		<dependency>
-          <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-	        <version>${jackson2.databind.version}</version>
-        </dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>${jackson2.databind.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>${jackson2.annotations.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<groupId>tools.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
-		</dependency>		
+			<version>3.0.0</version>
+		</dependency>
         <dependency>
 			<groupId>org.neo4j.driver</groupId>
 			<artifactId>neo4j-java-driver</artifactId>
@@ -162,9 +147,26 @@
 			<artifactId>ciftools-java</artifactId>
 			<version>8.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>3.0.7</version>
+		</dependency>
+        <dependency>
+            <groupId>org.jbibtex</groupId>
+            <artifactId>jbibtex</artifactId>
+            <version>1.0.20</version>
+        </dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>4.0.6</version> <!-- Use your desired Spring Boot version -->
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 			<dependency>
 				<groupId>io.arconia</groupId>
 				<artifactId>arconia-bom</artifactId>

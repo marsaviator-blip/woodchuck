@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 import io.temporal.spring.boot.ActivityImpl;
 import  org.springframework.util.FileCopyUtils;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.dataformat.xml.XmlMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DatabindException;
 
 @Component
 @ActivityImpl(taskQueues = "PublicationQueue")
@@ -62,9 +62,9 @@ public class PublicationActivitiesImpl implements PublicationActivities {
             .uri(targetUrl)
             .retrieve()
             .body(String.class);
-            } catch (JsonMappingException e) {
+            } catch (DatabindException e) {
                 throw new IllegalStateException("Failed to parse PMC response for DOI: " + doi, e);
-            } catch (JsonProcessingException e) {
+            } catch (JacksonException e) {
                 throw new IllegalStateException("Failed to parse PMC response for DOI: " + doi, e);
             } catch (Exception ex) {
                 throw new IllegalStateException("Failed to fetch publication data for DOI: " + doi, ex);

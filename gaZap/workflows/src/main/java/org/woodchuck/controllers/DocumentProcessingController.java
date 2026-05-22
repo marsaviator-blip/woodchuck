@@ -7,16 +7,20 @@ package org.woodchuck.controllers;
 // import ai.docling.serve.api.convert.request.source.FileSource;
 // import ai.docling.serve.api.convert.request.source.HttpSource;
 
+import java.io.File;
 import java.io.IOException;
 //import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
+import java.util.UUID;
 //import java.util.concurrent.CompletableFuture;
 
 import io.swagger.v3.oas.annotations.Operation;
-
+import io.swagger.v3.oas.annotations.Parameter;
+import io.temporal.client.WorkflowClient;
+import io.temporal.client.WorkflowOptions;
 import jakarta.validation.constraints.NotBlank;
 
 import org.springframework.validation.annotation.Validated;
@@ -27,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.woodchuck.services.DoclingAsyncService;
 import org.woodchuck.services.VSmessageSender;
+import org.woodchuck.temporal.workflows.PdfIngestionWorkflow;
 
 @RestController
 @RequestMapping("/gaZap/document/processing")
@@ -35,9 +40,11 @@ public class DocumentProcessingController {
 
     //private final DoclingAsyncService doclingAsyncService;
     private final VSmessageSender messageSender;
+    private final WorkflowClient workflowClient;
 
-    public DocumentProcessingController(VSmessageSender messageSender) {
+    public DocumentProcessingController(VSmessageSender messageSender, WorkflowClient workflowClient) {
         this.messageSender = messageSender;
+        this.workflowClient = workflowClient;
     }
 
     @PostMapping("/http")
@@ -75,5 +82,23 @@ public class DocumentProcessingController {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+    }
+
+   @GetMapping(value = "/ingest")
+    @Operation(summary = "Pull references from pdf",
+                description = "References from a PDF document.")
+    public String startPdfIngestionWorkflow(@Parameter(description = "Input data for the workflow", example = "/home/roger/Documents/MaterialProject/Buchberger.pdf", required = true) @RequestParam(required = true) String filePath) {
+        var uuid = UUID.randomUUID();
+       WorkflowOptions options = WorkflowOptions.newBuilder()
+            .setWorkflowId(uuid.toString()) 
+            .setTaskQueue("IngestionQueue")
+            .build();
+        PdfIngestionWorkflow workflow = workflowClient.newWorkflowStub(PdfIngestionWorkflow.class, options);
+        File file = new File(filePath);
+        if (!file.exists() || !file.isFile()) {
+            return "Invalid file path provided.";
+        }
+        WorkflowClient.start(workflow::execute, filePath, file.getName());
+        return "PDF ingestion workflow started successfully!";
     }
 }
