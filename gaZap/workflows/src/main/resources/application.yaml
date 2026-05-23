@@ -62,7 +62,7 @@ spring:
     ollama:
       base-url: http://localhost:11434
       chat:
-        model: llama3.2 # Or mistral, phi3, etc.
+        model: llama3.3 # Or mistral, phi3, etc.
       embedding:
         options:
           model: nomic-embed-text # Popular model for embeddings
