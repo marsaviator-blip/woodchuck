@@ -6,23 +6,33 @@ package org.woodchuck.zChecker.services;
 // import org.woodchuck.zChecker.utils.Logger;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
-// import com.github.dockerjava.api.DockerClient;
-// import com.github.dockerjava.api.model.Container;
-// import com.github.dockerjava.core.DefaultDockerClientConfig;
-// import com.github.dockerjava.core.DockerClientBuilder;
+import javax.print.Doc;
 
+import org.woodchuck.zChecker.configs.DockerConfig;
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.model.Container;
+import com.github.dockerjava.core.DefaultDockerClientConfig;
+import com.github.dockerjava.core.DockerClientBuilder;
+
+@Service
 public class LookForRunningContainers {
 
+   // private DockerConfig dockerConfig;
+//   private Container container;
+    private DockerClient dockerClient;
+    //private DockerClientConfig config;
     //private final ZCheckerConfig config;
 
-//    public LookForRunningContainers(ZCheckerConfig config) {
-//        this.config = config;
-//    }
-
-    public void setup() {
+    public LookForRunningContainers(DockerClient dockerClient) {
+//        this.container = container;
+        this.dockerClient = dockerClient;
+        
 //        Logger.info("Setting up LookFoRunningContainers service...");
         // Any additional setup can be done here
+
+        //  SEVERAL WAYS TO DO BUSINESS WITH DOCKER JAVA API
 
         // DefaultDockerClientConfig config
         // = DefaultDockerClientConfig.createDefaultConfigBuilder()
@@ -38,23 +48,36 @@ public class LookForRunningContainers {
 
         // DefaultDockerClientConfig.Builder config 
         //     = DefaultDockerClientConfig.createDefaultConfigBuilder();
-        //     DockerClient dockerClient = DockerClientBuilder
-        //       .getInstance(config)
-        //       .build();
+        // DockerClient dockerClient = DockerClientBuilder
+        //     .getInstance(config)
+        //     .build();
 
-//        DockerClient dockerClient = DockerClientBuilder.getInstance().build();
+        //DockerClient dockerClient = DockerClientBuilder.getInstance().build();
+
+        lookForRunningContainers();
     }
 
-    public void lookingForRunningContainers() {
+    public List<Container> lookForRunningContainers() {
 //        Logger.info("Looking for running containers...");
 
         // $ docker ps -a -s -f status=exited
         // # or 
         // $ docker container ls -a -s -f status=exited//        List<Container> containers = dockerClient.listContainersCmd().exec();
-        // List<Container> containers = dockerClient.listContainersCmd()
-        //     .withShowSize(true)
-        //     .withShowAll(true)
-        //     .withStatusFilter("exited").exec();
+        List<Container> containers = dockerClient.listContainersCmd()
+            .withShowSize(true)
+            .withShowAll(true)
+            .exec();
+//            .withStatusFilter("exited").exec();
+        System.out.println("Found " + containers.size() + " containers.");
+        // return containers.stream()
+        //         .filter(container -> config.getTargetContainerNames().contains(container.getNames()[0]))
+        //         .collect(Collectors.toList());   
+        for (Container container : containers) {
+            System.out.println("Name: " + container.getNames()[0] + 
+                               " | Status: " + container.getStatus());// + 
+//                               " | State: "  + container.getState());
+        }
+        return containers;
     }
 
     // is this a docker-compose way?
