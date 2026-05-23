@@ -204,60 +204,7 @@ public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
         Map<Key, BibTeXEntry> entries = db.getEntries();
         if (entries.isEmpty()) return;
 
-       //messageSender.sendMessage(parentTitle);
-        
-        // try (Session session = neo4jDriver.session()) {
-        //     String parentId = UUID.randomUUID().toString();
 
-        //     session.executeWrite(tx -> {
-        //         // Initialize the main parent article node
-        //         tx.run("""
-        //             MERGE (p:Document {title: $parentTitle})
-        //             ON CREATE SET p.id = $parentId, p.type = 'MainArticle'
-        //             """, Map.of("parentTitle", parentTitle, "parentId", parentId));
-
-        //         // Loop through your JBibTeX entries
-        //         for (Map.Entry<Key, BibTeXEntry> entryMapping : entries.entrySet()) {
-        //             BibTeXEntry entry = entryMapping.getValue();
-
-        //             // Safely pull string values using JBibTeX Key lookups
-        //             String citationKey = entryMapping.getKey().getValue();
-        //             String title = getBibtexFieldValue(entry, BibTeXEntry.KEY_TITLE);
-        //             String authors = getBibtexFieldValue(entry, BibTeXEntry.KEY_AUTHOR);
-        //             String year = getBibtexFieldValue(entry, BibTeXEntry.KEY_YEAR);
-
-        //             org.jbibtex.BibTeXDatabase tempDb = new org.jbibtex.BibTeXDatabase();
-        //             tempDb.addObject(entry); 
-        //             // Use the built-in JBibTeX formatter to generate a compliant output block
-        //             StringWriter writer = new StringWriter();
-        //             org.jbibtex.BibTeXFormatter formatter = new org.jbibtex.BibTeXFormatter();
-        //             try {
-        //                 formatter.format(tempDb, writer);
-        //             } catch (Exception ignored) {}
-        //             String rawBibtexBlock = writer.toString();
-
-        //             // Relate everything together in the graph
-        //             tx.run("""
-        //                 MATCH (p:Document {title: $parentTitle})
-        //                 MERGE (c:Citation {citationKey: $citationKey})
-        //                 ON CREATE SET 
-        //                     c.title = $title,
-        //                     c.authors = $authors,
-        //                     c.year = $year,
-        //                     c.rawBibtex = $rawBibtex
-        //                 MERGE (p)-[:CITES]->(c)
-        //                 """, Map.of(
-        //                     "parentTitle", parentTitle,
-        //                     "citationKey", citationKey,
-        //                     "title", title,
-        //                     "authors", authors,
-        //                     "year", year,
-        //                     "rawBibtex", rawBibtexBlock
-        //                 ));
-        //         }
-        //         return null;
-        //     });
-        // }
     }
 
     private void addFieldsIfPresent(List<BibliographyResponse.BibTeXField> fields, String key, String value) {
