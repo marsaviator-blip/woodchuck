@@ -1,9 +1,8 @@
 package org.woodchuck.temporal.activities;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+
 import org.woodchuck.dtos.BibliographyResponse;
 import org.woodchuck.dtos.DocumentAnalysisResult;
 import org.woodchuck.services.VSmessageSender;
@@ -47,12 +46,12 @@ public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
     }
 
     @Override
-    public DocumentAnalysisResult extractReferenceSection(String pdfFilePath) {
+    public DocumentAnalysisResult extractReferenceSection(byte[] rawPdfBytes) {
         try {
-            Resource resource = new FileSystemResource(pdfFilePath);
-            File file = resource.getFile();
+            File file = File.createTempFile("tempPdf", ".pdf");
+            java.nio.file.Files.write(file.toPath(), rawPdfBytes);
         
-        try (PDDocument document = Loader.loadPDF(file)) {
+        try (PDDocument document = Loader.loadPDF(rawPdfBytes)) {
             PDDocumentInformation info = document.getDocumentInformation();
             List<BibliographyResponse.Citation> citations = new ArrayList<>();
 
@@ -99,7 +98,7 @@ public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
             return new DocumentAnalysisResult(rawTailText, new BibliographyResponse(citations)); // Fallback if no clean boundary match found
         }
         } catch (Exception e) {
-            throw new RuntimeException("Failed PDFBox extraction for file: " + pdfFilePath, e);
+            throw new RuntimeException("Failed PDFBox extraction for raw byte buffer", e);
         }
     }
 

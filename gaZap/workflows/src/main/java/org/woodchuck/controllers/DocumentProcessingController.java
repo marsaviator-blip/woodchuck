@@ -87,18 +87,14 @@ public class DocumentProcessingController {
    @GetMapping(value = "/ingest")
     @Operation(summary = "Pull references from pdf",
                 description = "References from a PDF document.")
-    public String startPdfIngestionWorkflow(@Parameter(description = "Input data for the workflow", example = "/home/roger/Documents/MaterialProject/Buchberger.pdf", required = true) @RequestParam(required = true) String filePath) {
+    public String startPdfIngestionWorkflow(@Parameter(description = "Input data for the workflow", example = "https://www.stat.cmu.edu/~ryantibs/convexopt-F18/lectures/quasi-newton.pdf", required = true) @RequestParam @NotBlank String url) {
         var uuid = UUID.randomUUID();
        WorkflowOptions options = WorkflowOptions.newBuilder()
             .setWorkflowId(uuid.toString()) 
             .setTaskQueue("IngestionQueue")
             .build();
         PdfIngestionWorkflow workflow = workflowClient.newWorkflowStub(PdfIngestionWorkflow.class, options);
-        File file = new File(filePath);
-        if (!file.exists() || !file.isFile()) {
-            return "Invalid file path provided.";
-        }
-        WorkflowClient.start(workflow::execute, filePath, file.getName());
+        WorkflowClient.start(workflow::execute, url);
         return "PDF ingestion workflow started successfully!";
     }
 }

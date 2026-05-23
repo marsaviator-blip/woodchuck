@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import io.temporal.workflow.Promise;
 
+import org.woodchuck.temporal.activities.UrlDocumentActivities;
 import org.woodchuck.temporal.activities.CrossrefActivities;
 import org.woodchuck.temporal.activities.PdfIngestionActivities;
 import org.woodchuck.temporal.workflows.ActivityExecutionSettings;
@@ -16,6 +17,7 @@ import io.temporal.spring.boot.WorkflowImpl;
 import io.temporal.workflow.Promise;
 import io.temporal.workflow.Async;
 import org.springframework.stereotype.Service;
+
 import org.woodchuck.dtos.DocumentAnalysisResult;
 
 @Service
@@ -24,11 +26,24 @@ public class PdfIngestionWorkflowImpl implements PdfIngestionWorkflow {
 
    private ActivityExecutionSettings settings= new ActivityExecutionSettings();
 
+    private UrlDocumentActivities urlDocumentActivities;
     private PdfIngestionActivities pdfActivities;
     private CrossrefActivities crossrefActivities;
                     
     @Override
-    public void execute(String pdfFilePath, String title) {
+    public void execute(String url) {
+        urlDocumentActivities = Workflow.newActivityStub(
+            UrlDocumentActivities.class,
+            ActivityOptions.newBuilder()
+                    .setStartToCloseTimeout(Duration.ofSeconds(settings.getTimeoutSeconds()))
+                     .setRetryOptions(
+                        RetryOptions.newBuilder()
+                            .setInitialInterval(Duration.ofSeconds(settings.getInitialIntervalSeconds()))
+                            .setBackoffCoefficient(settings.getBackoffCoefficient())
+                            .setMaximumInterval(Duration.ofSeconds(settings.getMaximumIntervalSeconds()))
+                            .setMaximumAttempts(settings.getMaximumAttempts())
+                            .build())
+                    .build());
         pdfActivities = Workflow.newActivityStub(
             PdfIngestionActivities.class,
             ActivityOptions.newBuilder()
@@ -56,7 +71,8 @@ public class PdfIngestionWorkflowImpl implements PdfIngestionWorkflow {
                             .build())
                     .build());
 
-        DocumentAnalysisResult analysisResult = pdfActivities.extractReferenceSection(pdfFilePath);
+        byte[] rawPdfBytes = urlDocumentActivities.fetch(url);  
+        DocumentAnalysisResult analysisResult = pdfActivities.extractReferenceSection(rawPdfBytes);
         List<String> individualCitations = pdfActivities.splitReferences(analysisResult);
     //     List<Promise<String>> crossRefPromises = new ArrayList<>();
 

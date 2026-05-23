@@ -10,7 +10,7 @@ import org.woodchuck.dtos.DocumentAnalysisResult;
 public interface PdfIngestionActivities {
 
     @ActivityMethod
-    DocumentAnalysisResult extractReferenceSection(String pdfFilePath);
+    DocumentAnalysisResult extractReferenceSection(byte[] rawPdfBytes);
 
     @ActivityMethod
     List<String> splitReferences(DocumentAnalysisResult analysisResult);
