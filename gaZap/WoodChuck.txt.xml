@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<indexing>
+ <paragraph index="9" node_type="writer">TODO</paragraph>
+ <paragraph index="11" node_type="writer">I. Introduction</paragraph>
+ <paragraph index="12" node_type="writer">Create a project with available technology.</paragraph>
+ <paragraph index="13" node_type="writer">For a solid ‘sink yur teeth in’ architecture plan look at wood_chuck.png</paragraph>
+ <paragraph index="16" node_type="writer">The initial project should remain flexible – so could be used to kick off a variety of projects.</paragraph>
+ <paragraph index="17" node_type="writer">Steps should be repeatable.</paragraph>
+ <paragraph index="19" node_type="writer">The current plan is to create a follow-on project that the public can view (WoodChuck).</paragraph>
+ <paragraph index="20" node_type="writer">Then add on the ability to buy and sell (WoodHawk)</paragraph>
+ <paragraph index="22" node_type="writer">The scaffold project will be as shown in the wood_chuck.png diagram.</paragraph>
+ <paragraph index="24" node_type="writer">II. Scaffolding Subprojects</paragraph>
+ <paragraph index="25" node_type="writer">UI (vue3)</paragraph>
+ <paragraph index="26" node_type="writer">Gateway Spring boot, security</paragraph>
+ <paragraph index="27" node_type="writer">Keycloak (OAuth2 – authentication and authorization)</paragraph>
+ <paragraph index="28" node_type="writer">Backend (as required – what is the best approach for each situation?)</paragraph>
+ <paragraph index="29" node_type="writer">Kafka (for inter-communication)</paragraph>
+ <paragraph index="33" node_type="writer">III. WoodChuck</paragraph>
+ <paragraph index="35" node_type="writer">Backend</paragraph>
+ <paragraph index="36" node_type="writer">Created with bootify.io – Spring Boot CRUD.</paragraph>
+ <paragraph index="37" node_type="writer">Began with an inventories table.</paragraph>
+ <paragraph index="39" node_type="writer">Need field to contain location (State) where product is located.</paragraph>
+ <paragraph index="40" node_type="writer">Need field to contain location on file system where photos are located.</paragraph>
+ <paragraph index="41" node_type="writer">Contact table(s) current owner</paragraph>
+ <paragraph index="44" node_type="writer">IV. WoodHawk</paragraph>
+ <paragraph index="46" node_type="writer">Add buyer and seller contact.</paragraph>
+ <paragraph index="47" node_type="writer">Add prices.</paragraph>
+ <paragraph index="48" node_type="writer">Delivery?</paragraph>
+ <paragraph index="49" node_type="writer">Contact table(s) buyer and seller</paragraph>
+</indexing>

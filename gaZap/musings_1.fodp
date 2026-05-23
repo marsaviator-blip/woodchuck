@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <office:document xmlns:anim="urn:oasis:names:tc:opendocument:xmlns:animation:1.0" xmlns:smil="urn:oasis:names:tc:opendocument:xmlns:smil-compatible:1.0" xmlns:presentation="urn:oasis:names:tc:opendocument:xmlns:presentation:1.0" xmlns:css3t="http://www.w3.org/TR/css3-text/" xmlns:grddl="http://www.w3.org/2003/g/data-view#" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:dom="http://www.w3.org/2001/xml-events" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:ooo="http://openoffice.org/2004/office" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:config="urn:oasis:names:tc:opendocument:xmlns:config:1.0" xmlns:ooow="http://openoffice.org/2004/writer" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:drawooo="http://openoffice.org/2010/draw" xmlns:oooc="http://openoffice.org/2004/calc" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:calcext="urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2" xmlns:tableooo="http://openoffice.org/2009/table" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:rpt="http://openoffice.org/2005/report" xmlns:formx="urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:officeooo="http://openoffice.org/2009/office" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:field="urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:loext="urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0" office:version="1.4" office:mimetype="application/vnd.oasis.opendocument.presentation">
- <office:meta><meta:creation-date>2026-05-11T16:58:31.437724150</meta:creation-date><dc:date>2026-05-17T09:15:43.901156475</dc:date><meta:editing-duration>PT3H28M39S</meta:editing-duration><meta:editing-cycles>4</meta:editing-cycles><meta:generator>LibreOffice/26.2.0.3$Linux_X86_64 LibreOffice_project/afbbd0df0edb6d40b450b0337ac646b0913a760c</meta:generator><meta:print-date>2026-05-11T17:38:51.003582627</meta:print-date><meta:printed-by>PDF files</meta:printed-by><meta:document-statistic meta:object-count="65"/></office:meta>
+ <office:meta><meta:creation-date>2026-05-18T16:35:51.507728279</meta:creation-date><dc:date>2026-05-23T09:13:51.972336760</dc:date><meta:editing-duration>P4DT15H1M34S</meta:editing-duration><meta:editing-cycles>3</meta:editing-cycles><meta:generator>LibreOffice/26.2.0.3$Linux_X86_64 LibreOffice_project/afbbd0df0edb6d40b450b0337ac646b0913a760c</meta:generator><meta:print-date>2026-05-19T01:31:20.510382075</meta:print-date><meta:printed-by>PDF files</meta:printed-by><meta:document-statistic meta:object-count="68"/></office:meta>
  <office:settings>
   <config:config-item-set config:name="ooo:view-settings">
-   <config:config-item config:name="VisibleAreaTop" config:type="int">-234</config:config-item>
-   <config:config-item config:name="VisibleAreaLeft" config:type="int">-3294</config:config-item>
-   <config:config-item config:name="VisibleAreaWidth" config:type="int">34596</config:config-item>
+   <config:config-item config:name="VisibleAreaTop" config:type="int">-241</config:config-item>
+   <config:config-item config:name="VisibleAreaLeft" config:type="int">-4931</config:config-item>
+   <config:config-item config:name="VisibleAreaWidth" config:type="int">38064</config:config-item>
    <config:config-item config:name="VisibleAreaHeight" config:type="int">16296</config:config-item>
    <config:config-item-map-indexed config:name="Views">
     <config:config-item-map-entry>
-     <config:config-item config:name="WindowState" config:type="string">0,69,1806,981;5;0,69,1921,954;</config:config-item>
+     <config:config-item config:name="WindowState" config:type="string">0,69,1807,954;5;0,69,1921,954;</config:config-item>
      <config:config-item config:name="GridIsVisible" config:type="boolean">false</config:config-item>
      <config:config-item config:name="GridIsFront" config:type="boolean">false</config:config-item>
      <config:config-item config:name="IsSnapToGrid" config:type="boolean">true</config:config-item>
@@ -62,8 +62,8 @@
    <config:config-item config:name="IsPrintNotes" config:type="boolean">false</config:config-item>
    <config:config-item config:name="DefaultTabStop" config:type="int">1270</config:config-item>
    <config:config-item config:name="IsPrintHandout" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="PrinterName" config:type="string">Generic Printer</config:config-item>
-   <config:config-item config:name="PrinterSetup" config:type="base64Binary">uAH+/0dlbmVyaWMgUHJpbnRlcgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU0dFTlBSVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWAAMApAAAAAAAAAAIAFZUAAAkbQAASm9iRGF0YSAxCnByaW50ZXI9R2VuZXJpYyBQcmludGVyCm9yaWVudGF0aW9uPVBvcnRyYWl0CmNvcGllcz0xCmNvbGxhdGU9ZmFsc2UKbWFyZ2luYWRqdXN0bWVudD0wLDAsJzAsMApjb2xvcmRlcHRoPTI0CmNvbG9yZGV2aWNlPTAKUFBEQ29udGV4dERhdGEKUGFnZVNpemU6TGV0dGVyAAASAENPTVBBVF9EVVBMRVhfTU9ERQ8ARHVwbGV4TW9kZTo6T2ZmDABQUklOVEVSX05BTUUPAEdlbmVyaWMgUHJpbnRlcgsARFJJVkVSX05BTUUHAFNHRU5QUlQ=</config:config-item>
+   <config:config-item config:name="PrinterName" config:type="string"/>
+   <config:config-item config:name="PrinterSetup" config:type="base64Binary"/>
    <config:config-item config:name="DashTableURL" config:type="string">$(brandbaseurl)/share/palette%3B$(user)/config/standard.sod</config:config-item>
    <config:config-item config:name="PageNumberFormat" config:type="int">4</config:config-item>
    <config:config-item-map-indexed config:name="ForbiddenCharacters">
@@ -90,7 +90,7 @@
    <config:config-item config:name="CharacterCompressionType" config:type="short">0</config:config-item>
    <config:config-item config:name="IsPrintPageName" config:type="boolean">false</config:config-item>
    <config:config-item config:name="ApplyUserData" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="ColorTableURL" config:type="string">$(brandbaseurl)/share/palette%3B$(user)/config/standard.soc</config:config-item>
+   <config:config-item config:name="ColorTableURL" config:type="string">$(brandbaseurl)/share/palette%3B$(user)/config/Standard.soc</config:config-item>
    <config:config-item config:name="IsPrintBookletBack" config:type="boolean">true</config:config-item>
    <config:config-item config:name="LineEndTableURL" config:type="string">$(brandbaseurl)/share/palette%3B$(user)/config/standard.soe</config:config-item>
    <config:config-item config:name="HatchTableURL" config:type="string">$(brandbaseurl)/share/palette%3B$(user)/config/standard.soh</config:config-item>
@@ -147,18 +147,17 @@
    <loext:gradient-stop svg:offset="0" loext:color-type="rgb" loext:color-value="#cccccc"/>
    <loext:gradient-stop svg:offset="1" loext:color-type="rgb" loext:color-value="#ffffff"/></draw:gradient>
   <draw:marker draw:name="Arrow" svg:viewBox="0 0 20 30" svg:d="M10 0l-10 30h20z"/>
-  <draw:marker draw:name="Arrowheads_20_1" draw:display-name="Arrowheads 1" svg:viewBox="0 0 20 20" svg:d="M0 20l10-20 10 20z"/>
-  <draw:marker draw:name="Arrowheads_20_2" draw:display-name="Arrowheads 2" svg:viewBox="0 0 20 20" svg:d="M0 20l10-20 10 20z"/>
-  <draw:stroke-dash draw:name="Dash_20_Dot_20_4" draw:display-name="Dash Dot 4" draw:style="rect" draw:dots1="1" draw:dots1-length="0.02cm" draw:dots2="1" draw:dots2-length="0.02cm" draw:distance="0.02cm"/>
+  <draw:marker draw:name="Concave" svg:viewBox="0 0 1131 1580" svg:d="M1013 1491l118 89-567-1580-564 1580 114-85 136-68 148-46 161-17 161 13 153 46z"/>
+  <draw:stroke-dash draw:name="Double_20_Dash" draw:display-name="Double Dash" draw:style="rect" draw:dots1="1" draw:dots1-length="800%" draw:distance="300%"/>
   <style:default-style style:family="graphic">
-   <style:graphic-properties svg:stroke-color="#3465a4" draw:fill-color="#729fcf" fo:wrap-option="no-wrap" style:writing-mode="lr-tb"/>
-   <style:paragraph-properties style:text-autospace="ideograph-alpha" style:punctuation-wrap="simple" style:line-break="strict" loext:tab-stop-distance="0cm" style:font-independent-line-spacing="false">
+   <style:graphic-properties svg:stroke-color="#3465a4" draw:fill-color="#729fcf" fo:wrap-option="no-wrap"/>
+   <style:paragraph-properties style:text-autospace="ideograph-alpha" style:punctuation-wrap="simple" style:line-break="strict" style:writing-mode="lr-tb" style:font-independent-line-spacing="false">
     <style:tab-stops/>
    </style:paragraph-properties>
    <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:font-name="Liberation Serif" fo:font-size="24pt" fo:language="en" fo:country="US" style:font-name-asian="DejaVu Sans" style:font-size-asian="24pt" style:language-asian="zh" style:country-asian="CN" style:font-name-complex="DejaVu Sans" style:font-size-complex="24pt" style:language-complex="hi" style:country-complex="IN"/>
   </style:default-style>
   <style:style style:name="standard" style:family="graphic">
-   <style:graphic-properties draw:stroke="solid" draw:stroke-dash="Dash_20_Dot_20_4" svg:stroke-width="0cm" svg:stroke-color="#3465a4" draw:marker-start-width="0.2cm" draw:marker-start-center="false" draw:marker-end-width="0.2cm" draw:marker-end-center="false" draw:fill="solid" draw:fill-color="#cccccc" draw:textarea-horizontal-align="justify" fo:padding-top="0.125cm" fo:padding-bottom="0.125cm" fo:padding-left="0.25cm" fo:padding-right="0.25cm" fo:wrap-option="wrap" draw:shadow="hidden" draw:shadow-offset-x="0.2cm" draw:shadow-offset-y="0.2cm" draw:shadow-color="#808080">
+   <style:graphic-properties draw:stroke="dash" draw:stroke-dash="Double_20_Dash" svg:stroke-width="0.051cm" svg:stroke-color="#3465a4" draw:marker-start-width="0.279cm" draw:marker-start-center="false" draw:marker-end-width="0.279cm" draw:marker-end-center="false" draw:fill="solid" draw:fill-color="#729fcf" draw:textarea-horizontal-align="justify" fo:padding-top="0.125cm" fo:padding-bottom="0.125cm" fo:padding-left="0.25cm" fo:padding-right="0.25cm" fo:wrap-option="wrap" draw:shadow="hidden" draw:shadow-offset-x="0.2cm" draw:shadow-offset-y="0.2cm" draw:shadow-color="#808080">
     <text:list-style style:name="standard">
      <text:list-level-style-bullet text:level="1" text:bullet-char="●">
       <style:list-level-properties text:min-label-width="0.6cm"/>
@@ -206,7 +205,54 @@
    <style:text-properties fo:font-variant="normal" fo:text-transform="none" style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Sans" fo:font-family="&apos;Liberation Sans&apos;" style:font-family-generic="roman" style:font-pitch="variable" fo:font-size="18pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" style:letter-kerning="true" style:font-name-asian="Noto Sans CJK SC" style:font-family-asian="&apos;Noto Sans CJK SC&apos;" style:font-family-generic-asian="system" style:font-pitch-asian="variable" style:font-size-asian="18pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-name-complex="Noto Sans1" style:font-family-complex="&apos;Noto Sans&apos;" style:font-family-generic-complex="system" style:font-pitch-complex="variable" style:font-size-complex="18pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-emphasize="none" style:font-relief="none" style:text-overline-style="none" style:text-overline-color="font-color"/>
   </style:style>
   <style:style style:name="objectwithoutfill" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:marker-end="Arrowheads_20_2" draw:fill="none"/>
+   <style:graphic-properties draw:stroke="dash" draw:stroke-dash="Double_20_Dash" svg:stroke-width="0.051cm" svg:stroke-color="#3465a4" draw:marker-start-width="0.279cm" draw:marker-start-center="false" draw:marker-end="Concave" draw:marker-end-width="0.279cm" draw:marker-end-center="false" svg:stroke-opacity="100%" draw:stroke-linejoin="round" svg:stroke-linecap="butt" draw:fill="none" draw:fill-color="#729fcf" draw:secondary-fill-color="#729fcf" draw:gradient-step-count="0" draw:fill-hatch-solid="false" loext:fill-use-slide-background="false" draw:opacity="100%" draw:fill-image-width="0cm" draw:fill-image-height="0cm" style:repeat="repeat" draw:fill-image-ref-point-x="0%" draw:fill-image-ref-point-y="0%" draw:fill-image-ref-point="center" draw:tile-repeat-offset="0% vertical" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="true" draw:auto-grow-width="false" draw:fit-to-size="false" style:shrink-to-fit="false" draw:fit-to-contour="false" fo:max-height="0cm" fo:max-width="0cm" fo:min-height="0cm" fo:min-width="0cm" fo:padding-top="0.125cm" fo:padding-bottom="0.125cm" fo:padding-left="0.25cm" fo:padding-right="0.25cm" fo:wrap-option="wrap" draw:shadow="hidden" draw:shadow-offset-x="0.2cm" draw:shadow-offset-y="0.2cm" draw:shadow-color="#808080" draw:shadow-opacity="100%" loext:shadow-blur="0cm" text:animation="none" text:animation-direction="left" text:animation-start-inside="false" text:animation-stop-inside="false" text:animation-repeat="0" text:animation-delay="P0D" text:animation-steps="0cm" style:writing-mode="lr-tb">
+    <text:list-style style:name="objectwithoutfill">
+     <text:list-level-style-bullet text:level="1" text:bullet-char="●">
+      <style:list-level-properties text:min-label-width="0.6cm"/>
+      <style:text-properties fo:font-family="OpenSymbol" style:use-window-font-color="true" fo:font-size="45%"/>
+     </text:list-level-style-bullet>
+     <text:list-level-style-bullet text:level="2" text:bullet-char="●">
+      <style:list-level-properties text:space-before="0.6cm" text:min-label-width="0.6cm"/>
+      <style:text-properties fo:font-family="OpenSymbol" style:use-window-font-color="true" fo:font-size="45%"/>
+     </text:list-level-style-bullet>
+     <text:list-level-style-bullet text:level="3" text:bullet-char="●">
+      <style:list-level-properties text:space-before="1.2cm" text:min-label-width="0.6cm"/>
+      <style:text-properties fo:font-family="OpenSymbol" style:use-window-font-color="true" fo:font-size="45%"/>
+     </text:list-level-style-bullet>
+     <text:list-level-style-bullet text:level="4" text:bullet-char="●">
+      <style:list-level-properties text:space-before="1.8cm" text:min-label-width="0.6cm"/>
+      <style:text-properties fo:font-family="OpenSymbol" style:use-window-font-color="true" fo:font-size="45%"/>
+     </text:list-level-style-bullet>
+     <text:list-level-style-bullet text:level="5" text:bullet-char="●">
+      <style:list-level-properties text:space-before="2.4cm" text:min-label-width="0.6cm"/>
+      <style:text-properties fo:font-family="OpenSymbol" style:use-window-font-color="true" fo:font-size="45%"/>
+     </text:list-level-style-bullet>
+     <text:list-level-style-bullet text:level="6" text:bullet-char="●">
+      <style:list-level-properties text:space-before="3cm" text:min-label-width="0.6cm"/>
+      <style:text-properties fo:font-family="OpenSymbol" style:use-window-font-color="true" fo:font-size="45%"/>
+     </text:list-level-style-bullet>
+     <text:list-level-style-bullet text:level="7" text:bullet-char="●">
+      <style:list-level-properties text:space-before="3.6cm" text:min-label-width="0.6cm"/>
+      <style:text-properties fo:font-family="OpenSymbol" style:use-window-font-color="true" fo:font-size="45%"/>
+     </text:list-level-style-bullet>
+     <text:list-level-style-bullet text:level="8" text:bullet-char="●">
+      <style:list-level-properties text:space-before="4.2cm" text:min-label-width="0.6cm"/>
+      <style:text-properties fo:font-family="OpenSymbol" style:use-window-font-color="true" fo:font-size="45%"/>
+     </text:list-level-style-bullet>
+     <text:list-level-style-bullet text:level="9" text:bullet-char="●">
+      <style:list-level-properties text:space-before="4.8cm" text:min-label-width="0.6cm"/>
+      <style:text-properties fo:font-family="OpenSymbol" style:use-window-font-color="true" fo:font-size="45%"/>
+     </text:list-level-style-bullet>
+     <text:list-level-style-bullet text:level="10" text:bullet-char="●">
+      <style:list-level-properties text:space-before="5.4cm" text:min-label-width="0.6cm"/>
+      <style:text-properties fo:font-family="OpenSymbol" style:use-window-font-color="true" fo:font-size="45%"/>
+     </text:list-level-style-bullet>
+    </text:list-style>
+   </style:graphic-properties>
+   <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%" fo:text-align="center" fo:text-indent="0cm" style:text-autospace="ideograph-alpha" style:punctuation-wrap="simple" style:line-break="strict" loext:tab-stop-distance="0cm" style:writing-mode-automatic="false" style:font-independent-line-spacing="false">
+    <style:tab-stops/>
+   </style:paragraph-properties>
+   <style:text-properties fo:font-variant="normal" fo:text-transform="none" style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:text-position="0% 100%" style:font-name="Liberation Sans" fo:font-family="&apos;Liberation Sans&apos;" style:font-family-generic="roman" style:font-pitch="variable" fo:font-size="18pt" fo:letter-spacing="normal" fo:language="en" fo:country="US" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" style:text-underline-mode="continuous" style:text-overline-mode="continuous" style:text-line-through-mode="continuous" style:letter-kerning="true" fo:background-color="transparent" style:font-name-asian="Noto Sans CJK SC" style:font-family-asian="&apos;Noto Sans CJK SC&apos;" style:font-family-generic-asian="system" style:font-pitch-asian="variable" style:font-size-asian="18pt" style:language-asian="zh" style:country-asian="CN" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-name-complex="Noto Sans1" style:font-family-complex="&apos;Noto Sans&apos;" style:font-family-generic-complex="system" style:font-pitch-complex="variable" style:font-size-complex="18pt" style:language-complex="hi" style:country-complex="IN" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-emphasize="none" style:text-scale="100%" style:font-relief="none" style:text-overline-style="none" style:text-overline-color="font-color" fo:hyphenate="false" loext:hyphenation-no-caps="false" loext:hyphenation-no-last-word="false"/>
   </style:style>
   <style:style style:name="Object_20_with_20_no_20_fill_20_and_20_no_20_line" style:display-name="Object with no fill and no line" style:family="graphic" style:parent-style-name="standard">
    <style:graphic-properties draw:stroke="none" draw:fill="none"/>
@@ -527,82 +573,72 @@
    <style:paragraph-properties style:writing-mode="lr-tb"/>
   </style:style>
   <style:style style:name="gr3" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:fill="solid" draw:fill-color="#f6f9d4" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="3.56cm" fo:min-width="5.215cm" loext:decorative="false"/>
+   <style:graphic-properties draw:fill="solid" draw:fill-color="#e16173" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="8.005cm" fo:min-width="9.66cm" loext:decorative="false"/>
   </style:style>
   <style:style style:name="gr4" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:fill="solid" draw:fill-color="#ffbf00" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="9.91cm" fo:min-width="0.1cm" style:writing-mode="lr-tb" loext:decorative="false"/>
-   <style:paragraph-properties style:writing-mode="lr-tb"/>
+   <style:graphic-properties draw:fill="solid" draw:fill-color="#d4ea6b" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="0.394cm" fo:min-width="0.496cm" loext:decorative="false"/>
   </style:style>
   <style:style style:name="gr5" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:fill="solid" draw:fill-color="#cccccc" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="1.02cm" fo:min-width="1.005cm" style:writing-mode="lr-tb" loext:decorative="false"/>
+   <style:graphic-properties draw:stroke="solid" svg:stroke-width="0cm" draw:marker-start-width="0.203cm" draw:marker-end-width="0.203cm" draw:fill="solid" draw:fill-color="#cccccc" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="0.648cm" fo:min-width="2.643cm" fo:padding-top="0.1cm" fo:padding-bottom="0.1cm" fo:padding-left="0.225cm" fo:padding-right="0.225cm" loext:decorative="false"/>
    <style:paragraph-properties style:writing-mode="lr-tb"/>
   </style:style>
   <style:style style:name="gr6" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:stroke="none" draw:stroke-dash="Dash_20_Dot_20_4" svg:stroke-width="0cm" svg:stroke-color="#3465a4" draw:marker-start="" draw:marker-start-width="0.2cm" draw:marker-start-center="false" draw:marker-end="" draw:marker-end-width="0.2cm" draw:marker-end-center="false" svg:stroke-opacity="100%" draw:stroke-linejoin="round" svg:stroke-linecap="butt" draw:fill="solid" draw:fill-color="#cccccc" draw:secondary-fill-color="#729fcf" draw:gradient-step-count="0" draw:fill-hatch-solid="false" loext:fill-use-slide-background="false" draw:opacity="100%" draw:opacity-name="" draw:fill-image-width="0cm" draw:fill-image-height="0cm" style:repeat="repeat" draw:fill-image-ref-point-x="0%" draw:fill-image-ref-point-y="0%" draw:fill-image-ref-point="center" draw:tile-repeat-offset="0% vertical" draw:shadow="hidden" draw:shadow-offset-x="0.2cm" draw:shadow-offset-y="0.2cm" draw:shadow-color="#808080" draw:shadow-opacity="100%" loext:shadow-blur="0cm" loext:decorative="false"/>
+   <style:graphic-properties draw:stroke="none" svg:stroke-color="#000000" draw:fill="none" draw:fill-color="#ffffff" draw:textarea-horizontal-align="left" draw:auto-grow-height="true" draw:auto-grow-width="true" fo:min-height="0cm" fo:min-width="0cm" loext:decorative="false"/>
+   <style:paragraph-properties style:writing-mode="lr-tb"/>
   </style:style>
   <style:style style:name="gr7" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:stroke="none" draw:fill="solid" draw:fill-color="#cccccc" dr3d:vertical-segments="16" dr3d:close-front="true" dr3d:close-back="true" loext:decorative="false"/>
+   <style:graphic-properties draw:stroke="solid" svg:stroke-width="0cm" draw:marker-start-width="0.203cm" draw:marker-end-width="0.203cm" draw:fill="solid" draw:fill-color="#cccccc" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="0.416cm" fo:min-width="2.643cm" fo:padding-top="0.1cm" fo:padding-bottom="0.1cm" fo:padding-left="0.225cm" fo:padding-right="0.225cm" loext:decorative="false"/>
+   <style:paragraph-properties style:writing-mode="lr-tb"/>
   </style:style>
-  <style:style style:name="gr8" style:family="graphic" style:parent-style-name="objectwithoutfill">
-   <style:graphic-properties draw:marker-end="Arrowheads_20_1" draw:marker-end-width="0.3cm" draw:fill="none" draw:textarea-vertical-align="middle" loext:decorative="false"/>
+  <style:style style:name="gr8" style:family="graphic" style:parent-style-name="standard">
+   <style:graphic-properties draw:stroke="solid" svg:stroke-width="0cm" draw:marker-start-width="0.203cm" draw:marker-end-width="0.203cm" draw:fill="solid" draw:fill-color="#cccccc" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="0.578cm" fo:min-width="2.643cm" fo:padding-top="0.1cm" fo:padding-bottom="0.1cm" fo:padding-left="0.225cm" fo:padding-right="0.225cm" loext:decorative="false"/>
+   <style:paragraph-properties style:writing-mode="lr-tb"/>
   </style:style>
   <style:style style:name="gr9" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:fill="solid" draw:fill-color="#cccccc" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="1.02cm" fo:min-width="7.12cm" style:writing-mode="lr-tb" loext:decorative="false"/>
+   <style:graphic-properties draw:stroke="solid" svg:stroke-width="0cm" draw:marker-start-width="0.203cm" draw:marker-end-width="0.203cm" draw:fill="solid" draw:fill-color="#5b277d" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="0.324cm" fo:min-width="2.643cm" fo:padding-top="0.1cm" fo:padding-bottom="0.1cm" fo:padding-left="0.225cm" fo:padding-right="0.225cm" loext:decorative="false"/>
    <style:paragraph-properties style:writing-mode="lr-tb"/>
   </style:style>
-  <style:style style:name="gr10" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:fill="solid" draw:fill-color="#e16173" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="0.199cm" fo:min-width="0.847cm" loext:decorative="false"/>
+  <style:style style:name="gr10" style:family="graphic" style:parent-style-name="objectwithoutfill">
+   <style:graphic-properties draw:stroke="solid" svg:stroke-width="0cm" draw:marker-start-width="0.203cm" draw:marker-end-width="0.203cm" draw:fill="none" draw:textarea-vertical-align="middle" fo:padding-top="0.1cm" fo:padding-bottom="0.1cm" fo:padding-left="0.225cm" fo:padding-right="0.225cm" loext:decorative="false"/>
   </style:style>
-  <style:style style:name="gr11" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:fill="solid" draw:fill-color="#bf819e" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="0.199cm" fo:min-width="3.991cm" style:writing-mode="lr-tb" loext:decorative="false"/>
-   <style:paragraph-properties style:writing-mode="lr-tb"/>
-  </style:style>
-  <style:style style:name="gr12" style:family="graphic" style:parent-style-name="objectwithoutfill">
+  <style:style style:name="gr11" style:family="graphic" style:parent-style-name="objectwithoutfill">
    <style:graphic-properties draw:fill="none" draw:textarea-vertical-align="middle" loext:decorative="false"/>
   </style:style>
-  <style:style style:name="gr13" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="0.648cm" fo:min-width="2.876cm" loext:decorative="false"/>
-  </style:style>
-  <style:style style:name="gr14" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="0.388cm" fo:min-width="2.648cm" style:writing-mode="lr-tb" loext:decorative="false"/>
+  <style:style style:name="gr12" style:family="graphic" style:parent-style-name="standard">
+   <style:graphic-properties draw:stroke="solid" svg:stroke-width="0cm" draw:marker-start-width="0.203cm" draw:marker-end-width="0.203cm" draw:fill="solid" draw:fill-color="#dde8cb" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="0.896cm" fo:min-width="2.551cm" fo:padding-top="0.1cm" fo:padding-bottom="0.1cm" fo:padding-left="0.225cm" fo:padding-right="0.225cm" loext:decorative="false"/>
    <style:paragraph-properties style:writing-mode="lr-tb"/>
+  </style:style>
+  <style:style style:name="gr13" style:family="graphic" style:parent-style-name="standard">
+   <style:graphic-properties draw:stroke="solid" svg:stroke-width="0cm" draw:marker-start-width="0.203cm" draw:marker-end-width="0.203cm" draw:fill="solid" draw:fill-color="#dde8cb" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="0.946cm" fo:min-width="3.291cm" fo:padding-top="0.1cm" fo:padding-bottom="0.1cm" fo:padding-left="0.225cm" fo:padding-right="0.225cm" loext:decorative="false"/>
+   <style:paragraph-properties style:writing-mode="lr-tb"/>
+  </style:style>
+  <style:style style:name="gr14" style:family="graphic" style:parent-style-name="objectwithoutfill">
+   <style:graphic-properties draw:marker-end="" draw:fill="none" draw:textarea-vertical-align="middle" loext:decorative="false"/>
   </style:style>
   <style:style style:name="gr15" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:stroke="none" svg:stroke-color="#000000" draw:fill="none" draw:fill-color="#ffffff" draw:textarea-horizontal-align="left" draw:auto-grow-height="true" draw:auto-grow-width="true" fo:min-height="0.556cm" fo:min-width="2.59cm" loext:decorative="false"/>
-   <style:paragraph-properties style:writing-mode="lr-tb"/>
+   <style:graphic-properties loext:decorative="false"/>
   </style:style>
   <style:style style:name="gr16" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:stroke="none" svg:stroke-color="#000000" draw:fill="none" draw:fill-color="#ffffff" draw:textarea-horizontal-align="left" draw:auto-grow-height="true" draw:auto-grow-width="true" fo:min-height="0.556cm" fo:min-width="0.8cm" loext:decorative="false"/>
-   <style:paragraph-properties style:writing-mode="lr-tb"/>
+   <style:graphic-properties draw:stroke="solid" svg:stroke-width="0cm" draw:marker-start-width="0.203cm" draw:marker-end-width="0.203cm" draw:fill="solid" draw:fill-color="#dddddd" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="1.81cm" fo:min-width="6.137cm" fo:padding-top="0.1cm" fo:padding-bottom="0.1cm" fo:padding-left="0.225cm" fo:padding-right="0.225cm" fo:wrap-option="wrap" loext:decorative="false"/>
   </style:style>
   <style:style style:name="gr17" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:stroke="none" svg:stroke-color="#000000" draw:fill="none" draw:fill-color="#ffffff" draw:textarea-horizontal-align="left" draw:auto-grow-height="true" draw:auto-grow-width="true" fo:min-height="0.556cm" fo:min-width="1.406cm" loext:decorative="false"/>
+   <style:graphic-properties draw:stroke="solid" svg:stroke-width="0cm" draw:marker-start-width="0.203cm" draw:marker-end-width="0.203cm" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="0.545cm" fo:min-width="0.771cm" fo:padding-top="0.1cm" fo:padding-bottom="0.1cm" fo:padding-left="0.225cm" fo:padding-right="0.225cm" loext:decorative="false"/>
    <style:paragraph-properties style:writing-mode="lr-tb"/>
   </style:style>
   <style:style style:name="gr18" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:stroke="none" svg:stroke-color="#000000" draw:fill="none" draw:fill-color="#ffffff" draw:textarea-horizontal-align="left" draw:auto-grow-height="true" draw:auto-grow-width="true" fo:min-height="0.556cm" fo:min-width="1.489cm" loext:decorative="false"/>
+   <style:graphic-properties draw:stroke="solid" svg:stroke-width="0cm" draw:marker-start-width="0.203cm" draw:marker-end-width="0.203cm" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="1.07cm" fo:min-width="1.455cm" fo:padding-top="0.1cm" fo:padding-bottom="0.1cm" fo:padding-left="0.225cm" fo:padding-right="0.225cm" loext:decorative="false"/>
    <style:paragraph-properties style:writing-mode="lr-tb"/>
   </style:style>
   <style:style style:name="gr19" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:stroke="none" svg:stroke-color="#000000" draw:fill="none" draw:fill-color="#ffffff" draw:textarea-horizontal-align="left" draw:auto-grow-height="true" draw:auto-grow-width="true" fo:min-height="0.556cm" fo:min-width="1.543cm" loext:decorative="false"/>
-   <style:paragraph-properties style:writing-mode="lr-tb"/>
+   <style:graphic-properties draw:stroke="solid" svg:stroke-width="0cm" draw:marker-start-width="0.203cm" draw:marker-end-width="0.203cm" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="1.02cm" fo:min-width="0.77cm" fo:padding-top="0.1cm" fo:padding-bottom="0.1cm" fo:padding-left="0.225cm" fo:padding-right="0.225cm" loext:decorative="false"/>
   </style:style>
-  <style:style style:name="gr20" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:stroke="none" svg:stroke-color="#000000" draw:fill="none" draw:fill-color="#ffffff" draw:textarea-horizontal-align="left" draw:auto-grow-height="true" draw:auto-grow-width="true" fo:min-height="0.556cm" fo:min-width="2.48cm" loext:decorative="false"/>
-   <style:paragraph-properties style:writing-mode="lr-tb"/>
+  <style:style style:name="gr20" style:family="graphic" style:parent-style-name="objectwithoutfill">
+   <style:graphic-properties draw:fill="none" loext:decorative="false"/>
   </style:style>
-  <style:style style:name="gr21" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:fill="solid" draw:fill-color="#e8f2a1" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="8.005cm" fo:min-width="0.77cm" loext:decorative="false"/>
+  <style:style style:name="gr21" style:family="graphic" style:parent-style-name="objectwithoutfill">
+   <style:graphic-properties draw:stroke="solid" svg:stroke-width="0cm" draw:marker-start-width="0.203cm" draw:marker-end="" draw:marker-end-width="0.203cm" draw:fill="none" fo:padding-top="0.1cm" fo:padding-bottom="0.1cm" fo:padding-left="0.225cm" fo:padding-right="0.225cm" loext:decorative="false"/>
   </style:style>
-  <style:style style:name="gr22" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:stroke="none" svg:stroke-color="#000000" draw:fill="none" draw:fill-color="#ffffff" draw:textarea-horizontal-align="left" draw:auto-grow-height="true" draw:auto-grow-width="true" fo:min-height="0.556cm" fo:min-width="1.186cm" loext:decorative="false"/>
-   <style:paragraph-properties style:writing-mode="lr-tb"/>
-  </style:style>
-  <style:style style:name="gr23" style:family="graphic" style:parent-style-name="standard">
-   <style:graphic-properties draw:stroke="none" svg:stroke-color="#000000" draw:fill="none" draw:fill-color="#ffffff" draw:textarea-horizontal-align="left" draw:auto-grow-height="true" draw:auto-grow-width="true" fo:min-height="0.556cm" fo:min-width="3.497cm" loext:decorative="false"/>
-   <style:paragraph-properties style:writing-mode="lr-tb"/>
-  </style:style>
-  <style:style style:name="gr24" style:family="graphic">
+  <style:style style:name="gr22" style:family="graphic">
    <style:graphic-properties style:protect="size" loext:decorative="false"/>
   </style:style>
   <style:style style:name="pr1" style:family="presentation" style:parent-style-name="Default-backgroundobjects">
@@ -647,54 +683,74 @@
    <style:text-properties fo:font-size="14pt" style:font-size-asian="14pt" style:font-size-complex="14pt"/>
   </style:style>
   <style:style style:name="P7" style:family="paragraph">
-   <loext:graphic-properties draw:fill="solid" draw:fill-color="#f6f9d4"/>
-   <style:paragraph-properties fo:text-align="center"/>
-  </style:style>
-  <style:style style:name="P8" style:family="paragraph">
-   <loext:graphic-properties draw:fill="solid" draw:fill-color="#ffbf00"/>
-   <style:paragraph-properties fo:text-align="center" style:writing-mode="lr-tb"/>
-   <style:text-properties fo:font-size="14pt" style:font-size-asian="14pt" style:font-size-complex="14pt"/>
-  </style:style>
-  <style:style style:name="P9" style:family="paragraph">
-   <loext:graphic-properties draw:fill="solid" draw:fill-color="#cccccc"/>
-   <style:paragraph-properties fo:text-align="center" style:writing-mode="lr-tb"/>
-   <style:text-properties fo:font-size="14pt" style:font-size-asian="14pt" style:font-size-complex="14pt"/>
-  </style:style>
-  <style:style style:name="P10" style:family="paragraph">
-   <loext:graphic-properties draw:fill="none"/>
-   <style:paragraph-properties fo:text-align="center"/>
-  </style:style>
-  <style:style style:name="P11" style:family="paragraph">
    <loext:graphic-properties draw:fill="solid" draw:fill-color="#e16173"/>
    <style:paragraph-properties fo:text-align="center"/>
   </style:style>
-  <style:style style:name="P12" style:family="paragraph">
+  <style:style style:name="P8" style:family="paragraph">
+   <loext:graphic-properties draw:fill="solid" draw:fill-color="#d4ea6b"/>
    <style:paragraph-properties fo:text-align="center"/>
   </style:style>
+  <style:style style:name="P9" style:family="paragraph">
+   <style:paragraph-properties fo:text-align="center"/>
+  </style:style>
+  <style:style style:name="P10" style:family="paragraph">
+   <loext:graphic-properties draw:fill="solid" draw:fill-color="#cccccc"/>
+   <style:paragraph-properties fo:text-align="center"/>
+   <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt" style:font-size-complex="12pt"/>
+  </style:style>
+  <style:style style:name="P11" style:family="paragraph">
+   <style:text-properties fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
+  </style:style>
+  <style:style style:name="P12" style:family="paragraph">
+   <loext:graphic-properties draw:fill="none" draw:fill-color="#ffffff"/>
+   <style:text-properties fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
+  </style:style>
   <style:style style:name="P13" style:family="paragraph">
-   <loext:graphic-properties draw:fill="solid" draw:fill-color="#bf819e"/>
-   <style:paragraph-properties fo:text-align="center" style:writing-mode="lr-tb"/>
+   <loext:graphic-properties draw:fill="none" draw:fill-color="#ffffff"/>
+   <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt" style:font-size-complex="12pt"/>
   </style:style>
   <style:style style:name="P14" style:family="paragraph">
    <style:paragraph-properties fo:text-align="center"/>
-   <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt" style:font-size-complex="12pt"/>
+   <style:text-properties fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
   </style:style>
   <style:style style:name="P15" style:family="paragraph">
-   <style:paragraph-properties fo:text-align="center" style:writing-mode="lr-tb"/>
-   <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt" style:font-size-complex="12pt"/>
+   <loext:graphic-properties draw:fill="solid" draw:fill-color="#cccccc"/>
+   <style:paragraph-properties fo:text-align="center"/>
+   <style:text-properties fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
   </style:style>
   <style:style style:name="P16" style:family="paragraph">
-   <loext:graphic-properties draw:fill="solid" draw:fill-color="#e8f2a1"/>
+   <loext:graphic-properties draw:fill="solid" draw:fill-color="#5b277d"/>
    <style:paragraph-properties fo:text-align="center"/>
+   <style:text-properties fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
   </style:style>
   <style:style style:name="P17" style:family="paragraph">
+   <loext:graphic-properties draw:fill="none"/>
+   <style:paragraph-properties fo:text-align="center"/>
+  </style:style>
+  <style:style style:name="P18" style:family="paragraph">
+   <loext:graphic-properties draw:fill="solid" draw:fill-color="#dde8cb"/>
+   <style:paragraph-properties fo:text-align="center"/>
+   <style:text-properties fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
+  </style:style>
+  <style:style style:name="P19" style:family="paragraph">
+   <loext:graphic-properties draw:fill="solid" draw:fill-color="#dddddd"/>
+   <style:paragraph-properties fo:text-align="center"/>
+  </style:style>
+  <style:style style:name="P20" style:family="paragraph">
+   <style:paragraph-properties fo:text-align="center"/>
+   <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt" style:font-size-complex="12pt"/>
+  </style:style>
+  <style:style style:name="P21" style:family="paragraph">
+   <loext:graphic-properties draw:fill="none"/>
+  </style:style>
+  <style:style style:name="P22" style:family="paragraph">
    <loext:graphic-properties draw:fill-color="#ffffff"/>
   </style:style>
   <style:style style:name="T1" style:family="text">
-   <style:text-properties fo:font-size="14pt" style:font-size-asian="14pt" style:font-size-complex="14pt"/>
+   <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt" style:font-size-complex="12pt"/>
   </style:style>
   <style:style style:name="T2" style:family="text">
-   <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt" style:font-size-complex="12pt"/>
+   <style:text-properties fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
   </style:style>
   <text:list-style style:name="L1">
    <text:list-level-style-bullet text:level="1" text:bullet-char="●">
@@ -798,22 +854,22 @@
    <draw:page-thumbnail draw:layer="backgroundobjects" svg:width="9.294cm" svg:height="5.227cm" svg:x="11.295cm" svg:y="19.403cm"/>
    <draw:frame draw:style-name="gr1" draw:text-style-name="P2" draw:layer="backgroundobjects" svg:width="9.369cm" svg:height="1.396cm" svg:x="0cm" svg:y="0cm" presentation:class="header">
     <draw:text-box>
-     <text:p text:style-name="P1"><text:span text:style-name="T1"><presentation:header/></text:span></text:p>
+     <text:p text:style-name="P1"><presentation:header/></text:p>
     </draw:text-box>
    </draw:frame>
    <draw:frame draw:style-name="gr1" draw:text-style-name="P4" draw:layer="backgroundobjects" svg:width="9.369cm" svg:height="1.396cm" svg:x="12.22cm" svg:y="0cm" presentation:class="date-time">
     <draw:text-box>
-     <text:p text:style-name="P3"><text:span text:style-name="T1"><presentation:date-time/></text:span></text:p>
+     <text:p text:style-name="P3"><presentation:date-time/></text:p>
     </draw:text-box>
    </draw:frame>
    <draw:frame draw:style-name="gr2" draw:text-style-name="P2" draw:layer="backgroundobjects" svg:width="9.369cm" svg:height="1.396cm" svg:x="0cm" svg:y="26.543cm" presentation:class="footer">
     <draw:text-box>
-     <text:p text:style-name="P1"><text:span text:style-name="T1"><presentation:footer/></text:span></text:p>
+     <text:p text:style-name="P1"><presentation:footer/></text:p>
     </draw:text-box>
    </draw:frame>
    <draw:frame draw:style-name="gr2" draw:text-style-name="P4" draw:layer="backgroundobjects" svg:width="9.369cm" svg:height="1.396cm" svg:x="12.22cm" svg:y="26.543cm" presentation:class="page-number">
     <draw:text-box>
-     <text:p text:style-name="P3"><text:span text:style-name="T1"><text:page-number>&lt;number&gt;</text:page-number></text:span></text:p>
+     <text:p text:style-name="P3"><text:page-number>&lt;number&gt;</text:page-number></text:p>
     </draw:text-box>
    </draw:frame>
   </style:handout-master>
@@ -842,17 +898,17 @@
    </draw:frame>
    <draw:frame presentation:style-name="pr1" draw:text-style-name="P2" draw:layer="backgroundobjects" svg:width="6.523cm" svg:height="1.085cm" svg:x="1.4cm" svg:y="14.348cm" presentation:class="date-time">
     <draw:text-box>
-     <text:p text:style-name="P1"><text:span text:style-name="T1"><presentation:date-time/></text:span></text:p>
+     <text:p text:style-name="P1"><presentation:date-time/></text:p>
     </draw:text-box>
    </draw:frame>
    <draw:frame presentation:style-name="pr1" draw:text-style-name="P6" draw:layer="backgroundobjects" svg:width="8.875cm" svg:height="1.085cm" svg:x="9.576cm" svg:y="14.348cm" presentation:class="footer">
     <draw:text-box>
-     <text:p text:style-name="P5"><text:span text:style-name="T1"><presentation:footer/></text:span></text:p>
+     <text:p text:style-name="P5"><presentation:footer/></text:p>
     </draw:text-box>
    </draw:frame>
    <draw:frame presentation:style-name="pr1" draw:text-style-name="P4" draw:layer="backgroundobjects" svg:width="6.523cm" svg:height="1.085cm" svg:x="20.076cm" svg:y="14.348cm" presentation:class="page-number">
     <draw:text-box>
-     <text:p text:style-name="P3"><text:span text:style-name="T1"><text:page-number>&lt;number&gt;</text:page-number></text:span></text:p>
+     <text:p text:style-name="P3"><text:page-number>&lt;number&gt;</text:page-number></text:p>
     </draw:text-box>
    </draw:frame>
    <presentation:notes style:page-layout-name="PM0">
@@ -862,22 +918,22 @@
     </draw:frame>
     <draw:frame presentation:style-name="pr2" draw:text-style-name="P2" draw:layer="backgroundobjects" svg:width="9.369cm" svg:height="1.396cm" svg:x="0cm" svg:y="0cm" presentation:class="header">
      <draw:text-box>
-      <text:p text:style-name="P1"><text:span text:style-name="T1"><presentation:header/></text:span></text:p>
+      <text:p text:style-name="P1"><presentation:header/></text:p>
      </draw:text-box>
     </draw:frame>
     <draw:frame presentation:style-name="pr2" draw:text-style-name="P4" draw:layer="backgroundobjects" svg:width="9.369cm" svg:height="1.396cm" svg:x="12.22cm" svg:y="0cm" presentation:class="date-time">
      <draw:text-box>
-      <text:p text:style-name="P3"><text:span text:style-name="T1"><presentation:date-time/></text:span></text:p>
+      <text:p text:style-name="P3"><presentation:date-time/></text:p>
      </draw:text-box>
     </draw:frame>
     <draw:frame presentation:style-name="pr3" draw:text-style-name="P2" draw:layer="backgroundobjects" svg:width="9.369cm" svg:height="1.396cm" svg:x="0cm" svg:y="26.543cm" presentation:class="footer">
      <draw:text-box>
-      <text:p text:style-name="P1"><text:span text:style-name="T1"><presentation:footer/></text:span></text:p>
+      <text:p text:style-name="P1"><presentation:footer/></text:p>
      </draw:text-box>
     </draw:frame>
     <draw:frame presentation:style-name="pr3" draw:text-style-name="P4" draw:layer="backgroundobjects" svg:width="9.369cm" svg:height="1.396cm" svg:x="12.22cm" svg:y="26.543cm" presentation:class="page-number">
      <draw:text-box>
-      <text:p text:style-name="P3"><text:span text:style-name="T1"><text:page-number>&lt;number&gt;</text:page-number></text:span></text:p>
+      <text:p text:style-name="P3"><text:page-number>&lt;number&gt;</text:page-number></text:p>
      </draw:text-box>
     </draw:frame>
    </presentation:notes>
@@ -886,172 +942,248 @@
  <office:body>
   <office:presentation>
    <draw:page draw:name="page1" draw:style-name="dp3" draw:master-page-name="Default" presentation:presentation-page-layout-name="AL1T0">
-    <draw:custom-shape draw:style-name="gr3" draw:text-style-name="P7" draw:layer="layout" svg:width="5.715cm" svg:height="3.81cm" svg:x="15.335cm" svg:y="3.175cm">
+    <draw:custom-shape draw:style-name="gr3" draw:text-style-name="P7" draw:layer="layout" svg:width="10.16cm" svg:height="8.255cm" svg:x="15.405cm" svg:y="5.75cm">
      <text:p/>
      <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle" draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
     </draw:custom-shape>
-    <draw:custom-shape draw:style-name="gr4" draw:text-style-name="P8" draw:layer="layout" svg:width="0.6cm" svg:height="10.16cm" svg:x="2.54cm" svg:y="3.175cm">
+    <draw:custom-shape draw:style-name="gr4" draw:text-style-name="P8" draw:layer="layout" svg:width="1.991cm" svg:height="1.931cm" draw:transform="rotate (-1.55002690869616) translate (12.256cm 7.22cm)">
+     <text:p/>
+     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="?f0 0 ?f1 10800 0 21600 10800 21600 21600 21600 ?f7 10800" draw:text-areas="?f1 10800 ?f2 18000 ?f3 7200 ?f4 21600" draw:type="isosceles-triangle" draw:modifiers="12387.0967741935" draw:enhanced-path="M ?f0 0 L 21600 21600 0 21600 Z N">
+      <draw:equation draw:name="f0" draw:formula="$0 "/>
+      <draw:equation draw:name="f1" draw:formula="$0 /2"/>
+      <draw:equation draw:name="f2" draw:formula="?f1 +10800"/>
+      <draw:equation draw:name="f3" draw:formula="$0 *2/3"/>
+      <draw:equation draw:name="f4" draw:formula="?f3 +7200"/>
+      <draw:equation draw:name="f5" draw:formula="21600-?f0 "/>
+      <draw:equation draw:name="f6" draw:formula="?f5 /2"/>
+      <draw:equation draw:name="f7" draw:formula="21600-?f6 "/>
+      <draw:handle draw:handle-position="$0 top" draw:handle-position-x="$0" draw:handle-position-y="top" draw:handle-range-x-minimum="0" draw:handle-range-x-maximum="21600"/>
+     </draw:enhanced-geometry>
+    </draw:custom-shape>
+    <draw:custom-shape draw:style-name="gr5" draw:text-style-name="P10" draw:layer="layout" svg:width="4.445cm" svg:height="1.27cm" svg:x="7.755cm" svg:y="6.41cm">
+     <text:p text:style-name="P9"><text:span text:style-name="T1">d</text:span><text:span text:style-name="T2">ocumentation</text:span></text:p>
+     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
+    </draw:custom-shape>
+    <draw:frame draw:style-name="gr6" draw:text-style-name="P12" draw:layer="layout" svg:width="1.244cm" svg:height="0.645cm" svg:x="6.22cm" svg:y="5.74cm">
+     <draw:text-box>
+      <text:p text:style-name="P11"><text:span text:style-name="T2">write</text:span></text:p>
+     </draw:text-box>
+    </draw:frame>
+    <draw:frame draw:style-name="gr6" draw:text-style-name="P13" draw:layer="layout" svg:width="2.314cm" svg:height="0.725cm" svg:x="4.644cm" svg:y="4.515cm">
+     <draw:text-box>
+      <text:p><text:span text:style-name="T1">Research</text:span></text:p>
+     </draw:text-box>
+    </draw:frame>
+    <draw:frame draw:style-name="gr6" draw:text-style-name="P12" draw:layer="layout" svg:width="2.67cm" svg:height="1.039cm" svg:x="8.212cm" svg:y="7.859cm">
+     <draw:text-box>
+      <text:p text:style-name="P11"><text:span text:style-name="T2">Obtain results</text:span></text:p>
+      <text:p text:style-name="P11"><text:span text:style-name="T2">(prior work)</text:span></text:p>
+     </draw:text-box>
+    </draw:frame>
+    <draw:frame draw:style-name="gr6" draw:text-style-name="P12" draw:layer="layout" svg:width="3.354cm" svg:height="0.645cm" svg:x="22.181cm" svg:y="11.465cm">
+     <draw:text-box>
+      <text:p text:style-name="P11"><text:span text:style-name="T2">model of concepts</text:span></text:p>
+     </draw:text-box>
+    </draw:frame>
+    <draw:frame draw:style-name="gr6" draw:text-style-name="P12" draw:layer="layout" svg:width="3.178cm" svg:height="1.039cm" svg:x="22.155cm" svg:y="12.11cm">
+     <draw:text-box>
+      <text:p text:style-name="P11"><text:span text:style-name="T2">categorization of </text:span></text:p>
+      <text:p text:style-name="P11"><text:span text:style-name="T2">the real world</text:span></text:p>
+     </draw:text-box>
+    </draw:frame>
+    <draw:frame draw:style-name="gr6" draw:text-style-name="P12" draw:layer="layout" svg:width="1.342cm" svg:height="0.645cm" svg:x="5.593cm" svg:y="9.55cm">
+     <draw:text-box>
+      <text:p text:style-name="P11"><text:span text:style-name="T2">recall</text:span></text:p>
+     </draw:text-box>
+    </draw:frame>
+    <draw:frame draw:style-name="gr6" draw:text-style-name="P12" draw:layer="layout" svg:width="1.205cm" svg:height="0.645cm" svg:x="5.85cm" svg:y="7.03cm">
+     <draw:text-box>
+      <text:p text:style-name="P11"><text:span text:style-name="T2">read</text:span></text:p>
+     </draw:text-box>
+    </draw:frame>
+    <draw:custom-shape draw:style-name="gr7" draw:text-style-name="P15" draw:layer="layout" svg:width="4.445cm" svg:height="0.94cm" svg:x="5.375cm" svg:y="12.255cm">
+     <text:p text:style-name="P14"><text:span text:style-name="T2">progress</text:span></text:p>
+     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:mirror-horizontal="false" draw:mirror-vertical="false" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
+    </draw:custom-shape>
+    <draw:custom-shape draw:style-name="gr8" draw:text-style-name="P15" draw:layer="layout" svg:width="4.445cm" svg:height="1.17cm" svg:x="1.905cm" svg:y="5.875cm">
+     <text:p text:style-name="P14"><text:span text:style-name="T2">humans</text:span></text:p>
+     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
+    </draw:custom-shape>
+    <draw:custom-shape draw:style-name="gr9" draw:text-style-name="P16" draw:layer="layout" svg:width="4.445cm" svg:height="0.81cm" svg:x="10.764cm" svg:y="7.859cm">
+     <text:p text:style-name="P14"><text:span text:style-name="T2">real world</text:span></text:p>
+     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
+    </draw:custom-shape>
+    <draw:custom-shape draw:style-name="gr7" draw:text-style-name="P15" draw:layer="layout" svg:width="4.445cm" svg:height="0.94cm" svg:x="7.755cm" svg:y="8.78cm">
+     <text:p text:style-name="P14"><text:span text:style-name="T2">experiments</text:span></text:p>
+     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:mirror-horizontal="false" draw:mirror-vertical="false" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
+    </draw:custom-shape>
+    <draw:custom-shape draw:style-name="gr5" draw:text-style-name="P15" draw:layer="layout" svg:width="4.445cm" svg:height="1.27cm" svg:x="7.785cm" svg:y="10.22cm">
+     <text:p text:style-name="P14"><text:span text:style-name="T2">knowledge</text:span></text:p>
+     <text:p text:style-name="P14"><text:span text:style-name="T2">collection</text:span></text:p>
+     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
+    </draw:custom-shape>
+    <draw:frame draw:style-name="gr6" draw:text-style-name="P13" draw:layer="layout" svg:width="1.42cm" svg:height="0.725cm" svg:x="10.78cm" svg:y="9.825cm">
+     <draw:text-box>
+      <text:p><text:span text:style-name="T1">mind</text:span></text:p>
+     </draw:text-box>
+    </draw:frame>
+    <draw:path draw:style-name="gr10" draw:text-style-name="P17" draw:layer="layout" svg:width="2.943cm" svg:height="1.302cm" draw:transform="skewX (-0.0947713783832921) rotate (0.201760061530545) translate (5.21360213774789cm 6.01313120288187cm)" svg:viewBox="0 0 2944 1303" svg:d="M0 5c188-17 375 17 563 20 245 3 493 20 733 69 195 40 395 66 571 161 183 98 356 209 497 355 154 158 313 311 461 473l103 161 16 59">
+     <text:p/>
+    </draw:path>
+    <draw:path draw:style-name="gr10" draw:text-style-name="P17" draw:layer="layout" svg:width="2.72cm" svg:height="1.045cm" draw:transform="skewX (-0.168598805742652) rotate (-2.96775786009116) translate (8.28130598112936cm 7.53755281944714cm)" svg:viewBox="0 0 2721 1046" svg:d="M0 4c174-14 347 14 521 16 227 2 456 16 677 55 181 32 366 53 529 130 169 79 328 167 459 285 141 126 289 249 425 379l96 129 14 48">
+     <text:p/>
+    </draw:path>
+    <draw:line draw:style-name="gr11" draw:text-style-name="P17" draw:layer="layout" svg:x1="17.51cm" svg:y1="7.573cm" svg:x2="17.51cm" svg:y2="10.22cm">
+     <text:p/>
+    </draw:line>
+    <draw:path draw:style-name="gr10" draw:text-style-name="P17" draw:layer="layout" svg:width="3.073cm" svg:height="2.271cm" draw:transform="skewX (0.219562419900887) rotate (-1.03428211473184) translate (6.40784926821461cm 6.30808379163026cm)" svg:viewBox="0 0 3074 2272" svg:d="M0 2258c243 68 427-127 668-165 211-32 428-90 615-212 205-134 317-419 509-577 188-153 248-382 440-531 159-122 326-238 437-429l164-161 165-119 76-64">
+     <text:p/>
+    </draw:path>
+    <draw:path draw:style-name="gr10" draw:text-style-name="P17" draw:layer="layout" svg:width="5.126cm" svg:height="2.874cm" draw:transform="skewX (-0.135961148730358) rotate (-1.31336026212573) translate (6.44953413964875cm 5.89649332893413cm)" svg:viewBox="0 0 5127 2875" svg:d="M0 2875c260-11 519-3 780-22 247-17 491-46 730-102 303-70 548-213 810-349 251-129 502-168 730-354 188-154 409-272 596-424 167-136 310-294 462-444 145-144 274-304 406-458 131-154 321-279 407-460l140-146 66-116">
+     <text:p/>
+    </draw:path>
+    <draw:path draw:style-name="gr10" draw:text-style-name="P17" draw:layer="layout" svg:width="5.757cm" svg:height="0.994cm" draw:transform="rotate (-1.32871915954328) translate (4.21261481246588cm 6.85057145314243cm)" svg:viewBox="0 0 5758 995" svg:d="M0 911c321 57 648 61 974 75 286 12 574 8 864 7 245-1 487-5 720-70 338-95 671-201 1015-266 282-52 571-81 846-163 298-88 627-117 883-318l219-49 237-127">
+     <text:p/>
+    </draw:path>
+    <draw:path draw:style-name="gr10" draw:text-style-name="P17" draw:layer="layout" svg:width="3.571cm" svg:height="3.084cm" draw:transform="skewX (0.254469004940773) rotate (0.36023595761163) translate (9.52202210863878cm 9.9282070490028cm)" svg:viewBox="0 0 3572 3085" svg:d="M0 2732c124 4 243 66 365 105 124 40 250 81 373 128 149 58 302 97 454 117 137 18 278-38 404-135 174-134 378-72 542-245 164-174 352-185 521-351 169-167 344-298 511-471 138-142 179-451 231-704 52-255 87-519 125-780l24-207 22-189">
+     <text:p/>
+    </draw:path>
+    <draw:custom-shape draw:style-name="gr12" draw:text-style-name="P18" draw:layer="layout" svg:width="3.175cm" svg:height="1.27cm" svg:x="15.82cm" svg:y="6.303cm">
+     <text:p text:style-name="P9"><text:span text:style-name="T2">semantic</text:span></text:p>
+     <text:p text:style-name="P9"><text:span text:style-name="T2">model</text:span></text:p>
+     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:path-stretchpoint-x="10800" draw:path-stretchpoint-y="10800" draw:text-areas="?f3 ?f4 ?f5 ?f6" draw:type="round-rectangle" draw:modifiers="3600" draw:enhanced-path="M ?f7 0 X 0 ?f8 L 0 ?f9 Y ?f7 21600 L ?f10 21600 X 21600 ?f9 L 21600 ?f8 Y ?f10 0 Z N">
+      <draw:equation draw:name="f0" draw:formula="45"/>
+      <draw:equation draw:name="f1" draw:formula="$0 *sin(?f0 *(pi/180))"/>
+      <draw:equation draw:name="f2" draw:formula="?f1 *3163/7636"/>
+      <draw:equation draw:name="f3" draw:formula="left+?f2 "/>
+      <draw:equation draw:name="f4" draw:formula="top+?f2 "/>
+      <draw:equation draw:name="f5" draw:formula="right-?f2 "/>
+      <draw:equation draw:name="f6" draw:formula="bottom-?f2 "/>
+      <draw:equation draw:name="f7" draw:formula="left+$0 "/>
+      <draw:equation draw:name="f8" draw:formula="top+$0 "/>
+      <draw:equation draw:name="f9" draw:formula="bottom-$0 "/>
+      <draw:equation draw:name="f10" draw:formula="right-$0 "/>
+      <draw:handle draw:handle-position="$0 top" draw:handle-position-x="$0" draw:handle-position-y="top" draw:handle-switched="true" draw:handle-range-x-minimum="0" draw:handle-range-x-maximum="10800"/>
+     </draw:enhanced-geometry>
+    </draw:custom-shape>
+    <draw:custom-shape draw:style-name="gr13" draw:text-style-name="P18" draw:layer="layout" svg:width="3.865cm" svg:height="1.27cm" svg:x="15.82cm" svg:y="10.167cm">
+     <text:p text:style-name="P9"><text:span text:style-name="T2">assistive learning/retention</text:span></text:p>
+     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:path-stretchpoint-x="10800" draw:path-stretchpoint-y="10800" draw:text-areas="?f3 ?f4 ?f5 ?f6" draw:type="round-rectangle" draw:modifiers="3600" draw:enhanced-path="M ?f7 0 X 0 ?f8 L 0 ?f9 Y ?f7 21600 L ?f10 21600 X 21600 ?f9 L 21600 ?f8 Y ?f10 0 Z N">
+      <draw:equation draw:name="f0" draw:formula="45"/>
+      <draw:equation draw:name="f1" draw:formula="$0 *sin(?f0 *(pi/180))"/>
+      <draw:equation draw:name="f2" draw:formula="?f1 *3163/7636"/>
+      <draw:equation draw:name="f3" draw:formula="left+?f2 "/>
+      <draw:equation draw:name="f4" draw:formula="top+?f2 "/>
+      <draw:equation draw:name="f5" draw:formula="right-?f2 "/>
+      <draw:equation draw:name="f6" draw:formula="bottom-?f2 "/>
+      <draw:equation draw:name="f7" draw:formula="left+$0 "/>
+      <draw:equation draw:name="f8" draw:formula="top+$0 "/>
+      <draw:equation draw:name="f9" draw:formula="bottom-$0 "/>
+      <draw:equation draw:name="f10" draw:formula="right-$0 "/>
+      <draw:handle draw:handle-position="$0 top" draw:handle-position-x="$0" draw:handle-position-y="top" draw:handle-switched="true" draw:handle-range-x-minimum="0" draw:handle-range-x-maximum="10800"/>
+     </draw:enhanced-geometry>
+    </draw:custom-shape>
+    <draw:frame draw:style-name="gr6" draw:text-style-name="P12" draw:layer="layout" svg:width="1.713cm" svg:height="0.645cm" svg:x="4.91cm" svg:y="8.031cm">
+     <draw:text-box>
+      <text:p text:style-name="P11"><text:span text:style-name="T2">perform</text:span></text:p>
+     </draw:text-box>
+    </draw:frame>
+    <draw:line draw:style-name="gr14" draw:text-style-name="P17" draw:layer="layout" svg:x1="12.24cm" svg:y1="7.047cm" svg:x2="15.86cm" svg:y2="7.047cm">
+     <text:p/>
+    </draw:line>
+    <draw:line draw:style-name="gr15" draw:layer="layout" svg:x1="12.23cm" svg:y1="10.855cm" svg:x2="15.82cm" svg:y2="10.855cm">
+     <text:p/>
+    </draw:line>
+    <draw:custom-shape draw:style-name="gr5" draw:text-style-name="P15" draw:layer="layout" svg:width="4.445cm" svg:height="1.27cm" svg:x="18.815cm" svg:y="8.725cm">
+     <text:p text:style-name="P14"><text:span text:style-name="T2">assessment/</text:span></text:p>
+     <text:p text:style-name="P14"><text:span text:style-name="T2">prediction</text:span></text:p>
+     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
+    </draw:custom-shape>
+    <draw:custom-shape draw:style-name="gr5" draw:text-style-name="P15" draw:layer="layout" svg:width="4.445cm" svg:height="1.27cm" svg:x="20.485cm" svg:y="10.257cm">
+     <text:p text:style-name="P14"><text:span text:style-name="T2">ontology</text:span></text:p>
+     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
+    </draw:custom-shape>
+    <draw:custom-shape draw:style-name="gr16" draw:text-style-name="P19" draw:layer="layout" svg:width="10.16cm" svg:height="3.175cm" svg:x="8.974cm" svg:y="1.96cm">
+     <text:p/>
+     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:text-areas="3000 3320 17110 17330" draw:type="non-primitive" draw:enhanced-path="M 1930 7160 C 1530 4490 3400 1970 5270 1970 5860 1950 6470 2210 6970 2600 7450 1390 8340 650 9340 650 10004 690 10710 1050 11210 1700 11570 630 12330 0 13150 0 13840 0 14470 460 14870 1160 15330 440 16020 0 16740 0 17910 0 18900 1130 19110 2710 20240 3150 21060 4580 21060 6220 21060 6720 21000 7200 20830 7660 21310 8460 21600 9450 21600 10460 21600 12750 20310 14680 18650 15010 18650 17200 17370 18920 15770 18920 15220 18920 14700 18710 14240 18310 13820 20240 12490 21600 11000 21600 9890 21600 8840 20790 8210 19510 7620 20000 7930 20290 6240 20290 4850 20290 3570 19280 2900 17640 1300 17600 480 16300 480 14660 480 13900 690 13210 1070 12640 380 12160 0 11210 0 10120 0 8590 840 7330 1930 7160 Z N M 1930 7160 C 1950 7410 2040 7690 2090 7920 F N M 6970 2600 C 7200 2790 7480 3050 7670 3310 F N M 11210 1700 C 11130 1910 11080 2160 11030 2400 F N M 14870 1160 C 14720 1400 14640 1720 14540 2010 F N M 19110 2710 C 19130 2890 19230 3290 19190 3380 F N M 20830 7660 C 20660 8170 20430 8620 20110 8990 F N M 18660 15010 C 18740 14200 18280 12200 17000 11450 F N M 14240 18310 C 14320 17980 14350 17680 14370 17360 F N M 8220 19510 C 8060 19250 7960 18950 7860 18640 F N M 2900 17640 C 3090 17600 3280 17540 3460 17450 F N M 1070 12640 C 1400 12900 1780 13130 2330 13040 F N"/>
+    </draw:custom-shape>
+    <draw:custom-shape draw:style-name="gr17" draw:text-style-name="P9" draw:layer="layout" svg:width="1.27cm" svg:height="1.27cm" svg:x="10.96cm" svg:y="3.175cm">
+     <text:p text:style-name="P9"/>
+     <draw:enhanced-geometry svg:viewBox="0 0 88 21600" draw:glue-points="44 ?f6 44 0 0 10800 44 21600 88 10800" draw:text-areas="0 ?f6 88 ?f3" draw:type="can" draw:modifiers="5400" draw:enhanced-path="M 44 0 C 20 0 0 ?f2 0 ?f0 L 0 ?f3 C 0 ?f4 20 21600 44 21600 68 21600 88 ?f4 88 ?f3 L 88 ?f0 C 88 ?f2 68 0 44 0 Z N M 44 0 C 20 0 0 ?f2 0 ?f0 0 ?f5 20 ?f6 44 ?f6 68 ?f6 88 ?f5 88 ?f0 88 ?f2 68 0 44 0 Z N">
+      <draw:equation draw:name="f0" draw:formula="$0 *2/4"/>
+      <draw:equation draw:name="f1" draw:formula="?f0 *6/11"/>
+      <draw:equation draw:name="f2" draw:formula="?f0 -?f1 "/>
+      <draw:equation draw:name="f3" draw:formula="21600-?f0 "/>
+      <draw:equation draw:name="f4" draw:formula="?f3 +?f1 "/>
+      <draw:equation draw:name="f5" draw:formula="?f0 +?f1 "/>
+      <draw:equation draw:name="f6" draw:formula="$0 *2/2"/>
+      <draw:equation draw:name="f7" draw:formula="44"/>
+      <draw:handle draw:handle-position="?f7 $0" draw:handle-position-x="?f7" draw:handle-position-y="$0" draw:handle-range-y-minimum="0" draw:handle-range-y-maximum="10800"/>
+     </draw:enhanced-geometry>
+    </draw:custom-shape>
+    <draw:custom-shape draw:style-name="gr17" draw:text-style-name="P9" draw:layer="layout" svg:width="1.27cm" svg:height="1.27cm" svg:x="10.96cm" svg:y="2.575cm">
+     <text:p/>
+     <draw:enhanced-geometry svg:viewBox="0 0 88 21600" draw:glue-points="44 ?f6 44 0 0 10800 44 21600 88 10800" draw:text-areas="0 ?f6 88 ?f3" draw:type="can" draw:modifiers="5400" draw:enhanced-path="M 44 0 C 20 0 0 ?f2 0 ?f0 L 0 ?f3 C 0 ?f4 20 21600 44 21600 68 21600 88 ?f4 88 ?f3 L 88 ?f0 C 88 ?f2 68 0 44 0 Z N M 44 0 C 20 0 0 ?f2 0 ?f0 0 ?f5 20 ?f6 44 ?f6 68 ?f6 88 ?f5 88 ?f0 88 ?f2 68 0 44 0 Z N">
+      <draw:equation draw:name="f0" draw:formula="$0 *2/4"/>
+      <draw:equation draw:name="f1" draw:formula="?f0 *6/11"/>
+      <draw:equation draw:name="f2" draw:formula="?f0 -?f1 "/>
+      <draw:equation draw:name="f3" draw:formula="21600-?f0 "/>
+      <draw:equation draw:name="f4" draw:formula="?f3 +?f1 "/>
+      <draw:equation draw:name="f5" draw:formula="?f0 +?f1 "/>
+      <draw:equation draw:name="f6" draw:formula="$0 *2/2"/>
+      <draw:equation draw:name="f7" draw:formula="44"/>
+      <draw:handle draw:handle-position="?f7 $0" draw:handle-position-x="?f7" draw:handle-position-y="$0" draw:handle-range-y-minimum="0" draw:handle-range-y-maximum="10800"/>
+     </draw:enhanced-geometry>
+    </draw:custom-shape>
+    <draw:custom-shape draw:style-name="gr18" draw:text-style-name="P20" draw:layer="layout" svg:width="1.905cm" svg:height="1.27cm" svg:x="15.405cm" svg:y="2.575cm">
+     <text:p text:style-name="P20"><text:span text:style-name="T1">LLM</text:span></text:p>
+     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle" draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
+    </draw:custom-shape>
+    <draw:custom-shape draw:style-name="gr19" draw:text-style-name="P9" draw:layer="layout" svg:width="1.27cm" svg:height="1.27cm" svg:x="20.35cm" svg:y="6.385cm">
      <text:p/>
      <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle" draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
     </draw:custom-shape>
-    <draw:custom-shape draw:style-name="gr5" draw:text-style-name="P9" xml:id="id2" draw:id="id2" draw:layer="layout" svg:width="1.505cm" svg:height="1.27cm" svg:x="25.195cm" svg:y="4.445cm">
-     <text:p text:style-name="P5"><text:span text:style-name="T1">UI</text:span></text:p>
-     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle" draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-    </draw:custom-shape>
-    <dr3d:scene draw:style-name="gr6" xml:id="id1" draw:id="id1" svg:width="2.54cm" svg:height="2.54cm" svg:x="21.845cm" svg:y="3.818cm" dr3d:vrp="(0 0 16885.7142857143)" dr3d:vpn="(0 0 14285.7142857143)" dr3d:projection="perspective" dr3d:distance="0.1cm" dr3d:focal-length="0.5cm" dr3d:shadow-slant="0" dr3d:shade-mode="gouraud" dr3d:ambient-color="#666666" dr3d:lighting-mode="false">
-     <dr3d:light dr3d:diffuse-color="#cccccc" dr3d:direction="(0.57735026918963 0.57735026918963 0.57735026918963)" dr3d:enabled="true" dr3d:specular="true"/>
-     <dr3d:light dr3d:diffuse-color="#000000" dr3d:direction="(0 0 1)" dr3d:enabled="false" dr3d:specular="false"/>
-     <dr3d:light dr3d:diffuse-color="#000000" dr3d:direction="(0 0 1)" dr3d:enabled="false" dr3d:specular="false"/>
-     <dr3d:light dr3d:diffuse-color="#000000" dr3d:direction="(0 0 1)" dr3d:enabled="false" dr3d:specular="false"/>
-     <dr3d:light dr3d:diffuse-color="#000000" dr3d:direction="(0 0 1)" dr3d:enabled="false" dr3d:specular="false"/>
-     <dr3d:light dr3d:diffuse-color="#000000" dr3d:direction="(0 0 1)" dr3d:enabled="false" dr3d:specular="false"/>
-     <dr3d:light dr3d:diffuse-color="#000000" dr3d:direction="(0 0 1)" dr3d:enabled="false" dr3d:specular="false"/>
-     <dr3d:light dr3d:diffuse-color="#000000" dr3d:direction="(0 0 1)" dr3d:enabled="false" dr3d:specular="false"/>
-     <dr3d:rotate draw:style-name="gr7" draw:layer="layout" svg:viewBox="0 -5000 2500 10000" svg:d="M0-5000h250 250 500 500 500 250 250v10000h-250-250-500-500-500-250-250z"/>
-    </dr3d:scene>
-    <draw:connector draw:style-name="gr8" draw:text-style-name="P10" draw:layer="layout" draw:type="line" svg:x1="24.385cm" svg:y1="5.088cm" svg:x2="25.195cm" svg:y2="5.08cm" draw:start-shape="id1" draw:end-shape="id2" draw:end-glue-point="3" svg:d="M24385 5088l810-8" svg:viewBox="0 0 811 9">
-     <text:p/>
-    </draw:connector>
-    <draw:custom-shape draw:style-name="gr9" draw:text-style-name="P9" draw:layer="layout" svg:width="7.62cm" svg:height="1.27cm" svg:x="3.775cm" svg:y="4.145cm">
-     <text:p/>
-     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle" draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-    </draw:custom-shape>
-    <draw:custom-shape draw:style-name="gr10" draw:text-style-name="P11" xml:id="id5" draw:id="id5" draw:layer="layout" svg:width="1.905cm" svg:height="0.635cm" svg:x="4.41cm" svg:y="4.445cm">
-     <text:p/>
-     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
-    </draw:custom-shape>
-    <draw:custom-shape draw:style-name="gr10" draw:text-style-name="P11" xml:id="id4" draw:id="id4" draw:layer="layout" svg:width="1.905cm" svg:height="0.635cm" svg:x="6.711cm" svg:y="4.446cm">
-     <text:p/>
-     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
-    </draw:custom-shape>
-    <draw:custom-shape draw:style-name="gr10" draw:text-style-name="P11" draw:layer="layout" svg:width="1.905cm" svg:height="0.635cm" svg:x="9.012cm" svg:y="4.447cm">
-     <text:p/>
-     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
-    </draw:custom-shape>
-    <draw:connector draw:style-name="gr8" draw:text-style-name="P10" draw:layer="layout" draw:type="line" svg:x1="1.692cm" svg:y1="4.745cm" svg:x2="3.81cm" svg:y2="4.757cm" svg:d="M1692 4745l2118 12" svg:viewBox="0 0 2119 13">
-     <text:p/>
-    </draw:connector>
-    <draw:connector draw:style-name="gr8" draw:text-style-name="P10" draw:layer="layout" draw:type="line" svg:x1="7.585cm" svg:y1="2.381cm" svg:x2="7.664cm" svg:y2="4.446cm" draw:start-shape="id3" draw:start-glue-point="2" draw:end-shape="id4" draw:end-glue-point="4" svg:d="M7585 2381l79 2065" svg:viewBox="0 0 80 2066">
-     <text:p/>
-    </draw:connector>
-    <draw:connector draw:style-name="gr8" draw:text-style-name="P10" draw:layer="layout" draw:type="line" svg:x1="5.68cm" svg:y1="4.445cm" svg:x2="6.208cm" svg:y2="2.45cm" svg:d="M5680 4445l528-1995" svg:viewBox="0 0 529 1996">
-     <text:p/>
-    </draw:connector>
-    <draw:connector draw:style-name="gr8" draw:text-style-name="P10" draw:layer="layout" draw:type="line" svg:x1="6.734cm" svg:y1="2.465cm" svg:x2="6.036cm" svg:y2="4.538cm" draw:end-shape="id5" draw:end-glue-point="11" svg:d="M6734 2465l-698 2073" svg:viewBox="0 0 699 2074">
-     <text:p/>
-    </draw:connector>
-    <draw:custom-shape draw:style-name="gr11" draw:text-style-name="P13" xml:id="id3" draw:id="id3" draw:layer="layout" svg:width="6.349cm" svg:height="0.635cm" svg:x="4.411cm" svg:y="1.746cm">
-     <text:p text:style-name="P12">source</text:p>
-     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
-    </draw:custom-shape>
-    <draw:line draw:style-name="gr12" draw:text-style-name="P10" draw:layer="layout" svg:x1="8.02cm" svg:y1="4.446cm" svg:x2="8.22cm" svg:y2="2.381cm">
+    <draw:line draw:style-name="gr20" draw:text-style-name="P21" draw:layer="layout" svg:x1="21.02cm" svg:y1="7.655cm" svg:x2="21.02cm" svg:y2="8.725cm">
      <text:p/>
     </draw:line>
-    <draw:line draw:style-name="gr12" draw:text-style-name="P10" draw:layer="layout" svg:x1="9.49cm" svg:y1="2.381cm" svg:x2="9.49cm" svg:y2="4.447cm">
+    <draw:line draw:style-name="gr21" draw:text-style-name="P21" draw:layer="layout" svg:x1="18.995cm" svg:y1="7.02cm" svg:x2="20.35cm" svg:y2="7.02cm">
      <text:p/>
     </draw:line>
-    <draw:line draw:style-name="gr12" draw:text-style-name="P10" draw:layer="layout" svg:x1="10.125cm" svg:y1="4.447cm" svg:x2="10.125cm" svg:y2="1.905cm">
+    <draw:line draw:style-name="gr20" draw:text-style-name="P21" draw:layer="layout" svg:x1="16.675cm" svg:y1="3.845cm" svg:x2="21.12cm" svg:y2="6.385cm">
      <text:p/>
     </draw:line>
-    <draw:custom-shape draw:style-name="gr13" draw:text-style-name="P12" xml:id="id7" draw:id="id7" draw:layer="layout" svg:width="4.774cm" svg:height="1.27cm" svg:x="15.841cm" svg:y="4.465cm">
+    <draw:path draw:style-name="gr20" draw:text-style-name="P21" draw:layer="layout" svg:width="5.028cm" svg:height="4.344cm" draw:transform="rotate (-2.73667626712711) translate (12.5494331346652cm 7.23841298375012cm)" svg:viewBox="0 0 5029 4345" svg:d="M0 4233c236-31 447 108 679 94 231-15 463 33 692 14 257-22 516-21 769-64 275-47 543-140 803-244 244-98 434-286 658-417 204-119 394-257 539-444 167-218 315-450 482-666 138-178 191-399 297-592 116-208 51-456 95-680 58-298-56-571-258-721-203-150-267-358-434-513l-61 40">
      <text:p/>
-     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
-    </draw:custom-shape>
-    <draw:custom-shape draw:style-name="gr14" draw:text-style-name="P15" draw:layer="layout" svg:width="4.45cm" svg:height="0.9cm" svg:x="16.025cm" svg:y="5.361cm">
-     <text:p text:style-name="P14"><text:span text:style-name="T2">Embeddings</text:span></text:p>
-     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
-    </draw:custom-shape>
-    <draw:frame draw:style-name="gr15" draw:text-style-name="P2" draw:layer="layout" svg:width="3.09cm" svg:height="0.806cm" svg:x="16.655cm" svg:y="4.545cm">
+    </draw:path>
+    <draw:path draw:style-name="gr20" draw:text-style-name="P21" draw:layer="layout" svg:width="2.494cm" svg:height="0.658cm" draw:transform="rotate (-2.35619449019235) translate (11.363cm 4.591cm)" svg:viewBox="0 0 2495 659" svg:d="M0 652c286 30 567-42 850-57 253-12 505-41 752-99 225-54 485-85 623-311l157-128 113-57">
+     <text:p/>
+    </draw:path>
+    <draw:frame draw:style-name="gr6" draw:text-style-name="P12" draw:layer="layout" svg:width="2.025cm" svg:height="0.645cm" svg:x="16.675cm" svg:y="11.465cm">
      <draw:text-box>
-      <text:p><text:span text:style-name="T1">VectorStore</text:span></text:p>
+      <text:p text:style-name="P11"><text:span text:style-name="T2">taxonomy</text:span></text:p>
      </draw:text-box>
     </draw:frame>
-    <draw:custom-shape draw:style-name="gr9" draw:text-style-name="P9" draw:layer="layout" svg:width="7.62cm" svg:height="1.27cm" svg:x="3.775cm" svg:y="8.446cm">
-     <text:p/>
-     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle" draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-    </draw:custom-shape>
-    <draw:custom-shape draw:style-name="gr10" draw:text-style-name="P11" xml:id="id6" draw:id="id6" draw:layer="layout" svg:width="1.905cm" svg:height="0.635cm" svg:x="9.012cm" svg:y="8.748cm">
-     <text:p/>
-     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
-    </draw:custom-shape>
-    <draw:custom-shape draw:style-name="gr11" draw:text-style-name="P13" draw:layer="layout" svg:width="6.349cm" svg:height="0.635cm" svg:x="4.411cm" svg:y="6.047cm">
-     <text:p text:style-name="P12">source</text:p>
-     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:glue-points="10800 0 3163 3163 0 10800 3163 18437 10800 21600 18437 18437 21600 10800 18437 3163" draw:text-areas="3163 3163 18437 18437" draw:type="ellipse" draw:enhanced-path="U 10800 10800 10800 10800 0 360 Z N"/>
-    </draw:custom-shape>
-    <draw:line draw:style-name="gr12" draw:text-style-name="P10" draw:layer="layout" svg:x1="10.19cm" svg:y1="6.682cm" svg:x2="10.19cm" svg:y2="8.748cm">
-     <text:p/>
-    </draw:line>
-    <draw:line draw:style-name="gr12" draw:text-style-name="P10" draw:layer="layout" svg:x1="9.625cm" svg:y1="8.748cm" svg:x2="9.625cm" svg:y2="6.682cm">
-     <text:p/>
-    </draw:line>
-    <draw:connector draw:style-name="gr8" draw:text-style-name="P10" draw:layer="layout" draw:type="line" svg:x1="1.692cm" svg:y1="9.045cm" svg:x2="9.012cm" svg:y2="9.066cm" draw:end-shape="id6" draw:end-glue-point="6" svg:d="M1692 9045l7320 21" svg:viewBox="0 0 7321 22">
-     <text:p/>
-    </draw:connector>
-    <draw:connector draw:style-name="gr8" draw:text-style-name="P10" draw:layer="layout" draw:type="line" svg:x1="20.615cm" svg:y1="5.1cm" svg:x2="21.845cm" svg:y2="5.088cm" draw:start-shape="id7" draw:start-glue-point="10" draw:end-shape="id1" draw:end-glue-point="3" svg:d="M20615 5100l1230-12" svg:viewBox="0 0 1231 13">
-     <text:p/>
-    </draw:connector>
-    <draw:frame draw:style-name="gr16" draw:text-style-name="P2" draw:layer="layout" svg:width="1.3cm" svg:height="0.806cm" svg:x="2.205cm" svg:y="2.569cm">
+    <draw:frame draw:style-name="gr6" draw:text-style-name="P12" draw:layer="layout" svg:width="4.526cm" svg:height="0.645cm" svg:x="16.676cm" svg:y="11.966cm">
      <draw:text-box>
-      <text:p><text:span text:style-name="T1">API</text:span></text:p>
+      <text:p text:style-name="P11"><text:span text:style-name="T2">knowledge representation</text:span></text:p>
      </draw:text-box>
     </draw:frame>
-    <draw:line draw:style-name="gr12" draw:text-style-name="P10" draw:layer="layout" svg:x1="17.78cm" svg:y1="12.065cm" svg:x2="1.27cm" svg:y2="12.065cm">
+    <draw:frame draw:style-name="gr6" draw:text-style-name="P12" draw:layer="layout" svg:width="3.822cm" svg:height="0.645cm" svg:x="16.676cm" svg:y="12.465cm">
+     <draw:text-box>
+      <text:p text:style-name="P11"><text:span text:style-name="T2">controlled vocabulary</text:span></text:p>
+     </draw:text-box>
+    </draw:frame>
+    <draw:frame draw:style-name="gr6" draw:text-style-name="P12" draw:layer="layout" svg:width="2.298cm" svg:height="0.645cm" svg:x="16.677cm" svg:y="12.966cm">
+     <draw:text-box>
+      <text:p text:style-name="P11"><text:span text:style-name="T2">formal logic</text:span></text:p>
+     </draw:text-box>
+    </draw:frame>
+    <draw:path draw:style-name="gr20" draw:text-style-name="P21" draw:layer="layout" svg:width="5.849cm" svg:height="1.285cm" draw:transform="skewX (-0.588350490847288) rotate (-2.65028246915339) translate (16.688114471548cm 3.89603603108468cm)" svg:viewBox="0 0 5850 1286" svg:d="M0 1272c672 59 1330-83 1993-111 594-24 1184-80 1763-194 528-104 1137-166 1462-607l367-250 265-110">
      <text:p/>
-    </draw:line>
-    <draw:line draw:style-name="gr12" draw:text-style-name="P10" draw:layer="layout" svg:x1="18.415cm" svg:y1="6.985cm" svg:x2="17.78cm" svg:y2="12.084cm">
-     <text:p/>
-    </draw:line>
-    <draw:frame draw:style-name="gr17" draw:text-style-name="P2" draw:layer="layout" svg:width="1.906cm" svg:height="0.806cm" svg:x="0.635cm" svg:y="3.939cm">
-     <draw:text-box>
-      <text:p><text:span text:style-name="T1">trigger</text:span></text:p>
-     </draw:text-box>
-    </draw:frame>
-    <draw:frame draw:style-name="gr17" draw:text-style-name="P2" draw:layer="layout" svg:width="1.906cm" svg:height="0.806cm" svg:x="0.635cm" svg:y="8.239cm">
-     <draw:text-box>
-      <text:p><text:span text:style-name="T1">trigger</text:span></text:p>
-     </draw:text-box>
-    </draw:frame>
-    <draw:frame draw:style-name="gr18" draw:text-style-name="P2" draw:layer="layout" svg:width="1.989cm" svg:height="0.806cm" svg:x="0.549cm" svg:y="11.259cm">
-     <draw:text-box>
-      <text:p><text:span text:style-name="T1">search</text:span></text:p>
-     </draw:text-box>
-    </draw:frame>
-    <draw:frame draw:style-name="gr19" draw:text-style-name="P2" draw:layer="layout" svg:width="2.043cm" svg:height="0.806cm" svg:x="6.847cm" svg:y="1.099cm">
-     <draw:text-box>
-      <text:p><text:span text:style-name="T1">ex. MP</text:span></text:p>
-     </draw:text-box>
-    </draw:frame>
-    <draw:frame draw:style-name="gr20" draw:text-style-name="P2" draw:layer="layout" svg:width="2.98cm" svg:height="0.806cm" svg:x="16.886cm" svg:y="3.385cm">
-     <draw:text-box>
-      <text:p><text:span text:style-name="T1">Spring ETL</text:span></text:p>
-     </draw:text-box>
-    </draw:frame>
-    <draw:custom-shape draw:style-name="gr21" draw:text-style-name="P16" draw:layer="layout" svg:width="1.27cm" svg:height="8.255cm" svg:x="12.8cm" svg:y="2.54cm">
-     <text:p/>
-     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle" draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-    </draw:custom-shape>
-    <draw:line draw:style-name="gr12" draw:text-style-name="P10" draw:layer="layout" svg:x1="11.395cm" svg:y1="9.09cm" svg:x2="12.8cm" svg:y2="9.09cm">
-     <text:p/>
-    </draw:line>
-    <draw:line draw:style-name="gr12" draw:text-style-name="P10" draw:layer="layout" svg:x1="11.396cm" svg:y1="4.69cm" svg:x2="12.801cm" svg:y2="4.69cm">
-     <text:p/>
-    </draw:line>
-    <draw:line draw:style-name="gr12" draw:text-style-name="P10" draw:layer="layout" svg:x1="14.07cm" svg:y1="5.38cm" svg:x2="15.335cm" svg:y2="5.38cm">
-     <text:p/>
-    </draw:line>
-    <draw:frame draw:style-name="gr22" draw:text-style-name="P2" draw:layer="layout" svg:width="1.686cm" svg:height="0.806cm" svg:x="12.554cm" svg:y="1.834cm">
-     <draw:text-box>
-      <text:p><text:span text:style-name="T1">kafka</text:span></text:p>
-     </draw:text-box>
-    </draw:frame>
-    <draw:frame draw:style-name="gr23" draw:text-style-name="P2" draw:layer="layout" svg:width="3.997cm" svg:height="0.806cm" svg:x="5.299cm" svg:y="11.359cm">
-     <draw:text-box>
-      <text:p><text:span text:style-name="T1">similaritySearch</text:span></text:p>
-     </draw:text-box>
-    </draw:frame>
+    </draw:path>
     <presentation:notes draw:style-name="dp2">
-     <draw:page-thumbnail draw:style-name="gr24" draw:layer="layout" svg:width="18.624cm" svg:height="10.476cm" svg:x="1.482cm" svg:y="2.123cm" draw:page-number="1" presentation:class="page"/>
-     <draw:frame presentation:style-name="pr4" draw:text-style-name="P17" draw:layer="layout" svg:width="17.271cm" svg:height="12.572cm" svg:x="2.159cm" svg:y="13.271cm" presentation:class="notes" presentation:placeholder="true">
+     <draw:page-thumbnail draw:style-name="gr22" draw:layer="layout" svg:width="18.624cm" svg:height="10.476cm" svg:x="1.482cm" svg:y="2.123cm" draw:page-number="1" presentation:class="page"/>
+     <draw:frame presentation:style-name="pr4" draw:text-style-name="P22" draw:layer="layout" svg:width="17.271cm" svg:height="12.572cm" svg:x="2.159cm" svg:y="13.271cm" presentation:class="notes" presentation:placeholder="true">
       <draw:text-box/>
      </draw:frame>
     </presentation:notes>
