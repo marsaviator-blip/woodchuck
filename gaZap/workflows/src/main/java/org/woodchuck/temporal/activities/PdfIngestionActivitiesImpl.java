@@ -5,6 +5,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.woodchuck.dtos.BibliographyResponse;
+import org.woodchuck.dtos.DocumentAnalysisResult;
 import org.woodchuck.services.VSmessageSender;
 
 import io.temporal.spring.boot.ActivityImpl;
@@ -20,6 +21,7 @@ import java.util.UUID;
 
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.jbibtex.BibTeXDatabase;
 import org.jbibtex.BibTeXEntry;
@@ -45,12 +47,37 @@ public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
     }
 
     @Override
-    public String extractReferenceSection(String pdfFilePath) {
+    public DocumentAnalysisResult extractReferenceSection(String pdfFilePath) {
         try {
             Resource resource = new FileSystemResource(pdfFilePath);
             File file = resource.getFile();
         
         try (PDDocument document = Loader.loadPDF(file)) {
+            PDDocumentInformation info = document.getDocumentInformation();
+            List<BibliographyResponse.Citation> citations = new ArrayList<>();
+
+            if (info != null) {
+                List<BibliographyResponse.BibTeXField> fields = new ArrayList<>();
+
+                // Map standard metadata fields into BibTeX equivalents
+                addFieldsIfPresent(fields, "title", info.getTitle());
+                addFieldsIfPresent(fields, "author", info.getAuthor());
+                addFieldsIfPresent(fields, "subject", info.getSubject());
+                addFieldsIfPresent(fields, "keywords", info.getKeywords());
+                addFieldsIfPresent(fields, "creator", info.getCreator());
+                addFieldsIfPresent(fields, "producer", info.getProducer());
+
+                if (info.getCreationDate() != null) {
+                    addFieldsIfPresent(fields, "year", String.valueOf(info.getCreationDate().get(java.util.Calendar.YEAR)));
+                }
+
+                // Generate a temporary citation key based on author/year if available
+                String citeKey = generateCiteKey(info);
+
+                // Add the single article identity citation to the array
+                // For a parsed journal article, the standard BibTeX entry type is usually "article"
+                citations.add(new BibliographyResponse.Citation("article", citeKey, fields));
+            }
             PDFTextStripper stripper = new PDFTextStripper();
             
             // Step 1: Optimize performance by scanning only the last 4 pages
@@ -66,10 +93,10 @@ public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
             
             if (matcher.find()) {
                 // Return everything from the match point to the end of the file
-                return rawTailText.substring(matcher.start());
+                return new DocumentAnalysisResult(rawTailText.substring(matcher.start()), new BibliographyResponse(citations));
             }
             
-            return rawTailText; // Fallback if no clean boundary match found
+            return new DocumentAnalysisResult(rawTailText, new BibliographyResponse(citations)); // Fallback if no clean boundary match found
         }
         } catch (Exception e) {
             throw new RuntimeException("Failed PDFBox extraction for file: " + pdfFilePath, e);
@@ -77,10 +104,10 @@ public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
     }
 
     @Override
-    public List<String> splitReferences(String rawReferenceSection) {
+    public List<String> splitReferences(DocumentAnalysisResult analysisResult) {
         List<String> citations = new ArrayList<>();
         System.out.println(chatClient.toString()); // Debug: Print the ChatClient instance to verify it's properly initialized
-        String safeReferenceSection = rawReferenceSection
+        String safeReferenceSection = analysisResult.referenceSection()
                 .replace("\\", "\\\\")   
                 .replace("\"", "\\\"")   
                 .replace("\n", "\\n")    
@@ -97,31 +124,13 @@ public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
                 .call()
                 .entity(BibliographyResponse.class); // Automatically maps JSON to your Java object
                 System.out.println("ChatClient response for splitting references: " + chatResponse); // Debug output
-                messageSender.sendBibtexMessage(chatResponse); // Debug: Send the raw response to Kafka for inspection
-        // // Match standard academic list numbers like [1], 1., or [Buchberger85]
-        // Pattern pattern = Pattern.compile("(^|\\n)(\\[\\d+\\]|\\d+\\.\\s+|\\[[A-Za-z]+\\d+\\])");
-        // Matcher matcher = pattern.matcher(rawReferenceSection);
-        
-        // int lastIndex = 0;
-        // String currentCitation = "";
-        
-        // while (matcher.find()) {
-        //     if (lastIndex != 0) {
-        //         currentCitation = rawReferenceSection.substring(lastIndex, matcher.start()).trim();
-        //         if (!currentCitation.isEmpty()) {
-        //             citations.add(cleanWhitespace(currentCitation));
-        //         }
-        //     }
-        //     lastIndex = matcher.end();
-        // }
-        
-        // // Add the very last citation entry remaining in the string block
-        // if (lastIndex < rawReferenceSection.length()) {
-        //     currentCitation = rawReferenceSection.substring(lastIndex).trim();
-        //     if (!currentCitation.isEmpty()) {
-        //         citations.add(cleanWhitespace(currentCitation));
-        //     }
-        // }
+                if(analysisResult.bibliography() == null || analysisResult.bibliography().citations() == null || analysisResult.bibliography().citations().isEmpty() || analysisResult.bibliography().citations().get(0) == null) {
+                    messageSender.sendBibtexMessage(chatResponse); // Debug: Send the raw response to Kafka for inspection
+                    return citations; // Return empty list if no parent citation exists to attach to
+                }
+                BibliographyResponse.Citation updatedParent = analysisResult.bibliography().citations().get(0).withChildren(chatResponse.citations());
+
+                messageSender.sendBibtexMessage(new BibliographyResponse(List.of(updatedParent))); // Debug: Send the raw response to Kafka for inspection
         
         return citations;
     }
@@ -249,6 +258,29 @@ public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
         //         return null;
         //     });
         // }
+    }
+
+    private void addFieldsIfPresent(List<BibliographyResponse.BibTeXField> fields, String key, String value) {
+        if (value != null && !value.strip().isEmpty()) {
+            fields.add(new BibliographyResponse.BibTeXField(key, value.strip()));
+        }
+    }
+
+    private String generateCiteKey(PDDocumentInformation info) {
+        String author = info.getAuthor();
+        String year = "";
+        
+        if (info.getCreationDate() != null) {
+            year = String.valueOf(info.getCreationDate().get(java.util.Calendar.YEAR));
+        }
+
+        if (author != null && !author.strip().isEmpty()) {
+            // Take the first word of the author string (usually last name) and strip special characters
+            String cleanAuthor = author.split("\\s+")[0].replaceAll("[^a-zA-Z0-9]", "");
+            return cleanAuthor.toLowerCase() + year;
+        }
+        
+        return "doc" + (year.isEmpty() ? System.currentTimeMillis() : year);
     }
 
 }

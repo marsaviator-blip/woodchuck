@@ -16,6 +16,7 @@ import io.temporal.spring.boot.WorkflowImpl;
 import io.temporal.workflow.Promise;
 import io.temporal.workflow.Async;
 import org.springframework.stereotype.Service;
+import org.woodchuck.dtos.DocumentAnalysisResult;
 
 @Service
 @WorkflowImpl(taskQueues = "IngestionQueue")
@@ -55,8 +56,8 @@ public class PdfIngestionWorkflowImpl implements PdfIngestionWorkflow {
                             .build())
                     .build());
 
-        String referenceSection = pdfActivities.extractReferenceSection(pdfFilePath);
-        List<String> individualCitations = pdfActivities.splitReferences(referenceSection);
+        DocumentAnalysisResult analysisResult = pdfActivities.extractReferenceSection(pdfFilePath);
+        List<String> individualCitations = pdfActivities.splitReferences(analysisResult);
     //     List<Promise<String>> crossRefPromises = new ArrayList<>();
 
     //     for (String line : individualCitations) {
