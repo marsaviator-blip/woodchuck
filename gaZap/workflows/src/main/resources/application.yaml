@@ -59,28 +59,13 @@ server:
     enabled: false # Set to true if you want to enable SSL
 spring:
   ai:
-    openai:
-      # Paste your secret API key from the Groq console here
-      api-key: ${GROQ_API_KEY}
-      
-      # Overrides the default OpenAI URL to route requests to Groq's cloud instead
-      base-url: https://api.groq.com/openai/v1
-      
+    ollama:
+      base-url: http://localhost:11434
       chat:
-        # A highly accurate, fast model included in Groq's free tier
-        model: llama-3.3-70b-versatile
-        # Forces strict output format matching your Java Record
-        response-format:
-          type: JSON_OBJECT
-        # Low temperature (0.1) reduces randomness for accurate parsing
-        temperature: 0.1
-    # ollama:
-    #   base-url: http://localhost:11434
-    #   chat:
-    #     model: llama3.2 # Or mistral, phi3, etc.
-    #   embedding:
-    #     options:
-    #       model: nomic-embed-text # Popular model for embeddings
+        model: llama3.2 # Or mistral, phi3, etc.
+      embedding:
+        options:
+          model: nomic-embed-text # Popular model for embeddings
     # vectorstore:
       # opensearch:
       #   uris: http://localhost:9200

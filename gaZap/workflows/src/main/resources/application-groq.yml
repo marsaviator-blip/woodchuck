@@ -1,0 +1,13 @@
+spring:
+  # Disables Ollama so it doesn't spin up alongside your Groq config
+  autoconfigure:
+    exclude: org.springframework.ai.autoconfigure.ollama.OllamaAutoConfiguration
+  ai:
+    openai:
+      api-key: ${GROQ_API_KEY}
+      base-url: https://api.groq.com/openai/v1
+      chat:
+        model: llama-3.3-70b-versatile
+        response-format:
+          type: JSON_OBJECT
+        temperature: 0.1
