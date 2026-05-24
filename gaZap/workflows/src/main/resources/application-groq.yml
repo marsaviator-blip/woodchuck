@@ -11,3 +11,6 @@ spring:
         response-format:
           type: JSON_OBJECT
         temperature: 0.1
+  jmx:
+    enabled: true  # Ensure JMX framework is explicitly active
+    unique-names: true  # Prevents name clashes if you run other submodules

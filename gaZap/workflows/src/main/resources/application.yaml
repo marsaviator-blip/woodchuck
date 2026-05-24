@@ -176,3 +176,12 @@ springdoc:
 #         backoff-coefficient: 2.0
 #         maximum-interval-seconds: 20
 #         maximum-attempts: 5
+
+logging:
+  level:
+    org:
+      apache:
+        kafka:
+          common:
+            config:
+              AbstractConfig: WARN

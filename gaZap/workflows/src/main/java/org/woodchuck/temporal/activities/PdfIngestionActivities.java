@@ -13,7 +13,7 @@ public interface PdfIngestionActivities {
     DocumentAnalysisResult extractReferenceSection(byte[] rawPdfBytes);
 
     @ActivityMethod
-    List<String> splitReferences(DocumentAnalysisResult analysisResult);
+    DocumentAnalysisResult extractReferences(DocumentAnalysisResult analysisResult);
 
     @ActivityMethod
     void saveToNeo4jGraph(String title, List<String> crossRefJsonRecords);

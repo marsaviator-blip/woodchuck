@@ -36,12 +36,10 @@ import tools.jackson.databind.JsonNode;
 public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
 
     private final ChatClient chatClient;
-    private final VSmessageSender messageSender;
     private final ObjectMapper objectMapper; // Auto-configured by Spring Boot
     
-    public PdfIngestionActivitiesImpl(ChatClient.Builder builder, VSmessageSender messageSender, ObjectMapper objectMapper) {
+    public PdfIngestionActivitiesImpl(ChatClient.Builder builder, ObjectMapper objectMapper) {
         this.chatClient = builder.build();
-        this.messageSender = messageSender;
         this.objectMapper = objectMapper;
     }
 
@@ -103,8 +101,7 @@ public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
     }
 
     @Override
-    public List<String> splitReferences(DocumentAnalysisResult analysisResult) {
-        List<String> citations = new ArrayList<>();
+    public DocumentAnalysisResult extractReferences(DocumentAnalysisResult analysisResult) {
         System.out.println(chatClient.toString()); // Debug: Print the ChatClient instance to verify it's properly initialized
         String safeReferenceSection = analysisResult.referenceSection()
                 .replace("\\", "\\\\")   
@@ -122,16 +119,15 @@ public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
               """ + safeReferenceSection)
                 .call()
                 .entity(BibliographyResponse.class); // Automatically maps JSON to your Java object
-                System.out.println("ChatClient response for splitting references: " + chatResponse); // Debug output
-                if(analysisResult.bibliography() == null || analysisResult.bibliography().citations() == null || analysisResult.bibliography().citations().isEmpty() || analysisResult.bibliography().citations().get(0) == null) {
-                    messageSender.sendBibtexMessage(chatResponse); // Debug: Send the raw response to Kafka for inspection
-                    return citations; // Return empty list if no parent citation exists to attach to
-                }
-                BibliographyResponse.Citation updatedParent = analysisResult.bibliography().citations().get(0).withChildren(chatResponse.citations());
+        System.out.println("ChatClient response for splitting references: " + chatResponse); // Debug output
+        if(analysisResult.bibliography() == null || analysisResult.bibliography().citations() == null || analysisResult.bibliography().citations().isEmpty() || analysisResult.bibliography().citations().get(0) == null) {
+            return new DocumentAnalysisResult(analysisResult.referenceSection(), chatResponse); // Return empty list if no parent citation exists to attach to
+        }
+        BibliographyResponse.Citation updatedParent = analysisResult.bibliography().citations().get(0).withChildren(chatResponse.citations());
 
-                messageSender.sendBibtexMessage(new BibliographyResponse(List.of(updatedParent))); // Debug: Send the raw response to Kafka for inspection
+                //messageSender.sendBibtexMessage(new BibliographyResponse(List.of(updatedParent))); // Debug: Send the raw response to Kafka for inspection
         
-        return citations;
+        return new DocumentAnalysisResult(analysisResult.referenceSection(), new BibliographyResponse(List.of(updatedParent)));
     }
 
     @Override

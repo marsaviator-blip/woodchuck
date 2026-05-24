@@ -16,3 +16,4 @@ gaZap/vsProducer/target
 gaZap/pgStore/target
 gaZap/neo4jStore/target
 LIM/backend/target
+**/application-local.yml
