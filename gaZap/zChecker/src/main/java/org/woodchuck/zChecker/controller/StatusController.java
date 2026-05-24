@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
-import org.woodchuck.zChecker.services.LookForRunningContainers;
+//import org.woodchuck.zChecker.services.LookForRunningContainers;
 import com.github.dockerjava.api.model.Container;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,11 +19,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public class StatusController {
 
 //    private final Container container;
-    private final LookForRunningContainers lfrc;
-
-    public StatusController(LookForRunningContainers lfrc) {
+  //  private final LookForRunningContainers lfrc;
+//    public StatusController(LookForRunningContainers lfrc) {
+    public StatusController() {
 //        this.container = container;
-        this.lfrc = lfrc;
+        //this.lfrc = lfrc;
     }   
 
     @GetMapping("/containers")
@@ -33,8 +33,20 @@ public class StatusController {
         // @ApiResponse(response_code = "404", description = "Staus called but no containers found"),
         // @ApiResponse(response_code = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<Container>> getStatus() {        
-        return ResponseEntity.ok(this.lfrc.lookForRunningContainers());
+    public String getStatus() {        
+        // List<Container> containers = this.lfrc.lookForRunningContainers();
+        // if (containers.isEmpty()) {
+        //     return "No running containers found.";
+        // }
+        // return "Found " + containers.size() + " running container(s).";
+        return "yuk"; // --- IGNORE ---
     }
+    // public ResponseEntity<List<Container>> getStatus() {        
+    //     List<Container> containers = this.lfrc.lookForRunningContainers();
+    //     if (containers.isEmpty()) {
+    //         return ResponseEntity.noContent().build();
+    //     }
+    //     return ResponseEntity.ok(containers);
+    // }   
     // other endpoints
 }

@@ -1,9 +1,5 @@
 package org.woodchuck.zChecker.services;
 
-// import org.woodchuck.zChecker.model.ContainerInfo;
-// import org.woodchuck.zChecker.model.ZCheckerConfig;
-// import org.woodchuck.zChecker.utils.DockerUtils;
-// import org.woodchuck.zChecker.utils.Logger;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -13,47 +9,18 @@ import javax.print.Doc;
 import org.woodchuck.zChecker.configs.DockerConfig;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.Container;
-import com.github.dockerjava.core.DefaultDockerClientConfig;
-import com.github.dockerjava.core.DockerClientBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class LookForRunningContainers {
 
-   // private DockerConfig dockerConfig;
-//   private Container container;
-    private DockerClient dockerClient;
-    //private DockerClientConfig config;
-    //private final ZCheckerConfig config;
+    private final DockerClient dockerClient;
 
     public LookForRunningContainers(DockerClient dockerClient) {
-//        this.container = container;
         this.dockerClient = dockerClient;
         
 //        Logger.info("Setting up LookFoRunningContainers service...");
-        // Any additional setup can be done here
-
-        //  SEVERAL WAYS TO DO BUSINESS WITH DOCKER JAVA API
-
-        // DefaultDockerClientConfig config
-        // = DefaultDockerClientConfig.createDefaultConfigBuilder()
-        //     .withRegistryEmail("info@baeldung.com")
-        //     .withRegistryPassword("baeldung")
-        //     .withRegistryUsername("baeldung")
-        //     .withDockerCertPath("/home/baeldung/.docker/certs")
-        //     .withDockerConfig("/home/baeldung/.docker/")
-        //     .withDockerTlsVerify("1")
-        //     .withDockerHost("tcp://docker.baeldung.com:2376").build();
-
-        // DockerClient dockerClient = DockerClientBuilder.getInstance(config).build();
-
-        // DefaultDockerClientConfig.Builder config 
-        //     = DefaultDockerClientConfig.createDefaultConfigBuilder();
-        // DockerClient dockerClient = DockerClientBuilder
-        //     .getInstance(config)
-        //     .build();
-
-        //DockerClient dockerClient = DockerClientBuilder.getInstance().build();
-
         lookForRunningContainers();
     }
 
