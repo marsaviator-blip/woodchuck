@@ -8,6 +8,7 @@ import java.util.UUID;
 import ai.docling.serve.api.convert.request.source.HttpSource;
 import org.woodchuck.dtos.BibliographyResponse;
 import ai.docling.serve.api.chunk.request.HybridChunkDocumentRequest;
+import ai.docling.serve.api.chunk.request.options.HybridChunkerOptions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +45,9 @@ public class VSmessageReceiver {
         doclingAsyncService.processDocumentAsync(
                 HybridChunkDocumentRequest.builder()
                         .source(HttpSource.builder().url(URI.create(url)).build())
+                        .chunkingOptions(HybridChunkerOptions.builder()
+                            .mergePeers(true)   
+                            .build())
                         .build());
     }
 
