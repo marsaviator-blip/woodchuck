@@ -2,6 +2,7 @@ package org.woodchuck.zChecker.services;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Collections;
 import org.springframework.stereotype.Service;
 
 import javax.print.Doc;
@@ -33,8 +34,7 @@ public class LookForRunningContainers {
         List<Container> containers = dockerClient.listContainersCmd()
             .withShowSize(true)
             .withShowAll(true)
-            .exec();
-//            .withStatusFilter("exited").exec();
+            .withStatusFilter(Collections.singletonList("running")).exec();
         System.out.println("Found " + containers.size() + " containers.");
         // return containers.stream()
         //         .filter(container -> config.getTargetContainerNames().contains(container.getNames()[0]))
