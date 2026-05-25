@@ -9,12 +9,14 @@ import { useContainerStatus } from '@/services/status-check'
 
 const containers = ref([]);
 const containerStatus = useContainerStatus();
+const loading = ref(false);
 
 onMounted(async() => {
   console.log('The component is now mounted!')
   try {
     const statusData = await containerStatus.getStatus();
     containers.value = statusData;
+    console.log('Fetched container status:', statusData);
   } catch (err) {
     console.error('Error fetching container status:', err);
   }

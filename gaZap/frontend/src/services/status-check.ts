@@ -8,7 +8,7 @@ const error = ref(null);
 export function useContainerStatus() {
   const getStatus = async () => {
     try {
-      const response = await fetch('http://localhost:8089/gaZap/status/container');
+      const response = await fetch('http://localhost:8089/gaZap/status/container/');
       
       // Check if the HTTP response is successful
       if (!response.ok) {
@@ -20,7 +20,7 @@ export function useContainerStatus() {
       
       // Update the reactive state
       posts.value = data;
-      return data;
+      return posts;
     } catch (err) {
       // Capture any network or parsing errors
       error.value = err;

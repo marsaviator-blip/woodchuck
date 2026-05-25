@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
+@CrossOrigin(origins = "https://localhost:3002")
 @RequestMapping("/gaZap/status")
 //@RequiredArgsConstructor
 public class StatusController {
