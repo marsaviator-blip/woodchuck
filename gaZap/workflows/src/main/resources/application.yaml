@@ -59,6 +59,9 @@ server:
     enabled: false # Set to true if you want to enable SSL
 spring:
   ai:
+    model:
+      chat: ollama
+      embedding: ollama
     ollama:
       base-url: http://localhost:11434
       chat:
@@ -77,6 +80,7 @@ spring:
       #   distance-type: COSINE_DISTANCE
       #   index-type: HNSW
       #   initialize-schema: true
+    # 💡 NEW WAY: Turn OpenAI/Groq completely off using modern root properties
 
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
