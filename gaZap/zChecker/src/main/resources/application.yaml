@@ -5,6 +5,8 @@ spring:
     web-application-type: servlet
   docker:
     compose:
+      readiness:
+        timeout: 5m
       enabled: true
       file: ../../docker_dependencies/compose.yml
 server:
