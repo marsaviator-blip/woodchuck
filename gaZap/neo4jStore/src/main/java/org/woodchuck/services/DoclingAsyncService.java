@@ -1,10 +1,15 @@
 package org.woodchuck.services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
+
+import org.woodchuck.repositories.DocumentGraphRepository;
+import org.woodchuck.entities.DocumentRelations;
+import org.woodchuck.entities.TableRowEntity;
 
 import ai.docling.serve.api.DoclingServeApi;
 import ai.docling.serve.api.chunk.request.HybridChunkDocumentRequest;
@@ -48,45 +53,90 @@ public class DoclingAsyncService {
     private final DoclingServeApi doclingServeApi;
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private final VectorStore vectorStore;
+    private final DocumentGraphRepository documentGraphRepository;
 
-    public DoclingAsyncService(DoclingServeApi doclingServeApi, VectorStore vectorStore) {
+    public DoclingAsyncService(DoclingServeApi doclingServeApi, VectorStore vectorStore, DocumentGraphRepository documentGraphRepository) {
         this.doclingServeApi = doclingServeApi;
         this.vectorStore = vectorStore;
+        this.documentGraphRepository = documentGraphRepository;
     }
 
     public CompletableFuture<ChunkDocumentResponse> processDocumentAsync(HybridChunkDocumentRequest request) {
         CompletionStage<ChunkDocumentResponse> stage = doclingServeApi.chunkSourceWithHybridChunkerAsync(request);
         CompletableFuture<ChunkDocumentResponse> resultFuture =stage.toCompletableFuture().thenApply(response -> {
                 System.out.println("Document conversion succeeded: ");
-   
-                    List<Document> chunks = response.getChunks().stream()
-                            .map(doclingChunk -> {
-                                // 1. Extract the text content from the Docling chunk
-                                String text = doclingChunk.getText();
-                                //System.out.println("Chunk text: " + text); // Debug: Print the chunk text
-                                // 2. Map Docling metadata (headings, pages, etc.) to a Map
+                String documentId =  "the document";//request.getSources().get(0).getUrl().toString(); // Using the URL as the document ID
+                    var doclingChunks = response.getChunks();
+                    if (doclingChunks == null || doclingChunks.isEmpty()) return response; // No chunks to process
+                    List<DocumentRelations> instantiatedEntities = new ArrayList<>();
+                    Map<String, DocumentRelations> lookupTable = new HashMap<>();
+                    for (int i = 0; i < doclingChunks.size(); i++) {
+                        // HERE is where doclingChunks is used to feed the pipeline!
+                        var chunk = doclingChunks.get(i);
+                        
+                        // Extract the text and layout type from the Docling chunk object
+                        String textContent = chunk.toString(); // or chunk.getText()
+                        String chunkType = "text";             // default placeholder (e.g., chunk.getType())
+                        
+                        String compositeId = documentId + "#chunk-" + i;
+
+                        // Instantiate the graph node
+                        DocumentRelations entity = new DocumentRelations();
+                        entity.setId(compositeId);
+                        entity.setText(textContent);
+                        entity.setType(chunkType); 
+
+                        // Generate the semantic vector using your local Ollama container
+                        // float[] vector = embeddingModel.embed(textContent);
+                        // entity.setEmbedding(vector);
+
+                        // Collect them into our tracking arrays for Step 2
+                        instantiatedEntities.add(entity);
+                        lookupTable.put(compositeId, entity);
+                    }                    
+                    for (int i = 0; i < instantiatedEntities.size(); i++) {
+                        DocumentRelations current = instantiatedEntities.get(i);
+                        if (i < instantiatedEntities.size() - 1) {
+                            current.setNextChunk(instantiatedEntities.get(i + 1));
+                        }
+
+                        // B. Document Hierarchy Tree Connection: (Header Section)-[:HAS_CHILD]->(Text Paragraph)
+                        // If docling specifies an explicit parent index anchor, link them:
+                        String structuralParentId = documentId + "#chunk-" + (i - 1); // Mock example logic
+                        if (lookupTable.containsKey(structuralParentId) && i > 0) {
+                            DocumentRelations sectionHeaderNode = lookupTable.get(structuralParentId);
+                            if ("heading".equalsIgnoreCase(sectionHeaderNode.getType())) {
+                                current.setParentSection(sectionHeaderNode);
+                            }
+                        }
+                    }
+                    documentGraphRepository.saveAll(instantiatedEntities);
+
+                    List<Document> chunks = instantiatedEntities.stream()
+                            .map(graphNode -> {
+                                // 1. Maintain layout metadata using a flat key map
                                 Map<String, Object> metadata = new HashMap<>();
-                                // Use the flattened getters directly on the chunk
-                                if (doclingChunk.getHeadings() != null) {
-                                    metadata.put("headings", doclingChunk.getHeadings());
-                                }
                                 
-                                // Page info or unique identifier
-                                if (doclingChunk.getPageNumbers() != null) {
-                                    metadata.put("page_numbers", doclingChunk.getPageNumbers());
+                                // Map rich data from your entity class fields natively
+                                if (graphNode.getType() != null) {
+                                    metadata.put("type", graphNode.getType());
+                                }
+                                if (graphNode.getHeadingPath() != null) {
+                                    metadata.put("headings", graphNode.getHeadingPath());
+                                }
+                                if (graphNode.getPageNumbers() != null) {
+                                    metadata.put("page_numbers", graphNode.getPageNumbers());
                                 }
 
-                                return (text != null) ? new org.springframework.ai.document.Document(text, metadata) : null;
+                                // 2. CRITICAL: Use the 3-argument constructor to pass your exact Neo4j ID
+                                // Document(String id, String content, Map<String, Object> metadata)
+                                return new Document(
+                                    graphNode.getId(),    // Explicitly syncs Neo4j Key to Vector Store Key!
+                                    graphNode.getText(),  // Content segment
+                                    metadata              // Filtering payload map
+                                );
                             })
-                            .filter(Objects::nonNull)
                             .toList();
-                    // chunks.forEach(chunk -> {
-                    // //    System.out.println("Chunk: " + chunk.getText());
-                    //     System.out.println("Metadata: " + chunk.getMetadata());
-                    //     //float[] vecs = embeddingService.getEmbeddings(chunk.getText());
-                    //     //System.out.println("Embedding length: " + vecs.length);
-                    //     messageSender.sendMessage("Chunk: " + chunk.getText() + " | Metadata: " + chunk.getMetadata() );
-                    // });
                     System.out.println("Adding " + chunks.size() + " chunks to the vector store.");
                     vectorStore.add(chunks);
                     System.out.println("Chunks added to vector store successfully.");

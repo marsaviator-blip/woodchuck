@@ -46,7 +46,7 @@ public class VSmessageSender {
         CompletableFuture<SendResult<String, BibliographyResponse>> future = kafkaBibtexTemplate.send(BIBTEX_TOPIC_NAME, bibtex);
         future.whenComplete((result, ex) -> {
             if (ex == null) {
-                System.out.println("Sent message=[" + bibtex + 
+                System.out.println("Sent message=[" + bibtex.citations().size() + 
                 "] with offset=[" + result.getRecordMetadata().offset() + "]");
             } else {
                 System.out.println("Unable to send message=[" + 

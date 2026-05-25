@@ -1,10 +1,10 @@
 package org.woodchuck.temporal.activities;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+
 import org.woodchuck.dtos.BibliographyResponse;
+import org.woodchuck.dtos.DocumentAnalysisResult;
 import org.woodchuck.services.VSmessageSender;
 
 import io.temporal.spring.boot.ActivityImpl;
@@ -20,6 +20,7 @@ import java.util.UUID;
 
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.jbibtex.BibTeXDatabase;
 import org.jbibtex.BibTeXEntry;
@@ -35,22 +36,45 @@ import tools.jackson.databind.JsonNode;
 public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
 
     private final ChatClient chatClient;
-    private final VSmessageSender messageSender;
     private final ObjectMapper objectMapper; // Auto-configured by Spring Boot
     
-    public PdfIngestionActivitiesImpl(ChatClient.Builder builder, VSmessageSender messageSender, ObjectMapper objectMapper) {
+    public PdfIngestionActivitiesImpl(ChatClient.Builder builder, ObjectMapper objectMapper) {
         this.chatClient = builder.build();
-        this.messageSender = messageSender;
         this.objectMapper = objectMapper;
     }
 
     @Override
-    public String extractReferenceSection(String pdfFilePath) {
+    public DocumentAnalysisResult extractReferenceSection(byte[] rawPdfBytes) {
         try {
-            Resource resource = new FileSystemResource(pdfFilePath);
-            File file = resource.getFile();
+            File file = File.createTempFile("tempPdf", ".pdf");
+            java.nio.file.Files.write(file.toPath(), rawPdfBytes);
         
-        try (PDDocument document = Loader.loadPDF(file)) {
+        try (PDDocument document = Loader.loadPDF(rawPdfBytes)) {
+            PDDocumentInformation info = document.getDocumentInformation();
+            List<BibliographyResponse.Citation> citations = new ArrayList<>();
+
+            if (info != null) {
+                List<BibliographyResponse.BibTeXField> fields = new ArrayList<>();
+
+                // Map standard metadata fields into BibTeX equivalents
+                addFieldsIfPresent(fields, "title", info.getTitle());
+                addFieldsIfPresent(fields, "author", info.getAuthor());
+                addFieldsIfPresent(fields, "subject", info.getSubject());
+                addFieldsIfPresent(fields, "keywords", info.getKeywords());
+                addFieldsIfPresent(fields, "creator", info.getCreator());
+                addFieldsIfPresent(fields, "producer", info.getProducer());
+
+                if (info.getCreationDate() != null) {
+                    addFieldsIfPresent(fields, "year", String.valueOf(info.getCreationDate().get(java.util.Calendar.YEAR)));
+                }
+
+                // Generate a temporary citation key based on author/year if available
+                String citeKey = generateCiteKey(info);
+
+                // Add the single article identity citation to the array
+                // For a parsed journal article, the standard BibTeX entry type is usually "article"
+                citations.add(new BibliographyResponse.Citation("article", citeKey, fields));
+            }
             PDFTextStripper stripper = new PDFTextStripper();
             
             // Step 1: Optimize performance by scanning only the last 4 pages
@@ -66,21 +90,20 @@ public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
             
             if (matcher.find()) {
                 // Return everything from the match point to the end of the file
-                return rawTailText.substring(matcher.start());
+                return new DocumentAnalysisResult(rawTailText.substring(matcher.start()), new BibliographyResponse(citations));
             }
             
-            return rawTailText; // Fallback if no clean boundary match found
+            return new DocumentAnalysisResult(rawTailText, new BibliographyResponse(citations)); // Fallback if no clean boundary match found
         }
         } catch (Exception e) {
-            throw new RuntimeException("Failed PDFBox extraction for file: " + pdfFilePath, e);
+            throw new RuntimeException("Failed PDFBox extraction for raw byte buffer", e);
         }
     }
 
     @Override
-    public List<String> splitReferences(String rawReferenceSection) {
-        List<String> citations = new ArrayList<>();
+    public DocumentAnalysisResult extractReferences(DocumentAnalysisResult analysisResult) {
         System.out.println(chatClient.toString()); // Debug: Print the ChatClient instance to verify it's properly initialized
-        String safeReferenceSection = rawReferenceSection
+        String safeReferenceSection = analysisResult.referenceSection()
                 .replace("\\", "\\\\")   
                 .replace("\"", "\\\"")   
                 .replace("\n", "\\n")    
@@ -96,34 +119,15 @@ public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
               """ + safeReferenceSection)
                 .call()
                 .entity(BibliographyResponse.class); // Automatically maps JSON to your Java object
-                System.out.println("ChatClient response for splitting references: " + chatResponse); // Debug output
-                messageSender.sendBibtexMessage(chatResponse); // Debug: Send the raw response to Kafka for inspection
-        // // Match standard academic list numbers like [1], 1., or [Buchberger85]
-        // Pattern pattern = Pattern.compile("(^|\\n)(\\[\\d+\\]|\\d+\\.\\s+|\\[[A-Za-z]+\\d+\\])");
-        // Matcher matcher = pattern.matcher(rawReferenceSection);
+        System.out.println("ChatClient response for splitting references: " + chatResponse); // Debug output
+        if(analysisResult.bibliography() == null || analysisResult.bibliography().citations() == null || analysisResult.bibliography().citations().isEmpty() || analysisResult.bibliography().citations().get(0) == null) {
+            return new DocumentAnalysisResult(analysisResult.referenceSection(), chatResponse); // Return empty list if no parent citation exists to attach to
+        }
+        BibliographyResponse.Citation updatedParent = analysisResult.bibliography().citations().get(0).withChildren(chatResponse.citations());
+
+                //messageSender.sendBibtexMessage(new BibliographyResponse(List.of(updatedParent))); // Debug: Send the raw response to Kafka for inspection
         
-        // int lastIndex = 0;
-        // String currentCitation = "";
-        
-        // while (matcher.find()) {
-        //     if (lastIndex != 0) {
-        //         currentCitation = rawReferenceSection.substring(lastIndex, matcher.start()).trim();
-        //         if (!currentCitation.isEmpty()) {
-        //             citations.add(cleanWhitespace(currentCitation));
-        //         }
-        //     }
-        //     lastIndex = matcher.end();
-        // }
-        
-        // // Add the very last citation entry remaining in the string block
-        // if (lastIndex < rawReferenceSection.length()) {
-        //     currentCitation = rawReferenceSection.substring(lastIndex).trim();
-        //     if (!currentCitation.isEmpty()) {
-        //         citations.add(cleanWhitespace(currentCitation));
-        //     }
-        // }
-        
-        return citations;
+        return new DocumentAnalysisResult(analysisResult.referenceSection(), new BibliographyResponse(List.of(updatedParent)));
     }
 
     @Override
@@ -195,60 +199,30 @@ public class PdfIngestionActivitiesImpl implements PdfIngestionActivities {
         Map<Key, BibTeXEntry> entries = db.getEntries();
         if (entries.isEmpty()) return;
 
-       //messageSender.sendMessage(parentTitle);
+
+    }
+
+    private void addFieldsIfPresent(List<BibliographyResponse.BibTeXField> fields, String key, String value) {
+        if (value != null && !value.strip().isEmpty()) {
+            fields.add(new BibliographyResponse.BibTeXField(key, value.strip()));
+        }
+    }
+
+    private String generateCiteKey(PDDocumentInformation info) {
+        String author = info.getAuthor();
+        String year = "";
         
-        // try (Session session = neo4jDriver.session()) {
-        //     String parentId = UUID.randomUUID().toString();
+        if (info.getCreationDate() != null) {
+            year = String.valueOf(info.getCreationDate().get(java.util.Calendar.YEAR));
+        }
 
-        //     session.executeWrite(tx -> {
-        //         // Initialize the main parent article node
-        //         tx.run("""
-        //             MERGE (p:Document {title: $parentTitle})
-        //             ON CREATE SET p.id = $parentId, p.type = 'MainArticle'
-        //             """, Map.of("parentTitle", parentTitle, "parentId", parentId));
-
-        //         // Loop through your JBibTeX entries
-        //         for (Map.Entry<Key, BibTeXEntry> entryMapping : entries.entrySet()) {
-        //             BibTeXEntry entry = entryMapping.getValue();
-
-        //             // Safely pull string values using JBibTeX Key lookups
-        //             String citationKey = entryMapping.getKey().getValue();
-        //             String title = getBibtexFieldValue(entry, BibTeXEntry.KEY_TITLE);
-        //             String authors = getBibtexFieldValue(entry, BibTeXEntry.KEY_AUTHOR);
-        //             String year = getBibtexFieldValue(entry, BibTeXEntry.KEY_YEAR);
-
-        //             org.jbibtex.BibTeXDatabase tempDb = new org.jbibtex.BibTeXDatabase();
-        //             tempDb.addObject(entry); 
-        //             // Use the built-in JBibTeX formatter to generate a compliant output block
-        //             StringWriter writer = new StringWriter();
-        //             org.jbibtex.BibTeXFormatter formatter = new org.jbibtex.BibTeXFormatter();
-        //             try {
-        //                 formatter.format(tempDb, writer);
-        //             } catch (Exception ignored) {}
-        //             String rawBibtexBlock = writer.toString();
-
-        //             // Relate everything together in the graph
-        //             tx.run("""
-        //                 MATCH (p:Document {title: $parentTitle})
-        //                 MERGE (c:Citation {citationKey: $citationKey})
-        //                 ON CREATE SET 
-        //                     c.title = $title,
-        //                     c.authors = $authors,
-        //                     c.year = $year,
-        //                     c.rawBibtex = $rawBibtex
-        //                 MERGE (p)-[:CITES]->(c)
-        //                 """, Map.of(
-        //                     "parentTitle", parentTitle,
-        //                     "citationKey", citationKey,
-        //                     "title", title,
-        //                     "authors", authors,
-        //                     "year", year,
-        //                     "rawBibtex", rawBibtexBlock
-        //                 ));
-        //         }
-        //         return null;
-        //     });
-        // }
+        if (author != null && !author.strip().isEmpty()) {
+            // Take the first word of the author string (usually last name) and strip special characters
+            String cleanAuthor = author.split("\\s+")[0].replaceAll("[^a-zA-Z0-9]", "");
+            return cleanAuthor.toLowerCase() + year;
+        }
+        
+        return "doc" + (year.isEmpty() ? System.currentTimeMillis() : year);
     }
 
 }

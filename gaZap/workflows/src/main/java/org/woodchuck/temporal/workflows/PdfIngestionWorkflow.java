@@ -7,5 +7,5 @@ import io.temporal.workflow.WorkflowMethod;
 public interface PdfIngestionWorkflow {
 
     @WorkflowMethod
-    void execute(String pdfFilePath, String title);
+    void execute(String url);
 }

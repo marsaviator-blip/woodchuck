@@ -12,6 +12,7 @@ import io.temporal.workflow.Workflow;
 
 import org.woodchuck.temporal.workflows.ActivityExecutionSettings;
 import org.woodchuck.dtos.CrossrefRecord;
+import org.woodchuck.dtos.CrossrefXmlResponse;
 import org.woodchuck.temporal.activities.CrossrefActivities;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
@@ -29,7 +30,7 @@ public class CrossrefWorkflowImpl implements org.woodchuck.temporal.workflows.Cr
         }
     
         @Override
-        public CrossrefRecord cross(String doi) {
+        public CrossrefXmlResponse cross(String doi) {
             Workflow.await(() -> true);
             CrossrefActivities activities = Workflow.newActivityStub(CrossrefActivities.class,
                 ActivityOptions.newBuilder()
@@ -43,32 +44,32 @@ public class CrossrefWorkflowImpl implements org.woodchuck.temporal.workflows.Cr
                             .build())
                     .build());
                     System.out.println("Activity stub for CrossrefActivities created.");
-            String works = activities.getWorks(doi);
-            System.out.println("Received works data: " + works);
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode rootNode = objectMapper.readTree(works);
-            JsonNode messageNode = rootNode.path("message");
-            JsonNode issnNode = messageNode.path("ISSN");
-            List<String> issnData = new java.util.ArrayList<>();
-            for (JsonNode node : issnNode) {
-                String issn = node.asString();
-                issnData.add(issn);
-            }
-            System.out.println("Extracted ISSN data: " + issnData);
-            JsonNode referencesNode = messageNode.path("reference");
-            List<String> doiData = new java.util.ArrayList<>();
-            if (referencesNode != null && referencesNode.isArray()) {
-            for (JsonNode node : referencesNode) {
-                if(node.has("DOI")) {
-                    String referenceDoi = node.path("DOI").asString();
-                    doiData.add(referenceDoi);
-                }
-            }
-            }
-            System.out.println("Extracted DOI data: " + doiData);
-            CrossrefRecord record = new CrossrefRecord(issnData, doiData);
-            System.out.println("Created CrossrefRecord: " + record);
-            return record;
+            return activities.getWorks(doi);
+            // System.out.println("Received works data: " + works);
+            // ObjectMapper objectMapper = new ObjectMapper();
+            // JsonNode rootNode = objectMapper.readTree(works);
+            // JsonNode messageNode = rootNode.path("message");
+            // JsonNode issnNode = messageNode.path("ISSN");
+            // List<String> issnData = new java.util.ArrayList<>();
+            // for (JsonNode node : issnNode) {
+            //     String issn = node.asString();
+            //     issnData.add(issn);
+            // }
+            // System.out.println("Extracted ISSN data: " + issnData);
+            // JsonNode referencesNode = messageNode.path("reference");
+            // List<String> doiData = new java.util.ArrayList<>();
+            // if (referencesNode != null && referencesNode.isArray()) {
+            // for (JsonNode node : referencesNode) {
+            //     if(node.has("DOI")) {
+            //         String referenceDoi = node.path("DOI").asString();
+            //         doiData.add(referenceDoi);
+            //     }
+            // }
+            // }
+            // System.out.println("Extracted DOI data: " + doiData);
+            // CrossrefRecord record = new CrossrefRecord(issnData, doiData);
+            // System.out.println("Created CrossrefRecord: " + record);
+            // return record;
         }
 
 }

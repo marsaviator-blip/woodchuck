@@ -2,14 +2,13 @@ package org.woodchuck.services;
 
 import java.io.StringWriter;
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import ai.docling.serve.api.convert.request.source.HttpSource;
 import org.woodchuck.dtos.BibliographyResponse;
 import ai.docling.serve.api.chunk.request.HybridChunkDocumentRequest;
-import ai.docling.serve.api.chunk.response.ChunkDocumentResponse;
-import ai.docling.serve.api.convert.request.ConvertDocumentRequest;
+import ai.docling.serve.api.chunk.request.options.HybridChunkerOptions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +22,7 @@ import org.jbibtex.StringValue;
 
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Session;
+import org.neo4j.driver.TransactionContext;
 
 @Service
 public class VSmessageReceiver {
@@ -42,50 +42,23 @@ public class VSmessageReceiver {
     public void receiveMessage(String url) {
         logger.info("Received message: {}", url);
         // Process the message as needed
-        CompletableFuture<ChunkDocumentResponse> future = doclingAsyncService.processDocumentAsync(
+        doclingAsyncService.processDocumentAsync(
                 HybridChunkDocumentRequest.builder()
                         .source(HttpSource.builder().url(URI.create(url)).build())
+                        .chunkingOptions(HybridChunkerOptions.builder()
+                            .mergePeers(true)   
+                            .build())
                         .build());
     }
 
     @KafkaListener(topics = BIBTEX_TOPIC_NAME)
     public void receiveBibtexResponse(BibliographyResponse response) {
         logger.info("Received BibTeX message: {}", response);
-        BibTeXDatabase database = new BibTeXDatabase();
-
-        // Map over each citation from your record list
-        for (BibliographyResponse.Citation citation : response.citations()) {
-            
-            // 1. Create Keys for the entry type and the unique citation key
-            Key entryTypeKey = new Key(citation.type()); // e.g., "article", "book"
-            Key citeKey = new Key(citation.citeKey());   // e.g., "smith2026"
-
-            // 2. Initialize the BibTeXEntry container
-            BibTeXEntry entry = new BibTeXEntry(entryTypeKey, citeKey);
-
-            // 3. Map your BibTeXField fields directly onto the entry object
-            for (BibliographyResponse.BibTeXField field : citation.fields()) {
-                Key fieldKey = new Key(field.key()); // e.g., "title", "author"
-                
-                // JBibTeX requires values wrapped in specific Value subclasses (like StringValue)
-                StringValue fieldValue = new StringValue(
-                    field.value(), 
-                    StringValue.Style.QUOTED // Encapsulates content in "" rather than {}
-                );
-
-                entry.addField(fieldKey, fieldValue);
-            }
-
-            // 4. Register the populated entry into the database instance
-            database.addObject(entry);
-        }
-
-        Map<Key, BibTeXEntry> entries = database.getEntries();
-        if (entries.isEmpty()) return;
+        if (response == null || response.citations() == null || response.citations().isEmpty()) return;
 
         try (Session session = neo4jDriver.session()) {
             String parentId = UUID.randomUUID().toString();
-            String parentTitle = "Document with " + entries.size() + " citations";
+            String parentTitle = "Document citations " + parentId;
 
             session.executeWrite(tx -> {
                 // Initialize the main parent article node
@@ -94,48 +67,104 @@ public class VSmessageReceiver {
                     ON CREATE SET p.id = $parentId, p.type = 'MainArticle'
                     """, Map.of("parentTitle", parentTitle, "parentId", parentId));
 
-                // Loop through your JBibTeX entries
-                for (Map.Entry<Key, BibTeXEntry> entryMapping : entries.entrySet()) {
-                    BibTeXEntry entry = entryMapping.getValue();
-
-                    // Safely pull string values using JBibTeX Key lookups
-                    String citationKey = entryMapping.getKey().getValue();
-                    String title = getBibtexFieldValue(entry, BibTeXEntry.KEY_TITLE);
-                    String authors = getBibtexFieldValue(entry, BibTeXEntry.KEY_AUTHOR);
-                    String year = getBibtexFieldValue(entry, BibTeXEntry.KEY_YEAR);
-
-                    org.jbibtex.BibTeXDatabase tempDb = new org.jbibtex.BibTeXDatabase();
-                    tempDb.addObject(entry); 
-                    // Use the built-in JBibTeX formatter to generate a compliant output block
-                    StringWriter writer = new StringWriter();
-                    org.jbibtex.BibTeXFormatter formatter = new org.jbibtex.BibTeXFormatter();
-                    try {
-                        formatter.format(tempDb, writer);
-                    } catch (Exception ignored) {}
-                    String rawBibtexBlock = writer.toString();
-
-                    // Relate everything together in the graph
-                    tx.run("""
-                        MATCH (p:Document {title: $parentTitle})
-                        MERGE (c:Citation {citationKey: $citationKey})
-                        ON CREATE SET 
-                            c.title = $title,
-                            c.authors = $authors,
-                            c.year = $year,
-                            c.rawBibtex = $rawBibtex
-                        MERGE (p)-[:CITES]->(c)
-                        """, Map.of(
-                            "parentTitle", parentTitle,
-                            "citationKey", citationKey,
-                            "title", title,
-                            "authors", authors,
-                            "year", year,
-                            "rawBibtex", rawBibtexBlock
-                        ));
-                }
+                persistCitationsRecursively(tx, parentTitle, response.citations(), null);
                 return null;
             });
         }
+    }
+
+    private void persistCitationsRecursively(
+            TransactionContext tx,
+            String parentTitle,
+            List<BibliographyResponse.Citation> citations,
+            String parentCitationKey) {
+        if (citations == null || citations.isEmpty()) {
+            return;
+        }
+
+        for (BibliographyResponse.Citation citation : citations) {
+            if (citation == null || citation.citeKey() == null || citation.citeKey().isBlank()) {
+                continue;
+            }
+
+            BibTeXEntry entry = toBibtexEntry(citation);
+            String citationKey = citation.citeKey();
+            String title = getBibtexFieldValue(entry, BibTeXEntry.KEY_TITLE);
+            String authors = getBibtexFieldValue(entry, BibTeXEntry.KEY_AUTHOR);
+            String year = getBibtexFieldValue(entry, BibTeXEntry.KEY_YEAR);
+            String rawBibtexBlock = formatRawBibtex(entry);
+
+            tx.run("""
+                MERGE (c:Citation {citationKey: $citationKey})
+                ON CREATE SET
+                    c.title = $title,
+                    c.authors = $authors,
+                    c.year = $year,
+                    c.rawBibtex = $rawBibtex
+                """, Map.of(
+                    "citationKey", citationKey,
+                    "title", title,
+                    "authors", authors,
+                    "year", year,
+                    "rawBibtex", rawBibtexBlock
+                ));
+
+            if (parentCitationKey == null) {
+                tx.run("""
+                    MATCH (p:Document {title: $parentTitle})
+                    MATCH (c:Citation {citationKey: $citationKey})
+                    MERGE (p)-[:CITES]->(c)
+                    """, Map.of("parentTitle", parentTitle, "citationKey", citationKey));
+            } else {
+                tx.run("""
+                    MATCH (parent:Citation {citationKey: $parentCitationKey})
+                    MATCH (child:Citation {citationKey: $citationKey})
+                    MERGE (parent)-[:CITES]->(child)
+                    """, Map.of("parentCitationKey", parentCitationKey, "citationKey", citationKey));
+            }
+
+            List<BibliographyResponse.Citation> children = citation.children();
+            if (children != null) {
+                persistCitationsRecursively(tx, parentTitle, children, citationKey);
+            }
+        }
+    }
+
+    private BibTeXEntry toBibtexEntry(BibliographyResponse.Citation citation) {
+        String type = (citation.type() == null || citation.type().isBlank()) ? "misc" : citation.type();
+        Key entryTypeKey = new Key(type);
+        Key citeKey = new Key(citation.citeKey());
+        BibTeXEntry entry = new BibTeXEntry(entryTypeKey, citeKey);
+
+        List<BibliographyResponse.BibTeXField> fields = citation.fields();
+        if (fields == null || fields.isEmpty()) {
+            return entry;
+        }
+
+        for (BibliographyResponse.BibTeXField field : fields) {
+            if (field == null || field.key() == null || field.key().isBlank() || field.value() == null) {
+                continue;
+            }
+
+            Key fieldKey = new Key(field.key());
+            StringValue fieldValue = new StringValue(field.value(), StringValue.Style.QUOTED);
+            entry.addField(fieldKey, fieldValue);
+        }
+
+        return entry;
+    }
+
+    private String formatRawBibtex(BibTeXEntry entry) {
+        BibTeXDatabase tempDb = new BibTeXDatabase();
+        tempDb.addObject(entry);
+        StringWriter writer = new StringWriter();
+        org.jbibtex.BibTeXFormatter formatter = new org.jbibtex.BibTeXFormatter();
+        try {
+            formatter.format(tempDb, writer);
+        } catch (Exception ignored) {
+            return "";
+        }
+        return writer.toString();
     }
 
     private String getBibtexFieldValue(BibTeXEntry entry, Key fieldKey) {
