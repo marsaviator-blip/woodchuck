@@ -1,4 +1,5 @@
 include:
+  - path: ./temporalio/docker-compose.yml
   - path: ./apache_kafka/docker-compose.yml
   - path: ./docling/docker-compose.yml
   - path: ./neo4j/docker-compose.yml
