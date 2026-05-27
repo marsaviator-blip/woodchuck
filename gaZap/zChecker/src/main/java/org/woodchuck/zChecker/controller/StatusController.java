@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @CrossOrigin(origins = "https://localhost:3002")
-@RequestMapping("/gaZap/status")
+@RequestMapping("/gaZap/status/")
 //@RequiredArgsConstructor
 public class StatusController {
 
@@ -39,11 +39,13 @@ public class StatusController {
         // return "Found " + containers.size() + " running container(s).";
     //    return "yuk"; // --- IGNORE ---
     //}
-    public ResponseEntity<List<Container>> getStatus() {        
+    public ResponseEntity<List<Container>> getStatus() { 
+        System.out.println("Received request for container status");       
         List<Container> containers = this.lfrc.lookForRunningContainers();
         if (containers.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
+        System.out.println("Found " + containers.size() + " running container(s).");
         return ResponseEntity.ok(containers);
     }   
     // other endpoints

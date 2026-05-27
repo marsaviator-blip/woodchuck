@@ -8,8 +8,9 @@ const error = ref(null);
 export function useContainerStatus() {
   const getStatus = async () => {
     try {
-      const response = await fetch('http://localhost:8089/gaZap/status/container/');
-      
+      console.log('Fetching container status from backend...');
+      const response = await fetch('http://localhost:8089/gaZap/status/containers');
+      console.log('Raw response:', response);
       // Check if the HTTP response is successful
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -17,6 +18,7 @@ export function useContainerStatus() {
 
       // Parse the JSON data
       const data = await response.json();
+      console.log('Received data:', data);
       
       // Update the reactive state
       posts.value = data;

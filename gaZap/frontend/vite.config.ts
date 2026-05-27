@@ -16,7 +16,7 @@ export default defineConfig({
     mkcert(),
   ],
   server: {
-    historyApiFallback: true, // This ensures unmatched routes fall back to index.html
+    //historyApiFallback: true, // This ensures unmatched routes fall back to index.html
     // proxy: {
     //   '/api': {
     //     target: 'http://localhost:8089', // Your backend URL

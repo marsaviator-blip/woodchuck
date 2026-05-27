@@ -1,76 +1,29 @@
 <template>
-  <dialog ref="dialogEl" class="dialog-box" @click="onClickOutside">
-    <div class="dialog-content" @click.stop>
-      <header>
-        <h3><slot name="title">Default Title</slot></h3>
-        <button class="close-btn" @click="close">✖</button>
-      </header>
-      <main>
-        <slot>Default body text goes here.</slot>
-      </main>
+  <div v-if="isOpen" class="dialog-overlay">
+    <div class="dialog-content">
+      <h3>Container List</h3>
+      <ul>
+        <li v-for="(json, index) in listData" :key="index">
+          {{ json }} <!-- Assuming item is an object, you can format it as needed -->
+        </li>
+      </ul>
+      <button @click="$emit('update:isOpen', false)">Close</button>
     </div>
-  </dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
-const dialogEl = ref<HTMLDialogElement | null>(null)
-
-// Open the dialog modally
-const open = () => {
-  dialogEl.value?.showModal()
-}
-
-// Close the dialog
-const close = () => {
-  dialogEl.value?.close()
-}
-
-// Close when clicking the backdrop (outside the modal content)
-const onClickOutside = (event: MouseEvent) => {
-  const target = event.target as HTMLElement
-  if (target && target.classList.contains('dialog-box')) {
-    close()
+defineProps({
+  isOpen: {
+    type: Boolean,
+    required: true
+  },
+  listData: {
+    type: Array,
+    required: true,
+    default: () => []
   }
-}
+});
 
-// Expose these methods to parent components
-defineExpose({
-  open,
-  close
-})
+defineEmits(['update:isOpen']);
 </script>
-
-<style scoped>
-.dialog-box {
-  border: none;
-  border-radius: 8px;
-  padding: 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Backdrop dimming effect */
-.dialog-box::backdrop {
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.dialog-content {
-  padding: 20px;
-  min-width: 300px;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.2rem;
-}
-</style>
