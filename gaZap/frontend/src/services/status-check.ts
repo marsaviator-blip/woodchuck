@@ -11,7 +11,7 @@ export function useContainerStatus() {
   const getStatus = async () => {
     try {
       console.log('Fetching container status from backend...');
-      const response = await fetch('http://localhost:8089/gaZap/status/containers/status', {
+      const response = await fetch('/api/gaZap/status/containers/status', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ export function useContainerStatus() {
       
       // Update the reactive state
       status.value = data;
-      return status;
+      return data;
     } catch (err) {
       // Capture any network or parsing errors
       error.value = err;
@@ -48,7 +48,7 @@ export function useContainerRawStatus() {
   const getRawStatus = async () => {
     try {
       console.log('Fetching raw container status from backend...');
-      const response = await fetch('http://localhost:8089/gaZap/status/containers/rawStatus');
+      const response = await fetch('/api/gaZap/status/containers/rawStatus');
       console.log('Raw response:', response);
       // Check if the HTTP response is successful
       if (!response.ok) {
@@ -61,7 +61,7 @@ export function useContainerRawStatus() {
       
       // Update the reactive state
       rawStatus.value = data;
-      return rawStatus;
+      return data;
     } catch (err) {
       // Capture any network or parsing errors
       error.value = err;
