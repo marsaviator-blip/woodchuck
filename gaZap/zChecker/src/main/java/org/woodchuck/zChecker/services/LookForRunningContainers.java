@@ -41,8 +41,10 @@ public class LookForRunningContainers {
         //         .collect(Collectors.toList());   
         for (Container container : containers) {
             System.out.println("Name: " + container.getNames()[0] + 
-                               " | Status: " + container.getStatus());// + 
-//                               " | State: "  + container.getState());
+                               " | Status: "   + container.getStatus() + 
+                               " | Ports: "    + container.getPorts()[0] +
+                               " | Size: "     + container.getSizeRootFs() + " bytes" +
+                               " | Networks: " + container.getNetworkSettings().getNetworks().keySet());
         }
         return containers;
     }

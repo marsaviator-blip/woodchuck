@@ -3,8 +3,8 @@
     <div class="dialog-content">
       <h3>Container List</h3>
       <ul>
-        <li v-for="(json, index) in listData" :key="index">
-          {{ json }} <!-- Assuming item is an object, you can format it as needed -->
+        <li v-for="(item, index) in listData" :key="index">
+          {{ item }} <!-- Assuming item is an object, you can format it as needed -->
         </li>
       </ul>
       <button @click="$emit('update:isOpen', false)">Close</button>
@@ -27,3 +27,5 @@ defineProps({
 
 defineEmits(['update:isOpen']);
 </script>
+<style>
+</style>
