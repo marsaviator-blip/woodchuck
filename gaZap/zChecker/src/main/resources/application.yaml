@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: zChecker
+  main:
+    web-application-type: servlet
+  docker:
+    compose:
+      readiness:
+        timeout: 5m
+      enabled: true
+      file: ../../docker_dependencies/compose.yml
+server:
+  port: 8089 # Port for your REST API
+  connection-timeout: 60000
+  ssl:
+    enabled: false # Set to true if you want to enable SSL

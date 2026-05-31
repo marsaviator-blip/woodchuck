@@ -3,7 +3,11 @@ import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
+    routes: [
+    {
+      path: '/index.html',
+      redirect: '/'
+    },
     {
       path: '/',
       name: 'home',
@@ -17,16 +21,16 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
     },
-    {
-      path: '/carousel',
-      name: 'carousel',
-      component: () => import('../features/imageViewers/V3-carousel.vue'),  
-    },
-    {
-      path: '/auth',
-      name: 'auth',
-      component: () => import('../views/Auth.vue'),  
-    },
+    // {
+    //   path: '/carousel',
+    //   name: 'carousel',
+    //   component: () => import('../features/imageViewers/V3-carousel.vue'),  
+    // },
+    // {
+    //   path: '/auth',
+    //   name: 'auth',
+    //   component: () => import('../views/Auth.vue'),  
+    // },
     {
 path: '/formview',
 name: 'formview',

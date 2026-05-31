@@ -37,7 +37,9 @@ public class CrystalToNeo4j {
             params.put("topName", topName);   
             params.put("name", crystalName);
             params.put("sg", spaceGroup);
-            params.put("a", 4.26); params.put("b", 4.26); params.put("c", 4.26); // Unit cell vectors
+            params.put("a", 4.26); 
+            params.put("b", 4.26); 
+            params.put("c", 4.26); // Unit cell vectors
             
             // Atom list example
             params.put("atoms", java.util.List.of(

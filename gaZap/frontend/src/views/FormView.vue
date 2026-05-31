@@ -4,11 +4,11 @@
             <label for="species">Species:</label>
             <input type="text" id="species" v-model="formData.species" required />
         </div>
-        <div>
+        <!-- <div>
             <p>Selected options: {{ multiValue.species }}</p>
             <VueMultiselect v-model="multiValue" :options="options" :multiple="true" :close-on-select="true"
                 placeholder="Pick one or more species or all" label="name" track-by="name" />
-        </div>
+        </div> -->
         <div class="locationContainer">
             <div class="containerHeader">
                 <div>Location: {{ checkedLocations }}</div>

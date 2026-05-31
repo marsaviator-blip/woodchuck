@@ -1,0 +1,18 @@
+services:
+  temporal:
+    image: temporalio/temporal:latest
+    container_name: temporalio
+    command: server start-dev --ip 0.0.0.0
+    ports:
+      - "7233:7233"   # Server gRPC API port (for your SDK workers)
+      - "8233:8233"   # Web UI port
+    volumes:
+      - temporal_data:/var/lib/temporal
+    environment:
+      - DB=sqlite
+      - SQLITE_DATABASE_FILE=/var/lib/temporal/db.sqlite
+    restart: unless-stopped
+
+volumes:
+  temporal_data:
+

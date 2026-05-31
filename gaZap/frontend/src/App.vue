@@ -1,15 +1,52 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import ControllerDialog from './components/ControllerDialog.vue';
+
+const isDialogOpen = ref(true);
+
+const openDialog = () => {
+  isDialogOpen.value = true;
+};
+
+const handleConfirm = () => {
+  alert('Action confirmed!');
+  isDialogOpen.value = false;
+};
+
+const handleClose = () => {
+  isDialogOpen.value = false;
+};
 </script>
 
 <template>
   <header>
-    <h1 class="green">Woodchuck UI</h1>
+    <h1 class="green">gaZap UI</h1>
   </header>
+  <div>
+  <button @click="openDialog">Open Dialog</button>
+    <ControllerDialog 
+      :is-open="isDialogOpen"
+      @close="handleClose"
+      @confirm="handleConfirm"
+    >
+      <template #header>
+        <h2>stuff here</h2>
+      </template>
+
+      <p>Are you sure you want to proceed? This action cannot be undone.</p>
+
+      <template #footer>
+        <button @click="handleClose" class="btn-secondary">No, go back</button>
+        <button @click="handleConfirm" class="btn-danger">Yes, delete</button>
+      </template>
+    </ControllerDialog>
+
+  </div>
   <div class="outer">
 
-    <div class=".left">
+    <!-- <div class=".left">
       <img alt="Vue logo" class="logo" src="@/assets/logo.svg" style="width: 50px; height: auto;" />
 
       <div class="wrapper">
@@ -25,7 +62,7 @@ import HelloWorld from './components/HelloWorld.vue'
     </div>
     <div class=".right">
       <RouterView />
-    </div>
+    </div> -->
   </div>
 </template>
 

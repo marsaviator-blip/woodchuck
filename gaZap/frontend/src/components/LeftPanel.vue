@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './HelloWorld.vue'
-import { R } from 'vue-router/dist/router-CWoNjPRp.mjs';
 </script>
 
 <template>

@@ -4,7 +4,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { vueKeycloak } from '@josempgon/vue-keycloak'
 import axios from 'axios'
-import App from './Appcopy.vue'
+import App from './AppKeycloak.vue'
 import router from './router'
 import { getToken } from '@josempgon/vue-keycloak'
 
