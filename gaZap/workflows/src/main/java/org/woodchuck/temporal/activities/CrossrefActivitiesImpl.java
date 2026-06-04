@@ -49,12 +49,17 @@ System.out.println("CrossrefActivitiesImpl.getWorks: targetUrl=" + targetUrl);
     @Override
     public CitedReferencesResult getWorksBy(String citeKey, String title, String author) {
         System.out.println("CrossrefActivitiesImpl.getWorks called with title: " + title + ", author: " + author);
-        URI targetUrl = UriComponentsBuilder.fromUriString(BASE_URL)
-            .path("/works")
-            .queryParam("query.title", title)
-            .queryParam("query.author", author)
-            .build()
-            .toUri();
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(BASE_URL)
+            .path("/works");
+
+        if (title != null && !title.isBlank()) {
+            uriBuilder.queryParam("query.title", title);
+        }
+        if (author != null && !author.isBlank()) {
+            uriBuilder.queryParam("query.author", author);
+        }
+
+        URI targetUrl = uriBuilder.build().toUri();
 System.out.println("CrossrefActivitiesImpl.getWorks: targetUrl=" + targetUrl);  
         String jsonPayload = restClient.get()
             .uri(targetUrl)

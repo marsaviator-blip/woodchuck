@@ -1,5 +1,6 @@
 package org.woodchuck.temporal.workflows;
 
+import org.woodchuck.dtos.CitedReferencesResult;
 import org.woodchuck.dtos.CrossrefXmlResponse;
 
 import io.temporal.workflow.SignalMethod;
@@ -13,5 +14,6 @@ public interface CrossrefWorkflow {
     void startUp(String doi);
 
     @WorkflowMethod
-    CrossrefXmlResponse cross(String doi);
+    CrossrefXmlResponse execute(String doi, String author, String title);
+
 }
