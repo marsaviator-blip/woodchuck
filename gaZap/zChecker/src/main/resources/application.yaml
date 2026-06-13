@@ -9,6 +9,26 @@ spring:
         timeout: 5m
       enabled: true
       file: ../../docker_dependencies/compose.yml
+  ai:
+    vectorstore:
+      neo4j:
+        initialize-schema: true
+        index-name: spring-ai-document-index
+        label: Document
+        embedding-property: embedding
+    ollama:
+      base-url: http://localhost:11434
+      embedding:
+        options:
+          model: nomic-embed-text
+
+# Neo4j Connection Details
+  neo4j:
+    uri: bolt://localhost:7687
+    authentication:
+      username: neo4j
+      password: neo4j
+
 server:
   port: 8089 # Port for your REST API
   connection-timeout: 60000

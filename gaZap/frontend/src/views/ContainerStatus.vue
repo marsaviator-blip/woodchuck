@@ -1,8 +1,5 @@
 <template>
-  <!-- <teleport to="body"> -->
-    <!-- Using method="dialog" ensures it closes natively when forms are submitted -->
-    <dialog ref="dialogRef" class="modal-backdrop" max-width="800px" update:model-value="isModalOpen" @close="isModalOpen = false">
-      <div class="modal-content">
+      <div>
       <h3>Container List</h3>
       <div 
         v-for="container in containers" 
@@ -31,8 +28,6 @@
         </div>
       </div>
     </div>
-     </dialog>
-  <!-- </teleport> -->
 </template>
 
 <script setup lang="ts">
@@ -53,19 +48,6 @@ const emit = defineEmits(['close']);
 const dialogRef = ref(null);
 const containers = ref<ContainerInfo[]>([]);
 const containerStatus = useContainerStatus();
-
-watch(() => props.isModalOpen, (newVal) => {
-  const dialog = dialogRef.value;
-  if (!dialog) return;
-
-  if (newVal) {
-    if (dialog.open) return;
-    dialog.showModal(); // Native API opens it as a modal (traps focus, adds backdrop)
-  } else {
-    if (!dialog.open) return;
-    dialog.close(); // Native API closes it
-  }
-});
 
 onMounted(async() => {
   try {

@@ -1,12 +1,7 @@
 <template>
   <div v-if="isOpen" class="dialog-overlay">
     <div class="dialog-content">
-      <h3>Container List</h3>
-      <ul>
-        <li v-for="(item, index) in listData" :key="index">
-          {{ item }} <!-- Assuming item is an object, you can format it as needed -->
-        </li>
-      </ul>
+      <slot></slot>
       <button @click="$emit('update:isOpen', false)">Close</button>
     </div>
   </div>

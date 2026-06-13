@@ -1,4 +1,4 @@
-package org.woodchuck.zChecker.controller;
+package org.woodchuck.zChecker.controllers;
 
 //import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

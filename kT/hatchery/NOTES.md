@@ -30,7 +30,7 @@ first step - load your data into a vector database
 retrieve simlar docs from an AI model
 
 ## ReAct agent (reasoning and acting)
-tought, action, observation, repeat
+thought, action, observation, repeat
 
 ## agent skills (markdown)
 task management, AskUserQuestion

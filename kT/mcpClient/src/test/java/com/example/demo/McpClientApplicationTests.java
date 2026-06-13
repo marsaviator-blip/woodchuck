@@ -1,10 +1,11 @@
-package com.example.demo;
+package org.hatchery.client;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+
+class McpClientApplicationTests {
 
 	@Test
 	void contextLoads() {
