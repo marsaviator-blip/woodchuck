@@ -13,7 +13,7 @@
       <router-link to="/">📊 Dashboard</router-link>
       <router-link to="/neo4j">🌐 Neo4j Explorer</router-link>
       <router-link to="/search">🔍 Author Lookup</router-link>
-      <span class="divider">-</span>
+      <hr>
       <router-link to="/container-status">🔍 Container Status</router-link>
     </nav>
     <main class="content-panel">

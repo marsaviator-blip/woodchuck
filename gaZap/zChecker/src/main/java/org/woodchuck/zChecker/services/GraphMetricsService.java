@@ -1,0 +1,53 @@
+package org.woodchuck.zChecker.services;
+
+import org.woodchuck.zChecker.dtos.GraphStats;
+
+import org.springframework.data.neo4j.core.Neo4jClient;
+import org.springframework.stereotype.Service;
+import java.util.Map;
+
+@Service
+public class GraphMetricsService {
+
+    private final Neo4jClient neo4jClient;
+
+    public GraphMetricsService(Neo4jClient neo4jClient) {
+        this.neo4jClient = neo4jClient;
+    }
+
+    public GraphStats getDatabaseCounts() {
+        String cypherQuery = """
+            MATCH (n)
+            WITH count(n) AS nodeCount
+            MATCH ()-[r]->()
+            RETURN nodeCount AS totalNodes, count(r) AS totalEdges
+            """;
+
+        return neo4jClient.query(cypherQuery)
+                .fetchAs(GraphStats.class)
+                .mappedBy((typeSystem, record) -> new GraphStats(
+                        record.get("totalNodes").asLong(),
+                        record.get("totalEdges").asLong()
+                ))
+                .one()
+                .orElse(new GraphStats(0L, 0L));
+    }
+
+    // alternative
+    public GraphStats getFastDatabaseCounts() {
+        // Uses Neo4j internal statistics instead of scanning the full graph
+        String cypherQuery = "CALL apoc.meta.stats() YIELD nodeCount, relCount RETURN nodeCount AS totalNodes, relCount AS totalEdges";
+        
+        // Note: Requires APOC plugin enabled on your Neo4j Instance
+        return neo4jClient.query(cypherQuery)
+                .fetchAs(GraphStats.class)
+                .mappedBy((typeSystem, record) -> new GraphStats(
+                        record.get("totalNodes").asLong(),
+                        record.get("totalEdges").asLong()
+                ))
+                .one()
+                .orElse(new GraphStats(0L, 0L));
+    }
+
+}
+

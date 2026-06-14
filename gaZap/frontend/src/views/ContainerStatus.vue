@@ -38,14 +38,9 @@ import type { ContainerInfo } from '@/types/containers';
 const error = ref<string | null>(null);
 
 const props = defineProps({
-  isModalOpen: {
-    type: Boolean,
-    required: true
-  }    
+    
 });
 
-const emit = defineEmits(['close']);
-const dialogRef = ref(null);
 const containers = ref<ContainerInfo[]>([]);
 const containerStatus = useContainerStatus();
 
