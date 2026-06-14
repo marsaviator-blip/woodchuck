@@ -3,6 +3,8 @@ import Dashboard from './views/HomeView.vue';
 import Neo4jPanel from './views/Neo4jPanel.vue';
 import SearchPanel from './views/SearchPanel.vue';
 import ContainerStatus from './views/ContainerStatusPanel.vue';
+import Instructions from './views/InstructionalPanel.vue';
+import ContainerInstructionPanel from './views/ContainerInstructionPanel.vue';
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -11,5 +13,7 @@ export const router = createRouter({
     { path: '/neo4j', component: Neo4jPanel },
     { path: '/search', component: SearchPanel },
     { path: '/container-status', component: ContainerStatus },
+    { path: '/instructions', component: Instructions },
+    { path: '/container-instructions', component: ContainerInstructionPanel },
   ]
 });

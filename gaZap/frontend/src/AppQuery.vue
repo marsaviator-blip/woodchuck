@@ -11,10 +11,14 @@
     <nav class="sidebar">
       <h2>Document Understanding</h2>
       <router-link to="/">📊 Dashboard</router-link>
+      <hr>
       <router-link to="/neo4j">🌐 Neo4j Explorer</router-link>
       <router-link to="/search">🔍 Author Lookup</router-link>
       <hr>
       <router-link to="/container-status">🔍 Container Status</router-link>
+      <router-link to="/container-instructions">📋 Container Instructions</router-link >
+      <hr>
+      <router-link to="/instructions">🔍 gaZap Instructions</router-link>
     </nav>
     <main class="content-panel">
       <router-view />
