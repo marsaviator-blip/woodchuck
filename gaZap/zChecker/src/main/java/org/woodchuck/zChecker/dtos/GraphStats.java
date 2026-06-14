@@ -1,4 +1,6 @@
 package org.woodchuck.zChecker.dtos;
 
-public record GraphStats(Long totalNodes, Long totalEdges) {}
+import java.util.List;
+
+public record GraphStats(Long totalNodes, Long totalEdges, List<String> nodeTypes) {}
 

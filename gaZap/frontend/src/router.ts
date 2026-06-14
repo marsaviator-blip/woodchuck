@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Dashboard from './views/HomeView.vue';
 import Neo4jPanel from './views/Neo4jPanel.vue';
 import SearchPanel from './views/SearchPanel.vue';
-import ContainerStatus from './views/ContainerStatus.vue';
+import ContainerStatus from './views/ContainerStatusPanel.vue';
 
 export const router = createRouter({
   history: createWebHistory(),

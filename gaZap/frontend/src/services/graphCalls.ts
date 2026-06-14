@@ -2,6 +2,7 @@
 export interface GraphStats {
   totalNodes: number;
   totalEdges: number;
+  nodeTypes: string[]; 
 }
 
 /**
@@ -10,7 +11,7 @@ export interface GraphStats {
  */
 export async function getGraphCounts(): Promise<GraphStats> {
   try {
-    const response = await fetch('/api/v1/graph/counts', {
+    const response = await fetch('/api/graph/counts', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

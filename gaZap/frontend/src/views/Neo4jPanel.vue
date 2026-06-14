@@ -21,6 +21,19 @@
         <span class="label">Total Edges</span>
         <span class="value">{{ metrics.totalEdges.toLocaleString() }}</span>
       </div>
+      <!-- Visual Divider -->
+      <span class="vertical-divider"></span>
+
+      <!-- Node Types Container Section -->
+      <div class="node-types-section">
+        <span class="section-title">Detected Node Types:</span>
+        <div v-if="metrics.nodeTypes.length > 0" class="tag-container">
+          <span v-for="type in metrics.nodeTypes" :key="type" class="node-tag">
+            :{{ type }}
+          </span>
+        </div>
+        <div v-else class="empty-tags">No active labels found in database.</div>
+      </div>
     </div>
   </div>
 </template>
@@ -31,7 +44,7 @@ import { getGraphCounts, type GraphStats } from '../services/graphCalls' // Veri
 
 // Component state reactives
 const isLoading = ref<boolean>(true)
-const metrics = ref<GraphStats>({ totalNodes: 0, totalEdges: 0 })
+const metrics = ref<GraphStats>({ totalNodes: 0, totalEdges: 0, nodeTypes: [] })
 
 // Fetch graph infrastructure details on layout lifecycle mount
 onMounted(async () => {
@@ -87,4 +100,35 @@ onMounted(async () => {
   font-style: italic;
   margin-top: 15px;
 }
+.node-types-section {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 15px;
+}
+.section-title {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 10px;
+}
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.node-tag {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-family: monospace;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.empty-tags, .loading-state {
+  color: #9ca3af;
+  font-style: italic;
+}
 </style>
+

@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useContainerStatus } from '@/services/status-check';
 import type { ContainerInfo } from '@/types/containers';
 
