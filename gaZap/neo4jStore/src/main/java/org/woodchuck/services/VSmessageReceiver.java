@@ -51,7 +51,8 @@ public class VSmessageReceiver {
                         .build());
     }
 
-    @KafkaListener(topics = BIBTEX_TOPIC_NAME)
+    @KafkaListener(topics = BIBTEX_TOPIC_NAME, 
+    containerFactory = "bibtexKafkaListenerContainerFactory")
     public void receiveBibtexResponse(BibliographyResponse response) {
         logger.info("Received BibTeX message: {}", response);
         if (response == null || response.citations() == null || response.citations().isEmpty()) return;
