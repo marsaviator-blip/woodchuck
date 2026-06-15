@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
+import java.util.UUID;
 
 import org.woodchuck.repositories.DocumentGraphRepository;
 import org.woodchuck.entities.DocumentRelations;
@@ -18,6 +19,7 @@ import ai.docling.serve.api.chunk.request.options.HybridChunkerOptions;
 import ai.docling.serve.api.chunk.response.ChunkDocumentResponse;
 import ai.docling.serve.api.convert.request.ConvertDocumentRequest;
 import ai.docling.serve.api.convert.request.source.HttpSource;
+import ai.docling.serve.api.convert.request.source.Source;
 import ai.docling.serve.api.convert.response.ConvertDocumentResponse;
 import ai.docling.serve.api.convert.response.InBodyConvertDocumentResponse;
 
@@ -65,7 +67,14 @@ public class DoclingAsyncService {
         CompletionStage<ChunkDocumentResponse> stage = doclingServeApi.chunkSourceWithHybridChunkerAsync(request);
         CompletableFuture<ChunkDocumentResponse> resultFuture =stage.toCompletableFuture().thenApply(response -> {
                 System.out.println("Document conversion succeeded: ");
-                String documentId =  "the document";//request.getSources().get(0).getUrl().toString(); // Using the URL as the document ID
+                String documentId =  UUID.randomUUID().toString();
+                if(!request.getSources().isEmpty()){
+                    Source source = request.getSources().get(0);
+                    if (source instanceof HttpSource httpSource) {
+                        java.net.URI url = httpSource.getUrl();
+                        documentId=url.toString();
+                    }
+                }
                     var doclingChunks = response.getChunks();
                     if (doclingChunks == null || doclingChunks.isEmpty()) return response; // No chunks to process
                     List<DocumentRelations> instantiatedEntities = new ArrayList<>();
