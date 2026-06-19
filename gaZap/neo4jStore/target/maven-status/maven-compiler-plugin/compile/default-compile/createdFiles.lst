@@ -1,6 +1,6 @@
-org/woodchuck/services/VSmessageReceiver.class
 org/woodchuck/configs/KafkaConsumerConfig.class
-org/woodchuck/configs/KafkaTopicConfig.class
-org/woodchuck/VsbusConsumerApplication.class
 org/woodchuck/services/DoclingAsyncService.class
 org/woodchuck/configs/DoclingConfig.class
+org/woodchuck/services/VSmessageReceiver.class
+org/woodchuck/configs/KafkaTopicConfig.class
+org/woodchuck/VsbusConsumerApplication.class

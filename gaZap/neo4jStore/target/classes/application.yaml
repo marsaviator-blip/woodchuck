@@ -59,15 +59,6 @@ server:
     spring:
   application:
     name: neo4jStore
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: neoGroup
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    listener:
-      missing-topics-fatal: false
 spring:
   application:
     name: neo4jStore

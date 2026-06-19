@@ -13,11 +13,15 @@
       <router-link to="/">📊 Dashboard</router-link>
       <hr>
       <router-link to="/neo4j">🌐 Neo4j Explorer</router-link>
-      <router-link to="/search">🔍 Author Lookup</router-link>
+      <router-link to="/authors">🔍 Author lookup</router-link>
+      <router-link to="/search">🔍 Search</router-link>
+      <router-link to="/scholarlySearch">🔍 Search relationships</router-link>
       <hr>
       <router-link to="/container-status">🔍 Container Status</router-link>
       <router-link to="/container-instructions">📋 Container Instructions</router-link >
       <hr>
+      <router-link to="/setup">🔍 gaZap Setup</router-link>
+      <router-link to="/setup-d3">🔍 gaZap Setup D3</router-link>
       <router-link to="/instructions">🔍 gaZap Instructions</router-link>
     </nav>
     <main class="content-panel">

@@ -1,6 +1,11 @@
-/home/ar/desperado/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/VsbusConsumerApplication.java
-/home/ar/desperado/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/configs/DoclingConfig.java
-/home/ar/desperado/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/configs/KafkaConsumerConfig.java
-/home/ar/desperado/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/configs/KafkaTopicConfig.java
-/home/ar/desperado/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/services/DoclingAsyncService.java
-/home/ar/desperado/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/services/VSmessageReceiver.java
+/home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/VsbusConsumerApplication.java
+/home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/configs/DoclingConfig.java
+/home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/configs/KafkaBibtexConfig.java
+/home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/configs/KafkaConsumerConfig.java
+/home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/configs/KafkaTopicConfig.java
+/home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/dtos/BibliographyResponse.java
+/home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/entities/DocumentRelations.java
+/home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/entities/TableRowEntity.java
+/home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/repositories/DocumentGraphRepository.java
+/home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/services/DoclingAsyncService.java
+/home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/services/VSmessageReceiver.java
