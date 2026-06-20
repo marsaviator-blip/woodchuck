@@ -117,15 +117,17 @@ public class TaskingController {
 
     @GetMapping(value = "/crossref")
     @Operation(summary = "References crossref metadata",
-                description = "Crossref based on DOI.")
-    public String startCrossrefWorkflow(@Parameter(description = "Input data for the workflow", example = "10.1107/S0108767317098695", required = true) @RequestParam(required = true) String doi) {
+                description = "Crossref based on DOI, author or title.")
+    public String startCrossrefWorkflow(@Parameter(description = "Input doi or citation key for the workflow", example = "10.1107/S0108767317098695", required = true) @RequestParam(required = true) String doi,
+                                        @Parameter(description = "Author of the publication", example = "Caspar Wessel", required = false) @RequestParam(required = false) String author,
+                                        @Parameter(description = "Title of the publication", example = "On the analytical representation of directed quantities", required = false) @RequestParam(required = false) String title) {
         var uuid = UUID.randomUUID();
        WorkflowOptions options = WorkflowOptions.newBuilder()
             .setWorkflowId(uuid.toString()) 
             .setTaskQueue("CrossrefQueue")
             .build();
         CrossrefWorkflow workflow = workflowClient.newWorkflowStub(CrossrefWorkflow.class, options);
-        WorkflowClient.start(workflow::cross, doi);
+        WorkflowClient.start(workflow::execute, doi, author, title);
         return "Crossref workflow started successfully!";
     }
 
