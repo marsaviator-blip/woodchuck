@@ -44,7 +44,7 @@ public class DocumentRelations {
      * Hierarchical Tree Relationship (Parent Section -> Child Chunk).
      * Connects granular text chunks back to their high-level structural "heading" parent node.
      */
-    @Relationship(type = "HAS_CHILD", direction = Relationship.Direction.INCOMING)
+    @Relationship(type = "HAS_CHILD", direction = Relationship.Direction.OUTGOING)
     private DocumentRelations parentSection;
 
     /**

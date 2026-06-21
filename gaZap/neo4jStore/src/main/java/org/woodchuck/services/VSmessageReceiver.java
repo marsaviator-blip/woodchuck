@@ -5,6 +5,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import ai.docling.serve.api.convert.request.options.ConvertDocumentOptions;
 import ai.docling.serve.api.convert.request.source.HttpSource;
 import org.woodchuck.dtos.BibliographyResponse;
 import ai.docling.serve.api.chunk.request.HybridChunkDocumentRequest;
@@ -32,10 +34,16 @@ public class VSmessageReceiver {
     private static final String BIBTEX_TOPIC_NAME = "woodchuck-bibtex";
     private final DoclingAsyncService doclingAsyncService;
     private final Driver neo4jDriver;
+    private final ConvertDocumentOptions detailedDoclingOptions;
+    private final HybridChunkerOptions defaultHybridOptions;
 
-    public VSmessageReceiver(DoclingAsyncService doclingAsyncService, Driver neo4jDriver){
+    public VSmessageReceiver(DoclingAsyncService doclingAsyncService, Driver neo4jDriver, 
+                               ConvertDocumentOptions detailedDoclingOptions, 
+                               HybridChunkerOptions defaultHybridOptions){
         this.doclingAsyncService = doclingAsyncService;
         this.neo4jDriver = neo4jDriver;
+        this.detailedDoclingOptions = detailedDoclingOptions;
+        this.defaultHybridOptions = defaultHybridOptions;
     }
 
     @KafkaListener(topics = TOPIC_NAME)
@@ -45,9 +53,8 @@ public class VSmessageReceiver {
         doclingAsyncService.processDocumentAsync(
                 HybridChunkDocumentRequest.builder()
                         .source(HttpSource.builder().url(URI.create(url)).build())
-                        .chunkingOptions(HybridChunkerOptions.builder()
-                            .mergePeers(true)   
-                            .build())
+                        .options(this.detailedDoclingOptions)
+                        .chunkingOptions(this.defaultHybridOptions)
                         .build());
     }
 

@@ -50,7 +50,7 @@ public class DocumentProcessingController {
     @PostMapping("/http")
     @Operation(summary = "Convert a document from a URL",
             description = "Provide a URL and Docling will convert it to a structured format.")
-    public String convertDocumentFromHttp(@RequestParam("url") @NotBlank String url) {
+    public String convertDocumentFromHttp(@Parameter(description="Test pdf url location:", example="https://www.theoremoftheday.org/MathsStudyGroup/Buchberger.pdf", required = true) @RequestParam("url") @NotBlank String url) {
     //   CompletableFuture<ChunkDocumentResponse> future = doclingAsyncService.processDocumentAsync(
     //             HybridChunkDocumentRequest.builder()
     //                     .source(HttpSource.builder().url(URI.create(url)).build())

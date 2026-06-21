@@ -1,0 +1,21 @@
+spring:
+  ai:
+    # 🗄️ 1. Align your Neo4j index layout to accept Nomic's 768-dimension vectors
+    vectorstore:
+      neo4j:
+        embedding-dimension: 768
+
+    # 🌐 2. Direct your existing Ollama model starter to Nomic's translation endpoint
+    ollama:
+      base-url: https://api-atlas.nomic.ai # <--- Nomic's compatible proxy URL https://api-atlas.nomic.ai/v1/embedding/text
+      embedding:
+        options:
+          model: nomic-embed-text-v1.5
+logging:
+  level:
+    # 🕵️ Logs the exact outgoing URLs, headers, and payloads for Spring HTTP clients
+    '[org.springframework.web.client.RestClient]': DEBUG
+    '[org.springframework.web.reactive.function.client.WebClient]': DEBUG
+    # Logs Spring AI specific client actions
+    '[org.springframework.ai]': DEBUG
+    '[org.springframework.web]': DEBUG

@@ -96,7 +96,7 @@ spring:
       connect-timeout: 600
       read-timeout: 600
   application:
-    name: gaZap-backend
+    name: gaZap-workflows
   profiles:
     active: dev
   temporal:
