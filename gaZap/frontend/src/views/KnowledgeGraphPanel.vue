@@ -286,7 +286,7 @@ onMounted(() => {
   padding: 0.375rem;
   background-color: var(--panel-bg);
   border: 1px solid var(--border-element);
-  color: var(--text-dark);
+  color: ivory; /*var(--text-dark);*/
   border-radius: 0.375rem;
   margin-left: 0.5rem;
   font-weight: bold;

@@ -61,5 +61,6 @@ public class GraphVisualService {
 
         return new NetworkGraphPayload(new ArrayList<>(uniqueNodes.values()), relationshipLinks);
     }
+    
 }
 
