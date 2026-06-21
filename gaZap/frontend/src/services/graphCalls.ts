@@ -9,24 +9,53 @@ export interface GraphStats {
  * Fetches node and edge counts from the Neo4j backend.
  * Uses the '/api' prefix configuration handled by your Vite proxy.
  */
-export async function getGraphCounts(): Promise<GraphStats> {
-  try {
-    const response = await fetch('/api/graph/counts', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+// export async function getGraphCounts(): Promise<GraphStats> {
+//   try {
+//     const response = await fetch('/api/graph/counts', {
+//       method: 'GET',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+
+//     const data: GraphStats = await response.json();
+//     return data;
+//   } catch (error) {
+//     console.error('Error in graphCall.ts -> getGraphCounts:', error);
+//     // Return fallback zeroes to avoid breaking UI components on network failure
+//     return { totalNodes: 0, totalEdges: 0 };
+//   }
+
+//   const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
+
+//export default {
+  /**
+   * Retrieves high-performance Neo4j database counts and map-grouped schemas
+   * @returns {Promise<Object>} API Payload matched for GraphStats
+   */
+//    async getDatabaseCounts() {
+export async function getDatabaseCounts(): Promise<GraphStats> { 
+    try {
+      const response = await fetch('/api/graph/counts', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      });
+
+      // Fetch does not throw on 4xx/5xx errors, handle manually
+      if (!response.ok) {
+        throw new Error(`HTTP network error! Status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Failed fetching graph database stats via Fetch:', error);
+      throw error;
     }
-
-    const data: GraphStats = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error in graphCall.ts -> getGraphCounts:', error);
-    // Return fallback zeroes to avoid breaking UI components on network failure
-    return { totalNodes: 0, totalEdges: 0 };
-  }
-}
+};
