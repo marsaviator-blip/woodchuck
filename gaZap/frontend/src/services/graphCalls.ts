@@ -5,6 +5,23 @@ export interface GraphStats {
   nodeTypes: string[]; 
 }
 
+export interface VisNode {
+  id: string;
+  label: string;
+  properties: Record<string, unknown>;
+}
+
+export interface VisLink {
+  source: string;
+  target: string;
+  type: string;
+}
+
+export interface NetworkGraphPayload {
+  nodes: VisNode[];
+  links: VisLink[];
+}
+
 /**
  * Fetches node and edge counts from the Neo4j backend.
  * Uses the '/api' prefix configuration handled by your Vite proxy.
@@ -59,3 +76,24 @@ export async function getDatabaseCounts(): Promise<GraphStats> {
       throw error;
     }
 };
+
+export async function fetchGraphTopology(limit = 150): Promise<NetworkGraphPayload> {
+  try {
+    const response = await fetch(`/api/graph/topology?limit=${limit}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Knowledge Graph Fetch Error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Failed processing request timeline:', error);
+    throw error;
+  }
+}

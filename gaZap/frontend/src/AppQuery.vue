@@ -13,6 +13,7 @@
       <router-link to="/">📊 Dashboard</router-link>
       <hr>
       <router-link to="/neo4j">🌐 Neo4j Explorer</router-link>
+      <router-link to="/knowledge-graph">📊 Knowledge Graph</router-link>
       <router-link to="/authors">🔍 Author lookup</router-link>
       <router-link to="/search">🔍 Search</router-link>
       <router-link to="/scholarlySearch">🔍 Search relationships</router-link>

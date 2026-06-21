@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Dashboard from './views/HomeView.vue';
 import Neo4jPanel from './views/Neo4jPanel.vue';
+import KnowledgeGraphPanel from './views/KnowledgeGraphPanel.vue';
 import AuthorPanel from './views/AuthorPanel.vue';
 import SearchPanel from './views/SearchPanel.vue';
 import SetupPanel from './views/SetupPanel.vue';
@@ -15,6 +16,7 @@ export const router = createRouter({
   routes: [
     { path: '/', component: Dashboard },
     { path: '/neo4j', component: Neo4jPanel },
+    { path: '/knowledge-graph', component: KnowledgeGraphPanel },
     { path: '/authors', component: AuthorPanel },
     { path: '/search', component: SearchPanel },
     { path: '/scholarlySearch', component: SearchRelationshipPanel },

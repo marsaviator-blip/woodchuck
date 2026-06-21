@@ -3,7 +3,9 @@ package org.woodchuck.zChecker.controllers;
 import org.woodchuck.zChecker.dtos.GraphGistDTO;
 import org.woodchuck.zChecker.repository.GraphRepository;
 import org.woodchuck.zChecker.services.GraphMetricsService;
+import org.woodchuck.zChecker.services.GraphVisualService;
 import org.woodchuck.zChecker.dtos.GraphStats;
+import org.woodchuck.zChecker.dtos.NetworkGraphPayload;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +18,12 @@ import java.util.Map;
 public class GraphController {
 
     private final GraphMetricsService graphMetricsService;
+    private final GraphVisualService graphVisualService;
 
     // Spring automatically injects the service bean here
-    public GraphController(GraphMetricsService graphMetricsService) {
+    public GraphController(GraphMetricsService graphMetricsService, GraphVisualService graphVisualService) {
         this.graphMetricsService = graphMetricsService;
+        this.graphVisualService = graphVisualService;
     }
 
     @GetMapping("/counts")
@@ -28,28 +32,9 @@ public class GraphController {
         return ResponseEntity.ok(stats);
     }
 
-    // private final GraphRepository graphRepository;
-
-    // public GraphController(GraphRepository graphRepository) {
-    //     this.graphRepository = graphRepository;
-    // }
-
-    // @GetMapping("/gist")
-    // public GraphGistDTO getGraphGist() {
-    //     Map<String, Object> stats = graphRepository.getMetaStats();
-        
-    //     long nodes = ((Number) stats.get("nodeCount")).longValue();
-    //     long edges = ((Number) stats.get("relCount")).longValue();
-    //     @SuppressWarnings("unchecked")
-    //     Map<String, Long> labels = (Map<String, Long>) stats.get("labels");
-
-    //     return new GraphGistDTO(nodes, edges, labels);
-    // }
-
-    // @GetMapping("/authors/search")
-    // public List<Map<String, Object>> searchAuthors(@RequestParam String query) {
-    //     return graphRepository.searchAuthorsAutocomplete(query);
-    // }
-
+    @GetMapping("/topology")
+    public NetworkGraphPayload getKnowledgeGraphTopology(@RequestParam(defaultValue = "150") int limit) {
+        return graphVisualService.fetchSubGraphTopology(limit);
+    }
 }
 
