@@ -1,5 +1,6 @@
 package org.woodchuck.zChecker.controllers;
 
+import org.woodchuck.zChecker.dtos.AuthorPayloadDTO;
 import org.woodchuck.zChecker.dtos.GraphGistDTO;
 import org.woodchuck.zChecker.repository.GraphRepository;
 import org.woodchuck.zChecker.services.GraphMetricsService;
@@ -48,5 +49,9 @@ public class GraphController {
         }
     }
 
+    @GetMapping("/authors-analytics")
+    public ResponseEntity<AuthorPayloadDTO> getAuthorAnalytics() {
+        return ResponseEntity.ok(graphMetricsService.getAuthorDetails());
+    }
 }
 
