@@ -3,7 +3,7 @@ import Dashboard from './views/HomeView.vue';
 import Neo4jPanel from './views/Neo4jPanel.vue';
 import KnowledgeGraphPanel from './views/KnowledgeGraphPanel.vue';
 import AuthorPanel from './views/AuthorPanel.vue';
-import AuthorRelationPanel from './views/AuthorRelationPanel.vue';
+import AuthorRelationPanel from './views/AuthorRelationPanel2.vue';
 import SearchPanel from './views/SearchPanel.vue';
 import SetupPanel from './views/SetupPanel.vue';
 import SetupD3Panel from './views/SetupD3Panel.vue';
