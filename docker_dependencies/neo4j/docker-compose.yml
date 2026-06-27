@@ -1,6 +1,7 @@
 services:
   neo4j:
     image: neo4j:latest
+    container_name: neo4j-1
     volumes:
         - /$HOME/neo4j/logs:/logs
         - /$HOME/neo4j/config:/config
