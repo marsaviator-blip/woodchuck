@@ -16,6 +16,8 @@ export default defineConfig({
     mkcert(),
   ],
   server: {
+    port: 3002,       // <-- Set your custom frontend port here
+    strictPort: true, // Prevents Vite from automatically switching ports if 3000 is busy
     //historyApiFallback: true, // This ensures unmatched routes fall back to index.html
     proxy: {
       '/api': {

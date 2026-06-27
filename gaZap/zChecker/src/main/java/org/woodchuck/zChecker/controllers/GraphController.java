@@ -36,5 +36,17 @@ public class GraphController {
     public NetworkGraphPayload getKnowledgeGraphTopology(@RequestParam(defaultValue = "150") int limit) {
         return graphVisualService.fetchSubGraphTopology(limit);
     }
+
+    @DeleteMapping("/clear")
+    public ResponseEntity<String> clearDatabase() {
+        try {
+            // Controller asks the service to do the heavy lifting
+            graphMetricsService.clearDatabase();
+            return ResponseEntity.ok("Database wiped clean successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error processing request: " + e.getMessage());
+        }
+    }
+
 }
 

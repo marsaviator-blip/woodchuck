@@ -77,6 +77,37 @@ export async function getDatabaseCounts(): Promise<GraphStats> {
     }
 };
 
+export async function clearGraph(): Promise<void> {
+  try {
+    const response = await fetch('/api/graph/clear', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to clear graph! Status: ${response.status}`);
+    } else {
+      getDatabaseCounts().then((stats) => {
+        stats.value = {
+          totalNodes: 0,
+          totalEdges: 0,
+          nodeTypes: [],
+        }; 
+        console.log('Graph cleared successfully. Current stats:', stats);
+
+      }).catch((err) => {
+        console.error('Error fetching updated graph stats after clear:', err);
+      });
+    }
+  } catch (error) {
+    console.error('Failed to clear graph:', error);
+    throw error;
+  }
+}
+
 export async function fetchGraphTopology(limit = 150): Promise<NetworkGraphPayload> {
   try {
     const response = await fetch(`/api/graph/topology?limit=${limit}`, {

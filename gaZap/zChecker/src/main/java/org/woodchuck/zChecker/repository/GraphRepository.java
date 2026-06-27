@@ -20,5 +20,10 @@ public interface GraphRepository extends Neo4jRepository<Author, String> {
            "RETURN a.name as name, elementId(a) as id, count(r) as paperCount " +
            "LIMIT 10")
     List<Map<String, Object>> searchAuthorsAutocomplete(@Param("searchString") String searchString);
+
+    // Custom Cypher query to detach and delete all nodes and relationships
+    @Query("MATCH (n) DETACH DELETE n")
+    void purgeEntireDatabase();
+
 }
 

@@ -1,6 +1,7 @@
 package org.woodchuck.zChecker.services;
 
 import org.woodchuck.zChecker.dtos.GraphStats;
+import org.woodchuck.zChecker.repository.GraphRepository;
 
 import org.springframework.data.neo4j.core.Neo4jClient;
 import org.springframework.stereotype.Service;
@@ -11,8 +12,13 @@ import org.neo4j.driver.Record;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory; 
+
 @Service
 public class GraphMetricsService {
+
+    private static final Logger logger = LoggerFactory.getLogger(GraphMetricsService.class);
 
 //    public record NodePropertySchema(List<String> labels, String propertyName, List<String> propertyTypes) {}
 //    public record RelPropertySchema(String relType, String propertyName, List<String> propertyTypes) {}
@@ -20,9 +26,20 @@ public class GraphMetricsService {
     private record RawRelProp(String relType, String propName, List<String> types) {}
 
     private final Neo4jClient neo4jClient;
+    private final GraphRepository graphRepository;
 
-    public GraphMetricsService(Neo4jClient neo4jClient) {
+    public GraphMetricsService(Neo4jClient neo4jClient, GraphRepository graphRepository) {
         this.neo4jClient = neo4jClient;
+        this.graphRepository = graphRepository;
+    }
+
+        public void clearDatabase() {
+        logger.warn("Initiating full database clear operation.");
+        
+        // Execute the repository method
+        graphRepository.purgeEntireDatabase();
+        
+        logger.info("Database successfully cleared.");
     }
 
         public GraphStats getDatabaseCounts() {

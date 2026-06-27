@@ -6,10 +6,15 @@
                 <h1 class="header-title">Neo4j Metadata Statistics</h1>
                 <p class="header-subtitle">Real-time constant-time database schema information</p>
             </div>
-            <button @click="loadDatabaseStats" :disabled="loading" class="refresh-button">
+            <div class="header-button-group">
+              <button @click="confirmAndClear" class="header-button">
+                Clear Neo4j Database
+              </button>
+              <button @click="loadDatabaseStats" :disabled="loading" class="header-button">
                 <span v-if="loading" class="spinner"></span>
                 {{ loading ? 'Refreshing...' : 'Refresh Stats' }}
-            </button>
+              </button>
+            </div>
         </header>
 
         <!-- Error Banner Alert -->
@@ -120,11 +125,28 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { getDatabaseCounts, type GraphStats } from '../services/graphCalls';
+import { clearGraph, getDatabaseCounts, type GraphStats } from '../services/graphCalls';
 
 const stats = ref<GraphStats | null>(null);
 const loading = ref<boolean>(false);
 const error = ref<string | null>(null);
+
+    const confirmAndClear = async () => {
+  // Opens native browser popup with 'Cancel' and 'OK' (Yes)
+  const isConfirmed = window.confirm("Are you sure you want to clear the Neo4j database? This action cannot be undone.");
+  
+  // Exit immediately if user clicks Cancel
+  if (!isConfirmed) return;
+
+  try {
+    const response = await clearGraph();
+    alert("Neo4j database has been cleared successfully.");
+        
+  } catch (error) {
+    console.error("Network or server error:", error);
+    alert("Failed to clear database. Check console for details.");
+  }
+};
 
 const loadDatabaseStats = async () => {
     loading.value = true;
@@ -250,7 +272,8 @@ onMounted(() => {
     margin-top: 0.25rem;
 }
 
-.refresh-button {
+.header-button {
+    margin-left: 0.25rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
