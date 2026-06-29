@@ -50,10 +50,10 @@ public class AnalysisActivitiesImpl implements AnalysisActivities {
      * Step 1: Uses Gemini and a custom search tool to discover raw web URLs.
      */
     @Override
-    public List<String> discoverUrlsWithGemini(String subject) {
+    public List<String> discoverUrlsWithGemini(String subject, int maxLinks) {
         try {
             return chatClient.prompt()
-                    .user("Find high-quality articles and reference pages regarding this subject: " + subject)
+                    .user(String.format("Find high-quality articles and reference pages regarding this subject: '%s'. Limit results to exactly %d links.", subject, maxLinks))
                     .tools("discoverSubjectWebsites") // References your WebDiscoveryTools configuration bean
                     .call()
                     .entity(new ParameterizedTypeReference<List<String>>() {

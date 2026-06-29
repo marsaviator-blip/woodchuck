@@ -1,10 +1,13 @@
 package org.woodchuck.controllers;
 
+import org.woodchuck.dtos.SearchRequest;
 import org.woodchuck.dtos.HumanReviewEdits;
 import org.woodchuck.dtos.LivePipelineState;
 import org.woodchuck.temporal.workflows.ThematicAnalysisWorkflow;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
+
+//import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +40,8 @@ public class ThematicAnalysisController {
      * @return The unique generated WorkflowID string for frontend tracking loops
      */
     @PostMapping("/start")
-    public ResponseEntity<String> startAnalysisPipeline(@RequestParam String subject) {
-        if (subject == null || subject.trim().isEmpty()) {
+    public ResponseEntity<String> startAnalysisPipeline(@RequestBody SearchRequest request) {
+        if (request.subjectQuery() == null || request.subjectQuery().trim().isEmpty()) {
             return ResponseEntity.badRequest().body("Subject parameter cannot be blank.");
         }
 
@@ -56,7 +59,7 @@ public class ThematicAnalysisController {
 
         // CRITICAL STEP: Use WorkflowClient.start to trigger processing on a background thread.
         // This ensures the HTTP request returns instantly, preventing network gateway timeouts.
-        WorkflowClient.start(workflow::executeAnalysisPipeline, subject.trim());
+        WorkflowClient.start(workflow::executeAnalysisPipeline, request.subjectQuery().trim(), request.maxLinksToReturn());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(workflowId);
     }

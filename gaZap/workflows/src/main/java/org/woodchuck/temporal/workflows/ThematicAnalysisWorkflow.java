@@ -13,7 +13,7 @@ import io.temporal.workflow.WorkflowMethod;
 public interface ThematicAnalysisWorkflow {
 
     @WorkflowMethod
-    void executeAnalysisPipeline(String subjectOfInterest);
+    void executeAnalysisPipeline(String subjectOfInterest, int maxLinks);
 
     // This allows a React or Vaadin UI to asynchronously inject human edits
     @SignalMethod

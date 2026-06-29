@@ -49,10 +49,10 @@ public class ThematicAnalysisWorkflowImpl implements ThematicAnalysisWorkflow {
     private HumanReviewEdits humanEdits;
 
     @Override
-    public void executeAnalysisPipeline(String subjectOfInterest) {
+    public void executeAnalysisPipeline(String subjectOfInterest, int maxLinks) {
         // Step 1: Query Gemini to discover the initial live reference URLs
         this.currentStep = "DISCOVERING_URLS";
-        this.discoveredUrls = activities.discoverUrlsWithGemini(subjectOfInterest);
+        this.discoveredUrls = activities.discoverUrlsWithGemini(subjectOfInterest, maxLinks);
 
         // Step 2: Use Arconia Docling to strip layout clutter and normalize markup elements
         this.currentStep = "PARSING_DOCLING";

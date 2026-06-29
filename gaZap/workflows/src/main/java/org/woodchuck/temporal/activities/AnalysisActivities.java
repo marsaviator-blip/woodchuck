@@ -24,7 +24,7 @@ public interface AnalysisActivities {
      * @return a list of live website URL strings discovered by the model
      */
     @ActivityMethod
-    List<String> discoverUrlsWithGemini(String subject);
+    List<String> discoverUrlsWithGemini(String subject, int maxLinks);
 
     /**
      * Step 2: Uses Arconia Docling to strip boilerplate data, layout advertisements, 
