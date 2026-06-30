@@ -1,3 +1,8 @@
+graphrag:
+  pipeline:
+    # Options: DEEP (JSON + OCR parser) or LIGHT (Markdown parser)
+    strategy: LIGHT
+    fallback-to-light-on-failure: true
 arconia:
   otel:
     enabled: false

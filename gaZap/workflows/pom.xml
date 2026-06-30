@@ -130,18 +130,22 @@
 		<dependency>
 			<groupId>ai.docling</groupId>
 			<artifactId>docling-serve-api</artifactId>
-			<version>0.5.2</version>
+			<version>0.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>ai.docling</groupId>
 			<artifactId>docling-serve-client</artifactId>
-			<version>0.5.2</version>
+			<version>0.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>ai.docling</groupId>
 			<artifactId>docling-core</artifactId>
-			<version>0.5.2</version> 
+			<version>0.6.0</version> 
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>		
 		<dependency>
 			<groupId>org.rcsb</groupId>
 			<artifactId>ciftools-java</artifactId>

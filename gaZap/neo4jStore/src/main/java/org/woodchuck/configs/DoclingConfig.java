@@ -11,8 +11,16 @@ import ai.docling.serve.api.chunk.request.options.HybridChunkerOptions;
 import ai.docling.serve.api.convert.request.options.OutputFormat;
 import ai.docling.serve.api.convert.request.options.ConvertDocumentOptions;
 
+
 @Configuration
 public class DoclingConfig {
+
+    private final GraphRagPipelineConfig pipelineConfig;
+
+    public DoclingConfig(GraphRagPipelineConfig pipelineConfig){
+        this.pipelineConfig=pipelineConfig;
+    }
+
     
     @Bean
     public DoclingServeApi doclingServeApi(@Value("${arconia.dev.services.docling.serve.url}") String baseUrl,
@@ -28,19 +36,32 @@ public class DoclingConfig {
 
     @Bean
     public ConvertDocumentOptions detailedDoclingOptions() {
+
+        if(pipelineConfig.getStrategy()==GraphRagPipelineConfig.Strategy.LIGHT){
         // Enforces structural layout data retention over simple raw markdown
+        System.out.println("Light pipeline");
         return ConvertDocumentOptions.builder()
-            .toFormat(OutputFormat.MARKDOWN) // Lossless JSON yields structural hierarchies
+            .toFormat(OutputFormat.MARKDOWN) // MD yields structural hierarchies
+            .build();
+        }
+        else{
+        System.out.println("Deep pipeline");
+        return ConvertDocumentOptions.builder()
+            .toFormat(OutputFormat.JSON) // Lossless JSON yields structural hierarchies
             .doOcr(true)                     // Essential for parsing formula text nodes
             .doTableStructure(true)          // Preserves tabular algorithmic alignment
+            // .doCodeEnrichment(true)
+            //.doFormulaEnrichment(true)
+            // .doPictureClassification(true)
+            // .doPictureDescription(true)
             .build();
+        }
     }
 
     @Bean
     public HybridChunkerOptions defaultHybridOptions() {
         return HybridChunkerOptions.builder()
             .mergePeers(false) // Enforces semantic sentence merging boundaries
-            // .maxTokens(600) // Optional: Adjust max chunk boundaries here if needed
             .build();
     }
 
@@ -58,3 +79,4 @@ public class DoclingConfig {
     }
     
 }
+

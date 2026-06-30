@@ -1,6 +1,7 @@
 package org.woodchuck.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,16 +13,20 @@ import org.woodchuck.repositories.DocumentGraphRepository;
 import org.woodchuck.entities.DocumentRelations;
 import org.woodchuck.entities.TableRowEntity;
 
+import ai.docling.core.DoclingDocument;
 import ai.docling.serve.api.DoclingServeApi;
 import ai.docling.serve.api.chunk.request.HybridChunkDocumentRequest;
 import ai.docling.serve.api.chunk.request.options.ChunkerOptions;
 import ai.docling.serve.api.chunk.request.options.HybridChunkerOptions;
 import ai.docling.serve.api.chunk.response.ChunkDocumentResponse;
+import ai.docling.serve.api.chunk.response.ExportDocumentResponse;
 import ai.docling.serve.api.convert.request.ConvertDocumentRequest;
 import ai.docling.serve.api.convert.request.source.HttpSource;
 import ai.docling.serve.api.convert.request.source.Source;
 import ai.docling.serve.api.convert.response.ConvertDocumentResponse;
 import ai.docling.serve.api.convert.response.InBodyConvertDocumentResponse;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 import org.springframework.ai.document.Document;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
@@ -66,7 +71,7 @@ public class DoclingAsyncService {
     public CompletableFuture<ChunkDocumentResponse> processDocumentAsync(HybridChunkDocumentRequest request) {
         CompletionStage<ChunkDocumentResponse> stage = doclingServeApi.chunkSourceWithHybridChunkerAsync(request);
         CompletableFuture<ChunkDocumentResponse> resultFuture =stage.toCompletableFuture().thenApply(response -> {
-                System.out.println("Document conversion succeeded: ");
+                System.out.println("Document conversion succeeded: "+response.getDocuments().size());
                 String documentId =  UUID.randomUUID().toString();
                 if(!request.getSources().isEmpty()){
                     Source source = request.getSources().get(0);
@@ -94,6 +99,35 @@ public class DoclingAsyncService {
                     }
                 }
                 System.out.println("Extracted Document ID: " + documentId);
+                var documents = response.getDocuments(); 
+
+                if (documents != null && !documents.isEmpty()) {
+                    var doc = documents.get(0);
+                    // You can iterate through these to pull global attributes
+                    // e.g., documents.get(0).getMetadata().getTitle()
+                    System.out.println("Processing document metadata for: " + doc.getKind()+" "+doc.getClass());
+//                    System.out.println("Document structure: " + Arrays.toString(doc.getClass().getDeclaredMethods()));
+                    // If this is the Docling Document object, check for an elements list
+                    ExportDocumentResponse content = doc.getContent(); // This is the ExportDocumentResponse object
+
+                    DoclingDocument doclingDocument = content.getJsonContent();
+        
+                    if (doclingDocument != null) {
+                        System.out.println("Docling Document name: " + doclingDocument.getName());
+                        System.out.println("Docling Document furniture: " + doclingDocument.getFurniture().getName()+" "+doclingDocument.getGroups().size()+" "+doclingDocument.getKeyValueItems().size());
+                        for (var item : doclingDocument.getGroups()) {
+                            System.out.println("item children: " +item.getChildren().size()); 
+                            if(item.getMeta() !=null)System.out.println("Label: " + item.getName() + ", Value: " + item.getMeta().toString());
+                            for(var childItem : item.getChildren()){
+                                System.out.println("\tChild: "+childItem.getRef()+" "+childItem.toString());
+                            }
+                        }
+                        for (var entry : doclingDocument.getPages().entrySet()) {
+                            System.out.println("\t\tPage: " + entry.getKey() + " #no: " + entry.getValue().getPageNo() + " #dimensions: " + entry.getValue().getSize());
+                        }
+                    }
+                    else System.out.println("Docling Document is null from content.getJsonContent() " );
+                }
                 var doclingChunks = response.getChunks();
                 if (doclingChunks == null || doclingChunks.isEmpty()) return response;
 
@@ -103,8 +137,9 @@ public class DoclingAsyncService {
 
                 for (int i = 0; i < doclingChunks.size(); i++) {
                     var chunk = doclingChunks.get(i);
-                    
-                    String textContent = chunk.getText(); 
+                    // System.out.println("DEBUG: Chunk " + i + " Metadata: " + chunk.getMetadata());
+                    // System.out.println("DEBUG: Chunk " + i + " Headings: " + chunk.getHeadings());
+                    String textContent = chunk.getText();
                     if (textContent == null) textContent = chunk.toString();
                     
                     String compositeId = documentId + "#chunk-" + i;
@@ -137,8 +172,8 @@ public class DoclingAsyncService {
                             currentEntity.setType("heading");
                             isHeaderNode = true;
                             headingNodeCache.put(parentHeaderTitle, currentEntity);
-                        }
                     }
+    }
 
                     // 1. Chronological Link: Track sequential linear reading stream order
                     if (i > 0) {
@@ -215,8 +250,8 @@ public class DoclingAsyncService {
             // Only runs if there was an error
             System.err.println("Document conversion failed: " + throwable.getMessage());
             //log.error("Something went wrong", throwable);
-            return null; 
-        });         
+            return null;
+        });
         return resultFuture;
     }
 
@@ -251,3 +286,4 @@ public class DoclingAsyncService {
         return false;
     }
 }
+

@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Node
 public class DocumentRelations {
 
         // ==========================================
@@ -30,11 +31,25 @@ public class DocumentRelations {
 
     private String type; // Docling chunk types: "text", "heading", "table", "item"
 
+    private Integer headingLevel; // NEW: 1, 2, 3 for hierarchy parsing
+
+    @Property("table_html")
+    private String tableHtml; // NEW: Stores raw HTML/JSON representation of tables
+
+    @Property("references")
+    private List<String> references; // NEW: Stores citation strings found in text
+
     @Property("page_numbers")
     private List<Integer> pageNumbers; // Which physical pages this chunk spans
 
     @Property("heading_path")
     private List<String> headingPath; // Array representing the breadcrumb header path
+
+    @Property("image_description")
+    private String imageDescription;
+
+    @Property("image_class")
+    private String imageClass;
 
     // ==========================================
     // 3. Advanced GraphRAG Structural Edges
@@ -76,10 +91,23 @@ public class DocumentRelations {
     public void setEmbedding(float[] embedding) { this.embedding = embedding; }
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
+    public Integer getHeadingLevel() { return headingLevel; }
+    public void setHeadingLevel(Integer level) { this.headingLevel = level; }
+    
+    public String getTableHtml() { return tableHtml; }
+    public void setTableHtml(String tableHtml) { this.tableHtml = tableHtml; }
+    
+    public List<String> getReferences() { return references; }
+    public void setReferences(List<String> references) { this.references = references; }
     public List<Integer> getPageNumbers() { return pageNumbers; }
     public void setPageNumbers(List<Integer> pages) { this.pageNumbers = pages; }
     public List<String> getHeadingPath() { return headingPath; }
     public void setHeadingPath(List<String> path) { this.headingPath = path; }
+    public String getImageDescription() { return imageDescription; }
+    public void setImageDescription(String imageDescription) { this.imageDescription = imageDescription; }
+
+    public String getImageClass() { return imageClass; }
+    public void setImageClass(String imageClass) { this.imageClass = imageClass; }
     public DocumentRelations getParentSection() { return parentSection; }
     public void setParentSection(DocumentRelations parent) { this.parentSection = parent; }
     public DocumentRelations getNextChunk() { return nextChunk; }
@@ -88,3 +116,4 @@ public class DocumentRelations {
     public void setTableRows(Set<TableRowEntity> rows) { this.tableRows = rows; }
 
 }
+

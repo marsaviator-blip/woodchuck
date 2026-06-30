@@ -55,6 +55,7 @@ public class VSmessageReceiver {
                         .source(HttpSource.builder().url(URI.create(url)).build())
                         .options(this.detailedDoclingOptions)
                         .chunkingOptions(this.defaultHybridOptions)
+                        .includeConvertedDoc(true)
                         .build());
     }
 
