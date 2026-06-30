@@ -1,5 +1,9 @@
 package org.woodchuck.zChecker.services;
 
+import org.woodchuck.zChecker.dtos.AuthorPayloadDTO.AuthorInfo;
+import org.woodchuck.zChecker.dtos.AuthorPayloadDTO.AuthorWithDocs;
+import org.woodchuck.zChecker.dtos.AuthorPayloadDTO;
+import org.woodchuck.zChecker.dtos.AuthorPayloadDTO.AuthorWithDocs.DocumentInfo;
 import org.woodchuck.zChecker.dtos.GraphStats;
 import org.woodchuck.zChecker.repository.GraphRepository;
 
@@ -382,5 +386,61 @@ public class GraphMetricsService {
     //             .orElse(new GraphStats(0L, 0L));
     // }
 
+    public AuthorPayloadDTO getAuthorDetails() {
+        // Query 1: Get single numeric count of Author nodes
+        String countQuery = "MATCH (a:Author) RETURN count(a) AS totalAuthors";
+        Long authorCount = neo4jClient.query(countQuery)
+                .fetchAs(Long.class)
+                .one()
+                .orElse(0L);
+
+        // Query 2: Get full collection of Author nodes
+        String listQuery = "MATCH (a:Author) RETURN a.id AS id, a.name AS name ORDER BY a.name ASC";
+        List<AuthorPayloadDTO.AuthorInfo> authorList = neo4jClient.query(listQuery)
+                .fetchAs(AuthorInfo.class)
+                .mappedBy((typeSystem, record) -> new AuthorInfo(
+                        record.get("id").asString(),
+                        record.get("name").asString()
+                ))
+                .all().stream().toList();
+
+        // Query 3: Complex path returning Authors and their related Documents collected as a list
+        String relationshipsQuery = """
+            MATCH (a:Author)
+            OPTIONAL MATCH (a)-[:WROTE|HAS_DOC]->(d:Document)
+            RETURN a.id AS authorId, a.name AS authorName, 
+                   collect({id: d.id, title: d.title}) AS docs
+            ORDER BY authorName ASC
+            """;
+
+        List<AuthorPayloadDTO.AuthorWithDocs> authorsWithDocs = neo4jClient.query(relationshipsQuery)
+                .fetch()
+                .all()
+                .stream()
+                .map(row -> {
+                    String authorId = (String) row.get("authorId");
+                    String authorName = (String) row.get("authorName");
+                    
+                    // Parse out the nested collection maps safely 
+                    List<Map<String, Object>> rawDocs = (List<Map<String, Object>>) row.get("docs");
+                    List<AuthorPayloadDTO.AuthorWithDocs.DocumentInfo> docList = new ArrayList<>();
+                    
+                    if (rawDocs != null) {
+                        for (Map<String, Object> docMap : rawDocs) {
+                            // Filter out null rows caused by the OPTIONAL MATCH path when author has 0 docs
+                            if (docMap.get("id") != null) {
+                                docList.add(new AuthorPayloadDTO.AuthorWithDocs.DocumentInfo(
+                                    (String) docMap.get("id"),
+                                    (String) docMap.get("title")
+                                ));
+                            }
+                        }
+                    }
+                    return new AuthorPayloadDTO.AuthorWithDocs(authorId, authorName, docList);
+                })
+                .toList();
+
+        return new AuthorPayloadDTO(authorCount, authorList, authorsWithDocs);
+    }
 }
 

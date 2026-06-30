@@ -87,7 +87,29 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+    <dependency>
+        <groupId>ai.docling</groupId>
+        <artifactId>docling-serve-api</artifactId>
+        <version>0.5.2</version>
+    </dependency>
 
+    <!-- 2. The reference HTTP Client Implementation -->
+    <dependency>
+        <groupId>ai.docling</groupId>
+        <artifactId>docling-serve-client</artifactId>
+        <version>0.5.2</version>
+    </dependency>
+
+    <!-- 3. Arconia integration (Only if you are using Spring AI's DoclingDocumentReader) -->
+    <dependency>
+        <groupId>io.arconia</groupId>
+        <artifactId>arconia-ai-docling-document-reader</artifactId>
+    </dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-docker-compose</artifactId>
@@ -119,6 +141,14 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+       <!-- The official Arconia BOM handles all matching library versions -->
+        <dependency>
+            <groupId>io.arconia</groupId>
+            <artifactId>arconia-bom</artifactId>
+            <version>0.28.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
@@ -163,13 +193,13 @@
             <enabled>false</enabled>
         </snapshots>
     </repository>
-    <repository>
+    <!-- <repository>
         <id>spring-snapshots</id>
         <name>Spring Snapshots</name>
         <url>https://repo.spring.io/snapshot</url>
         <releases>
             <enabled>false</enabled>
         </releases>
-    </repository>
+    </repository> -->
 	</repositories>
 </project>

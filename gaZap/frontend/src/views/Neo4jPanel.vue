@@ -40,6 +40,7 @@
         <div v-else-if="stats" class="main-content-layout">
             <!-- Main Metrics Summary Cards -->
             <section class="metrics-grid">
+
                 <div class="metric-card group-nodes">
                     <div class="metric-info">
                         <p class="metric-label">Total Nodes</p>
@@ -354,12 +355,17 @@ onMounted(() => {
 /* ==========================================================================
    Metrics Dash Cards Grid
 Use code with caution.========================================================================== */
-.metrics-grid {
+/* .metrics-grid {
     display: grid;
     grid-template-cols: 1fr;
     gap: 1.5rem;
+} */
+.metrics-grid {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 15px;
 }
-
 @media (min-width: 768px) {
     .metrics-grid {
         grid-template-cols: repeat(3, 1fr);
@@ -372,6 +378,7 @@ Use code with caution.==========================================================
     border-radius: 1rem;
     border: 1px solid var(--border-color);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;

@@ -102,13 +102,16 @@ spring:
   temporal:
     start-workers: true
     workers:
-      - task-queue: BioTaskQueue
+      - name: bio-worker
+        task-queue: BioTaskQueue
         capacity:
           max-concurrent-workflow-task-pollers: 6
           max-concurrent-activity-task-pollers: 6
         rate-limits:
           max-worker-activities-per-second: 0
           max-task-queue-activities-per-second: 0
+      - name: discovery-engine-worker     
+        task-queue: ThematicAnalysisTaskQueue
     workflow-cache:
       max-instances: 10
       max-threads: 10
@@ -117,6 +120,8 @@ spring:
     workers-auto-discovery:
       packages:
         - "org.woodchuck.temporal"
+    metrics:
+      enabled: true
 springdoc:
   swagger-ui:
     request-timeout: 300000

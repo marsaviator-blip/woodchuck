@@ -90,7 +90,7 @@ export async function clearGraph(): Promise<void> {
     if (!response.ok) {
       throw new Error(`Failed to clear graph! Status: ${response.status}`);
     } else {
-      getDatabaseCounts().then((stats) => {
+      await getDatabaseCounts().then((stats) => {
         stats.value = {
           totalNodes: 0,
           totalEdges: 0,
@@ -126,5 +126,38 @@ export async function fetchGraphTopology(limit = 150): Promise<NetworkGraphPaylo
   } catch (error) {
     console.error('Failed processing request timeline:', error);
     throw error;
+  }
+}
+
+  export interface AuthorInfo {
+    id: string;
+    name: string;
+  }
+
+  export interface DocumentInfo {
+    id: string;
+    title: string;
+  }
+
+  export interface AuthorWithDocs {
+    authorId: string;
+    authorName: string;
+    relatedDocuments: DocumentInfo[];
+  }
+
+  export interface AuthorPayload {
+    authorCount: number;
+    authorList: AuthorInfo[];
+    authorsWithDocs: AuthorWithDocs[];
+  }
+
+export async function getAuthorAnalytics(): Promise<AuthorPayload> {
+  try {
+    const response = await fetch('/api/v1/graph/authors-analytics', { method: 'GET' });
+    if (!response.ok) throw new Error('Failed fetching author graph structures');
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return { authorCount: 0, authorList: [], authorsWithDocs: [] };
   }
 }
