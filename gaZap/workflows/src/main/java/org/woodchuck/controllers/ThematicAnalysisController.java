@@ -36,7 +36,7 @@ public class ThematicAnalysisController {
      * REST Endpoint 1: Triggers the entire execution pipeline asynchronously.
      * POST /api/analysis/start?subject=Target+Topic
      *
-     * @param subject The text topic/subject entered on the UI dashboard
+     * @param SearchRequest has two components: subjectQuery and maxLinksToReturn
      * @return The unique generated WorkflowID string for frontend tracking loops
      */
     @PostMapping("/start")

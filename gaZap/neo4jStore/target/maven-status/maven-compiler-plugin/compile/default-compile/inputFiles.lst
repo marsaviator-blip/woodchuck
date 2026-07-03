@@ -1,5 +1,6 @@
 /home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/VsbusConsumerApplication.java
 /home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/configs/DoclingConfig.java
+/home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/configs/GraphRagPipelineConfig.java
 /home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/configs/KafkaBibtexConfig.java
 /home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/configs/KafkaConsumerConfig.java
 /home/ar/wtf/woodchuck/gaZap/neo4jStore/src/main/java/org/woodchuck/configs/KafkaTopicConfig.java

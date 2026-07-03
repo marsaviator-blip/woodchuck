@@ -25,6 +25,7 @@
       <router-link to="/setup">🔍 gaZap Setup</router-link>
       <router-link to="/setup-d3">🔍 gaZap Setup D3</router-link>
       <router-link to="/instructions">🔍 gaZap Instructions</router-link>
+      <router-link to="/system-design">🔍 System Design</router-link>
     </nav>
     <main class="content-panel">
       <router-view />
@@ -42,6 +43,6 @@
   overflow-x: hidden;
 }
 .sidebar a { color: #ecf0f1; text-decoration: none; padding: 10px; border-radius: 4px; }
-.sidebar a.router-link-active { background: #3498db; }
-.content-panel { flex: 1; padding: 30px; background: #f8f9fa; overflow-y: auto; }
-</style>
+.sidebar a.router-link-active { background: #20564d; }
+.content-panel { flex: 1; padding: 30px; background: #715732; overflow-y: auto; }
+</style><!-- #f8f9fa-->

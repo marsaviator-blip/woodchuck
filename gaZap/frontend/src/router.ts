@@ -11,6 +11,7 @@ import SearchRelationshipPanel from './views/SearchRelationshipPanel.vue';
 import ContainerStatus from './views/ContainerStatusPanel.vue';
 import Instructions from './views/InstructionalPanel.vue';
 import ContainerInstructionPanel from './views/ContainerInstructionPanel.vue';
+import SystemDashboard from './views/SystemDashboard.vue';
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -27,5 +28,6 @@ export const router = createRouter({
     { path: '/setup-d3', component: SetupD3Panel },
     { path: '/instructions', component: Instructions },
     { path: '/container-instructions', component: ContainerInstructionPanel },
+    { path: '/system-design', component: SystemDashboard }, 
   ]
 });
