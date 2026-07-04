@@ -55,7 +55,9 @@
     "vite-plugin-mkcert": "^1.17.9",
     "vite-plugin-vue-devtools": "^8.0.5",
     "vitest": "^4.0.18",
-    "vue-tsc": "^3.2.4"
+    "vue-tsc": "^3.2.4",
+    "@tailwindcss/vite": "^4.3.2",
+    "tailwindcss": "^4.3.2"
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"

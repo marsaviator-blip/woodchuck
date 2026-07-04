@@ -7,6 +7,9 @@ import { createPinia } from 'pinia'
 import App from './AppQuery.vue'
 import { router } from './router'
 //import { getToken } from '@josempgon/vue-keycloak'
+// src/main.js
+import './assets/tailwind.css' // Import it globally; the wrapper class protects your other pages
+
 
 // Create an instance of axios with the base URL read from the environment
 const baseURL = import.meta.env.VITE_API_URL

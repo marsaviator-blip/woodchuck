@@ -26,6 +26,6 @@ const handleSelection = (author) => {
 </script>
 
 <style scoped>
-.panel { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.panel { background: rgb(73, 55, 55); padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 .selection-details { margin-top: 30px; padding: 15px; background: #f1f2f6; border-left: 4px solid #3498db; }
 </style>

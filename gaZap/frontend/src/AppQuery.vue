@@ -44,5 +44,5 @@
 }
 .sidebar a { color: #ecf0f1; text-decoration: none; padding: 10px; border-radius: 4px; }
 .sidebar a.router-link-active { background: #20564d; }
-.content-panel { flex: 1; padding: 30px; background: #715732; overflow-y: auto; }
+.content-panel { flex: 1; padding: 20px; background: #665134; overflow-y: auto; }
 </style><!-- #f8f9fa-->

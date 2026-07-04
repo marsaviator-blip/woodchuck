@@ -4,7 +4,7 @@ import { computed } from 'vue';
 const props = defineProps<{
   id: string;
   label: string;
-  type: 'client' | 'gateway' | 'controller' | 'service' | 'activity' | 'database';
+  type: 'client' | 'gateway' | 'controller' | 'service' | 'activity' | 'database' | 'llm' | 'chunker';
   isActive: boolean;
 }>();
 
@@ -22,6 +22,8 @@ const nodeStyles = computed(() => {
     case 'service': return base + "border-emerald-500 text-emerald-400 shadow-emerald-950/40 scale-105";
     case 'activity': return base + "border-cyan-500 text-cyan-400 shadow-cyan-950/40 scale-105";
     case 'database': return base + "border-amber-500 text-amber-400 shadow-amber-950/40 scale-105";
+    case 'llm': return base + "border-rose-500 text-rose-400 shadow-rose-950/40 scale-105";
+    case 'chunker': return base + "border-lime-500 text-lime-400 shadow-lime-950/40 scale-105";
     default: return base + "border-slate-700 text-slate-300";
   }
 });
