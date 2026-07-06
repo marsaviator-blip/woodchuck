@@ -12,6 +12,7 @@ import ContainerStatus from './views/ContainerStatusPanel.vue';
 import Instructions from './views/InstructionalPanel.vue';
 import ContainerInstructionPanel from './views/ContainerInstructionPanel.vue';
 import SystemDashboard from './views/SystemDashboard.vue';
+import ChatClient from './views/ChatClient.vue';
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -29,5 +30,6 @@ export const router = createRouter({
     { path: '/instructions', component: Instructions, meta: { useTailwind: false } },
     { path: '/container-instructions', component: ContainerInstructionPanel, meta: { useTailwind: false } },
     { path: '/system-design', component: SystemDashboard, meta: { useTailwind: true } }, 
+    { path: '/chat', component: ChatClient, meta: { useTailwind: false } },
   ]
 });

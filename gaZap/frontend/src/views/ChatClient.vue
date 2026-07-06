@@ -55,7 +55,7 @@ const sendMessage = async () => {
   isStreaming.value = true;
 
   try {
-    const response = await fetch(`http://localhost:8080/api/chat/stream?message=${encodeURIComponent(prompt)}`);
+    const response = await fetch(`http://localhost:8089/api/chat/stream?message=${encodeURIComponent(prompt)}`);
     
     if (!response.body) throw new Error('ReadableStream not supported by response.');
     

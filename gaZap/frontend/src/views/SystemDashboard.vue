@@ -7,7 +7,7 @@ const nodes = ref<SystemNode[]>([
   { id: 'client_web', label: 'Web Application', type: 'client', x: 10, y: 10 },
   { id: 'client_mobile', label: 'Mobile App', type: 'client', x: 50, y: 10 },
   { id: 'api_gw', label: 'API Gateway', type: 'gateway', x: 30, y: 25 },
-  { id: 'auth_svc', label: 'Auth Service', type: 'service', x: 5, y: 25 },
+  { id: 'auth_svc', label: 'Auth Service', type: 'service', x: 10, y: 25 },
   { id: 'search_contr', label: 'SearchController', type: 'controller', x: 10, y: 40 },
   { id: 'doc_contr', label: 'Doc Controller', type: 'controller', x: 30, y: 40 },
   { id: 'search_svc', label: 'Search Service', type: 'service', x: 10, y: 55 },
@@ -19,10 +19,10 @@ const nodes = ref<SystemNode[]>([
   { id: 'cache_db', label: 'Redis Cache', type: 'database', x: 15, y: 90 },
   { id: 'main_db', label: 'PostgreSQL', type: 'database', x: 25, y: 90 },
   { id: 'graph_db', label: 'Neo4J', type: 'database', x: 50, y: 90 },
-  { id: 'semantic_db', label: 'OpenSearch', type: 'database', x: 60, y: 90 },
+  { id: 'semantic_db', label: 'OpenSearch', type: 'database', x: 70, y: 90 },
   { id: 'nomic', label: 'Nomic LLM', type: 'llm', x: 90, y: 60 },
   { id: 'gemini', label: 'Gemini LLM', type: 'llm', x: 70, y: 60 },
-  { id: 'docling', label: 'Docling', type: 'chunker', x: 70, y: 90 },
+  { id: 'docling', label: 'Docling', type: 'chunker', x: 70, y: 40 },
 ]);
 
 const connections = ref<Connection[]>([
@@ -79,7 +79,7 @@ const useCases = ref<UseCase[]>([
     id: 'author_search',
     title: 'Author Search & Relationship Exploration',
     description: 'User searches for authors and explores their relationships.',
-    activeNodes: ['client_web', 'api_gw', 'search_contr', 'search_svc', 'main_db', 'graph_db'],
+    activeNodes: ['client_web', 'api_gw', 'search_contr', 'search_svc', 'main_db', 'graph_db', 'semantic_db'],
     activeConnections: ['web_to_gw', 'gw_to_search_contr', 'search_svc_to_main_db', 'search_svc_to_graph_db', 'search_contr_to_search_svc']
   }
 ]);

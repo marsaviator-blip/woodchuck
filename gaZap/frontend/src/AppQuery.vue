@@ -26,6 +26,8 @@
       <router-link to="/setup-d3">🔍 gaZap Setup D3</router-link>
       <router-link to="/instructions">🔍 gaZap Instructions</router-link>
       <router-link to="/system-design">🔍 System Design</router-link>
+      <hr>
+      <router-link to="/chat">🔍 Chat client</router-link>
     </nav>
     <main class="content-panel">
       <router-view />

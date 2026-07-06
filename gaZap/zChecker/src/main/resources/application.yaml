@@ -10,6 +10,22 @@ spring:
       enabled: true
       file: ../../docker_dependencies/compose.yml
   ai:
+    model:
+      chat: google-genai
+      embedding:
+        text: none
+    google:
+      genai:
+        # Provide an API key to automatically toggle on the Gemini Developer API
+        api-key: ${GEMINI_API_KEY} 
+        # Alternatively, provide a JSON path for enterprise Vertex AI deployments
+        # credentials-uri: "file:/path/to/your/google-credentials.json"
+        chat:
+          options:
+            model: gemini-2.5-flash # Or gemini-2.5-pro
+            thinking-level: MEDIUM # Configures deep analysis thresholds
+        embedding:
+          enabled: false
     vectorstore:
       neo4j:
         initialize-schema: true
