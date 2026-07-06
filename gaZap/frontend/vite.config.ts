@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 // import vueDevTools from 'vite-plugin-vue-devtools'
 import mkcert from 'vite-plugin-mkcert';
-
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -14,8 +14,11 @@ export default defineConfig({
     vueJsx(),
     // vueDevTools(),
     mkcert(),
+    tailwindcss(),
   ],
   server: {
+    port: 3002,       // <-- Set your custom frontend port here
+    strictPort: true, // Prevents Vite from automatically switching ports if port is busy
     //historyApiFallback: true, // This ensures unmatched routes fall back to index.html
     proxy: {
       '/api': {

@@ -1,32 +1,60 @@
 <template>
-  <teleport to="body">
+  <!-- <teleport to="body"> -->
     <!-- Using method="dialog" ensures it closes natively when forms are submitted -->
-    <dialog ref="dialogRef" class="modal-box"  max-width="500px" @close="emit('close')">
+    <dialog ref="dialogRef" class="modal-backdrop" max-width="800px" update:model-value="isModalOpen" @close="isModalOpen = false">
       <div class="modal-content">
-        <slot></slot>
+      <h3>Container List</h3>
+      <div 
+        v-for="container in containers" 
+        :key="container.id" 
+        class="card"
+      >
+        <div class="card-header">
+          <h3>{{ container.name?.replace('/', '') || 'Unnamed' }}</h3>
+          <span :class="['badge', container.status.toLowerCase()]">
+            {{ container.status }}
+          </span>
+        </div>
+        <div class="card-body">
+          <p><strong>Image:</strong> {{ container.image }}</p>
+          <p><strong>Status:</strong> {{ container.status }}</p>
+          <!-- <p><strong>Created:</strong> {{ new Date(container.created * 1000).toLocaleDateString() }}</p> -->
+          
+          <!-- <div v-if="container.ports && container.ports.length > 0">
+            <strong>Ports:</strong>
+            <ul>
+              <li v-for="(port, index) in container.ports" :key="index">
+                {{ port.publicPort }} ➡️ {{ port.privatePort }} ({{ port.type }})
+              </li>
+            </ul>
+          </div> -->
+        </div>
       </div>
-    </dialog>
-  </teleport>
+    </div>
+     </dialog>
+  <!-- </teleport> -->
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
+import { useContainerStatus } from '@/services/status-check';
+import type { ContainerInfo } from '@/types/containers';
+
+const error = ref<string | null>(null);
+
 const props = defineProps({
-  isOpen: {
+  isModalOpen: {
     type: Boolean,
     required: true
   }    
-  // listData: {
-  //   type: Array,
-  //   required: true,
-  //   default: () => []
-  //}
 });
 
 const emit = defineEmits(['close']);
 const dialogRef = ref(null);
+const containers = ref<ContainerInfo[]>([]);
+const containerStatus = useContainerStatus();
 
-watch(() => props.isOpen, (newVal) => {
+watch(() => props.isModalOpen, (newVal) => {
   const dialog = dialogRef.value;
   if (!dialog) return;
 
@@ -36,6 +64,20 @@ watch(() => props.isOpen, (newVal) => {
   } else {
     if (!dialog.open) return;
     dialog.close(); // Native API closes it
+  }
+});
+
+onMounted(async() => {
+  try {
+    const containerData = await containerStatus.getStatus();
+    containers.value = containerData; 
+    console.log('Fetched container status:');
+  } catch (err) {
+    console.error('Error fetching container status:', err);
+    error.value = 'Failed to fetch container status';
+  } finally {
+    // You can now safely access the DOM element
+    //dialogRef.value?.showModal();
   }
 });
 </script>

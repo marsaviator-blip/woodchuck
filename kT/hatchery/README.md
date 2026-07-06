@@ -35,3 +35,7 @@ look in the pom - turned off most LLM calls - because Spring starts trying to co
 
 depending on a particular goal - will get some of them running soon.
 
+June 2026
+
+began a study of using FFM
+

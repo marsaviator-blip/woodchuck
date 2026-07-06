@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      # Tells Ollama to store its model files directly in the persistent workspace
+      - OLLAMA_MODELS=/workspace/ollama_models
+    volumes:
+      # Maps your persistent RunPod Network Volume into the container
+      - /workspace:/workspace
+    restart: unless-stopped
+    
+    # RunPod hosts already have the Nvidia toolkit configured. 
+    # This block exposes the host GPU to your container.
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

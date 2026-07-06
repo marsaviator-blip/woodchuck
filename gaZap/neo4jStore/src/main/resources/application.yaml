@@ -1,3 +1,8 @@
+graphrag:
+  pipeline:
+    # Options: DEEP (JSON + OCR parser) or LIGHT (Markdown parser)
+    strategy: LIGHT
+    fallback-to-light-on-failure: true
 arconia:
   otel:
     enabled: false
@@ -59,15 +64,6 @@ server:
     spring:
   application:
     name: neo4jStore
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: neoGroup
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    listener:
-      missing-topics-fatal: false
 spring:
   application:
     name: neo4jStore
@@ -89,8 +85,7 @@ spring:
     ollama:
       base-url: http://localhost:11434
       chat:
-        options:
-          model: llama3.2 # Or mistral, phi3, etc.
+        model: llama3.3 # Or mistral, phi3, etc.
       embedding:
         options:
           model: nomic-embed-text # Popular model for embeddings

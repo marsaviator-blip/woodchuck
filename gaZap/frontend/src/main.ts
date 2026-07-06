@@ -2,15 +2,18 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { vueKeycloak } from '@josempgon/vue-keycloak'
-import axios from 'axios'
-import App from './AppKeycloak.vue'
-import router from './router'
-import { getToken } from '@josempgon/vue-keycloak'
+//import { vueKeycloak } from '@josempgon/vue-keycloak'
+//import axios from 'axios'
+import App from './AppQuery.vue'
+import { router } from './router'
+//import { getToken } from '@josempgon/vue-keycloak'
+// src/main.js
+import './assets/tailwind.css' // Import it globally; the wrapper class protects your other pages
+
 
 // Create an instance of axios with the base URL read from the environment
 const baseURL = import.meta.env.VITE_API_URL
-const instance = axios.create({ baseURL })
+//const instance = axios.create({ baseURL })
 
 // Request interceptor for API calls
 // instance.interceptors.request.use(

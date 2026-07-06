@@ -20,6 +20,7 @@
     "@josempgon/vue-keycloak": "^3.3.4",
     "@suadelabs/vue3-multiselect": "^1.0.2",
     "axios": "^1.13.5",
+    "d3": "^7.9.0",
     "gallery-vue3": "^0.0.8",
     "pinia": "^3.0.4",
     "primevue": "^4.5.4",
@@ -54,7 +55,9 @@
     "vite-plugin-mkcert": "^1.17.9",
     "vite-plugin-vue-devtools": "^8.0.5",
     "vitest": "^4.0.18",
-    "vue-tsc": "^3.2.4"
+    "vue-tsc": "^3.2.4",
+    "@tailwindcss/vite": "^4.3.2",
+    "tailwindcss": "^4.3.2"
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"

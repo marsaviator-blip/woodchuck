@@ -1,0 +1,6 @@
+/* src/assets/tailwind.css */
+
+/* Wrap Tailwind inside a custom class utility layer */
+@layer utilities {
+  @import "tailwindcss";
+}

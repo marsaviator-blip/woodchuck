@@ -1,25 +1,32 @@
 package org.woodchuck.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
+import java.util.UUID;
 
 import org.woodchuck.repositories.DocumentGraphRepository;
 import org.woodchuck.entities.DocumentRelations;
 import org.woodchuck.entities.TableRowEntity;
 
+import ai.docling.core.DoclingDocument;
 import ai.docling.serve.api.DoclingServeApi;
 import ai.docling.serve.api.chunk.request.HybridChunkDocumentRequest;
 import ai.docling.serve.api.chunk.request.options.ChunkerOptions;
 import ai.docling.serve.api.chunk.request.options.HybridChunkerOptions;
 import ai.docling.serve.api.chunk.response.ChunkDocumentResponse;
+import ai.docling.serve.api.chunk.response.ExportDocumentResponse;
 import ai.docling.serve.api.convert.request.ConvertDocumentRequest;
 import ai.docling.serve.api.convert.request.source.HttpSource;
+import ai.docling.serve.api.convert.request.source.Source;
 import ai.docling.serve.api.convert.response.ConvertDocumentResponse;
 import ai.docling.serve.api.convert.response.InBodyConvertDocumentResponse;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 import org.springframework.ai.document.Document;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
@@ -64,53 +71,151 @@ public class DoclingAsyncService {
     public CompletableFuture<ChunkDocumentResponse> processDocumentAsync(HybridChunkDocumentRequest request) {
         CompletionStage<ChunkDocumentResponse> stage = doclingServeApi.chunkSourceWithHybridChunkerAsync(request);
         CompletableFuture<ChunkDocumentResponse> resultFuture =stage.toCompletableFuture().thenApply(response -> {
-                System.out.println("Document conversion succeeded: ");
-                String documentId =  "the document";//request.getSources().get(0).getUrl().toString(); // Using the URL as the document ID
-                    var doclingChunks = response.getChunks();
-                    if (doclingChunks == null || doclingChunks.isEmpty()) return response; // No chunks to process
-                    List<DocumentRelations> instantiatedEntities = new ArrayList<>();
-                    Map<String, DocumentRelations> lookupTable = new HashMap<>();
-                    for (int i = 0; i < doclingChunks.size(); i++) {
-                        // HERE is where doclingChunks is used to feed the pipeline!
-                        var chunk = doclingChunks.get(i);
-                        
-                        // Extract the text and layout type from the Docling chunk object
-                        String textContent = chunk.toString(); // or chunk.getText()
-                        String chunkType = "text";             // default placeholder (e.g., chunk.getType())
-                        
-                        String compositeId = documentId + "#chunk-" + i;
-
-                        // Instantiate the graph node
-                        DocumentRelations entity = new DocumentRelations();
-                        entity.setId(compositeId);
-                        entity.setText(textContent);
-                        entity.setType(chunkType); 
-
-                        // Generate the semantic vector using your local Ollama container
-                        // float[] vector = embeddingModel.embed(textContent);
-                        // entity.setEmbedding(vector);
-
-                        // Collect them into our tracking arrays for Step 2
-                        instantiatedEntities.add(entity);
-                        lookupTable.put(compositeId, entity);
-                    }                    
-                    for (int i = 0; i < instantiatedEntities.size(); i++) {
-                        DocumentRelations current = instantiatedEntities.get(i);
-                        if (i < instantiatedEntities.size() - 1) {
-                            current.setNextChunk(instantiatedEntities.get(i + 1));
-                        }
-
-                        // B. Document Hierarchy Tree Connection: (Header Section)-[:HAS_CHILD]->(Text Paragraph)
-                        // If docling specifies an explicit parent index anchor, link them:
-                        String structuralParentId = documentId + "#chunk-" + (i - 1); // Mock example logic
-                        if (lookupTable.containsKey(structuralParentId) && i > 0) {
-                            DocumentRelations sectionHeaderNode = lookupTable.get(structuralParentId);
-                            if ("heading".equalsIgnoreCase(sectionHeaderNode.getType())) {
-                                current.setParentSection(sectionHeaderNode);
+                System.out.println("Document conversion succeeded: "+response.getDocuments().size());
+                String documentId =  UUID.randomUUID().toString();
+                if(!request.getSources().isEmpty()){
+                    Source source = request.getSources().get(0);
+                    if (source instanceof HttpSource httpSource) {
+                        try {
+                            java.net.URI url = httpSource.getUrl();
+                            String path = url.getPath(); // Extracts everything after the domain (e.g., /dataset1/raw_study.pdf)
+                            
+                            if (path != null && !path.isEmpty()) {
+                                // Extract the final segment after the last forward slash
+                                String fileName = path.substring(path.lastIndexOf('/') + 1);
+                                
+                                if (!fileName.isEmpty()) {
+                                    documentId = fileName; // Sets documentId to "raw_study.pdf"
+                                } else {
+                                    documentId = url.toString(); // Fallback if trailing slash found
+                                }
+                            } else {
+                                documentId = url.toString(); // Fallback if path is completely empty
                             }
+                        } catch (Exception e) {
+                            System.err.println("Failed to extract filename from URL, falling back to full string: " + e.getMessage());
+                            documentId = httpSource.getUrl().toString();
                         }
                     }
-                    documentGraphRepository.saveAll(instantiatedEntities);
+                }
+                System.out.println("Extracted Document ID: " + documentId);
+                var documents = response.getDocuments(); 
+
+                if (documents != null && !documents.isEmpty()) {
+                    var doc = documents.get(0);
+                    // You can iterate through these to pull global attributes
+                    // e.g., documents.get(0).getMetadata().getTitle()
+                    System.out.println("Processing document metadata for: " + doc.getKind()+" "+doc.getClass());
+//                    System.out.println("Document structure: " + Arrays.toString(doc.getClass().getDeclaredMethods()));
+                    // If this is the Docling Document object, check for an elements list
+                    ExportDocumentResponse content = doc.getContent(); // This is the ExportDocumentResponse object
+
+                    DoclingDocument doclingDocument = content.getJsonContent();
+        
+                    if (doclingDocument != null) {
+                        System.out.println("Docling Document name: " + doclingDocument.getName());
+                        System.out.println("Docling Document furniture: " + doclingDocument.getFurniture().getName()+" "+doclingDocument.getGroups().size()+" "+doclingDocument.getKeyValueItems().size());
+                        for (var item : doclingDocument.getGroups()) {
+                            System.out.println("item children: " +item.getChildren().size()); 
+                            if(item.getMeta() !=null)System.out.println("Label: " + item.getName() + ", Value: " + item.getMeta().toString());
+                            for(var childItem : item.getChildren()){
+                                System.out.println("\tChild: "+childItem.getRef()+" "+childItem.toString());
+                            }
+                        }
+                        for (var entry : doclingDocument.getPages().entrySet()) {
+                            System.out.println("\t\tPage: " + entry.getKey() + " #no: " + entry.getValue().getPageNo() + " #dimensions: " + entry.getValue().getSize());
+                        }
+                    }
+                    else System.out.println("Docling Document is null from content.getJsonContent() " );
+                }
+                var doclingChunks = response.getChunks();
+                if (doclingChunks == null || doclingChunks.isEmpty()) return response;
+
+                List<DocumentRelations> instantiatedEntities = new ArrayList<>();
+                // Caches our section header node references using the header title string as the key
+                Map<String, DocumentRelations> headingNodeCache = new HashMap<>();
+
+                for (int i = 0; i < doclingChunks.size(); i++) {
+                    var chunk = doclingChunks.get(i);
+                    // System.out.println("DEBUG: Chunk " + i + " Metadata: " + chunk.getMetadata());
+                    // System.out.println("DEBUG: Chunk " + i + " Headings: " + chunk.getHeadings());
+                    String textContent = chunk.getText();
+                    if (textContent == null) textContent = chunk.toString();
+                    
+                    String compositeId = documentId + "#chunk-" + i;
+
+                    DocumentRelations currentEntity = new DocumentRelations();
+                    currentEntity.setId(compositeId);
+                    currentEntity.setText(textContent);
+                    
+                    // Sync your verified array collections straight out of Docling 0.5.2
+                    currentEntity.setPageNumbers((List<Integer>) chunk.getPageNumbers());
+                    
+                    List<String> headingsList = (List<String>) chunk.getHeadings();
+                    currentEntity.setHeadingPath(headingsList);
+
+                    // Baseline fallback defaults
+                    currentEntity.setType("text");
+                    boolean isHeaderNode = false;
+                    String parentHeaderTitle = null;
+
+                    if (headingsList != null && !headingsList.isEmpty()) {
+                        // The last entry in the list is always the heading this content belongs to
+                        parentHeaderTitle = headingsList.get(headingsList.size() - 1);
+                        
+                        // CRITICAL CHECK: If this is chunk-0 or has a short text payload that matches the header exactly,
+                        // treat it as the master structural section title node itself.
+                        String cleanText = textContent.trim().toLowerCase();
+                        String cleanHeader = parentHeaderTitle.trim().toLowerCase();
+                        
+                        if (i == 0 || cleanText.equals(cleanHeader)) {
+                            currentEntity.setType("heading");
+                            isHeaderNode = true;
+                            headingNodeCache.put(parentHeaderTitle, currentEntity);
+                    }
+    }
+
+                    // 1. Chronological Link: Track sequential linear reading stream order
+                    if (i > 0) {
+                        DocumentRelations previousEntity = instantiatedEntities.get(i - 1);
+                        previousEntity.setNextChunk(currentEntity);
+                    }
+
+                    // 2. Hierarchical Link: Track structural HAS_CHILD parent-child trees
+                    if (isHeaderNode) {
+                        // If this is a nested sub-heading, look up one level higher in the array to connect it
+                        if (headingsList.size() > 1) {
+                            String superiorHeader = headingsList.get(headingsList.size() - 2);
+                            if (headingNodeCache.containsKey(superiorHeader)) {
+                                currentEntity.setParentSection(headingNodeCache.get(superiorHeader));
+                            }
+                        }
+                    } else {
+                        // This is a standard math equation, algorithm block, or paragraph text chunk.
+                        // Look up the matching cached section header node to link it as a child.
+                        if (parentHeaderTitle != null) {
+                            // Safety Check: If the header node hasn't been instantiated yet (due to chunk merging),
+                            // dynamically create a virtual section header node to anchor our children!
+                            if (!headingNodeCache.containsKey(parentHeaderTitle)) {
+                                DocumentRelations virtualHeader = new DocumentRelations();
+                                virtualHeader.setId(documentId + "#header-" + parentHeaderTitle.hashCode());
+                                virtualHeader.setText(parentHeaderTitle);
+                                virtualHeader.setType("heading");
+                                
+                                headingNodeCache.put(parentHeaderTitle, virtualHeader);
+                                instantiatedEntities.add(virtualHeader);
+                            }
+                            
+                            // Connect the text chunk to its section parent
+                            currentEntity.setParentSection(headingNodeCache.get(parentHeaderTitle));
+                        }
+                    }
+
+                    instantiatedEntities.add(currentEntity);
+                }                    
+
+                // Save the rich multi-relational tree hierarchy down into Neo4j
+                documentGraphRepository.saveAll(instantiatedEntities);
 
                     List<Document> chunks = instantiatedEntities.stream()
                             .map(graphNode -> {
@@ -137,16 +242,16 @@ public class DoclingAsyncService {
                                 );
                             })
                             .toList();
-                    System.out.println("Adding " + chunks.size() + " chunks to the vector store.");
-                    vectorStore.add(chunks);
-                    System.out.println("Chunks added to vector store successfully.");
+                    // System.out.println("Adding " + chunks.size() + " chunks to the vector store.");
+                    // vectorStore.add(chunks);
+                    // System.out.println("Chunks added to vector store successfully.");
                     return response;
         }).exceptionally(throwable -> {
             // Only runs if there was an error
             System.err.println("Document conversion failed: " + throwable.getMessage());
             //log.error("Something went wrong", throwable);
-            return null; 
-        });         
+            return null;
+        });
         return resultFuture;
     }
 
@@ -181,3 +286,4 @@ public class DoclingAsyncService {
         return false;
     }
 }
+
