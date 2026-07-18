@@ -5,6 +5,12 @@ services:
     restart: unless-stopped
     ports:
       - "5001:5001"
+    volumes:
+      # Maps their custom local path to the container's expected internal path
+      - ${DOCLING_SERVE_ARTIFACTS_PATH}:/app/models
+    environment:
+      # Forces the container's internal process to look at the mounted volume
+      - DOCLING_SERVE_ARTIFACTS_PATH=/app/models      
     environment:
       - DOCLING_SERVE_ENABLE_UI=1
     healthcheck:
