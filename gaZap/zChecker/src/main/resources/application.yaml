@@ -17,9 +17,9 @@ spring:
     google:
       genai:
         # Provide an API key to automatically toggle on the Gemini Developer API
-        api-key: AQ.Ab8RN6J3o-rbTMl0bB1nyXCebtiK2tnM-TER_OkTLdZu0NsM1g  #${GEMINI_API_KEY} 
+        # put gemini key here
         # project-id: ${GEMINI_PROJECT_ID}
-        # put gemini key here if you want to use the Gemini Developer API (or set GEMINI_API_KEY in your environment)
+
         # Alternatively, provide a JSON path for enterprise Vertex AI deployments
         # credentials-uri: "file:/path/to/your/google-credentials.json"
         chat:
