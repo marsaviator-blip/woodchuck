@@ -28,6 +28,8 @@
       <router-link to="/system-design">🔍 System Design</router-link>
       <hr>
       <router-link to="/chat">🔍 Chat client</router-link>
+      <router-link to="/ai-vault">🔍 AI Vault</router-link>
+      <router-link to="/vault">🔍 Vault</router-link>
     </nav>
     <main class="content-panel">
       <router-view />

@@ -13,6 +13,8 @@ import Instructions from './views/InstructionalPanel.vue';
 import ContainerInstructionPanel from './views/ContainerInstructionPanel.vue';
 import SystemDashboard from './views/SystemDashboard.vue';
 import ChatClient from './views/ChatClient.vue';
+import ChatAiVaultPanel from './views/ChatAiVaultPanel.vue';
+import ChatVaultPanel from './views/ChatVaultPanel.vue';
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -31,5 +33,7 @@ export const router = createRouter({
     { path: '/container-instructions', component: ContainerInstructionPanel, meta: { useTailwind: false } },
     { path: '/system-design', component: SystemDashboard, meta: { useTailwind: true } }, 
     { path: '/chat', component: ChatClient, meta: { useTailwind: false } },
-  ]
+    { path: '/ai-vault', component: ChatAiVaultPanel, meta: { useTailwind: true } },
+    { path: '/vault', component: ChatVaultPanel, meta: { useTailwind: true } },
+  ],
 });
