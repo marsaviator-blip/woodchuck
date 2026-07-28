@@ -18,3 +18,6 @@ gaZap/pgStore/target
 gaZap/neo4jStore/target
 LIM/backend/target
 **/application-local.yml
+ui_angular/node_modules/
+ui_angular/node
+ui_angular/dist/
