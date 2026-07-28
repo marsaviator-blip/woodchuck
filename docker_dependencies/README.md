@@ -83,3 +83,17 @@ MATCH (n) OPTIONAL MATCH (n)-[r]->(m) RETURN n, r, m LIMIT 100
 cypher delete
 MATCH (n)
 DETACH DELETE n
+
+## Downloading docling models for local use
+
+Need to activate the python env that has the docling python client and tools installed
+```
+source .venv/bin/activate
+docling-tools models download --all -o ./ds_models
+```
+### Setting docling model path
+Put a .env file next to compose.yml.
+In it point to where models were downloaded
+```
+DOCLING_SERVE_ARTIFACTS_PATH=<your path to local models>
+```
