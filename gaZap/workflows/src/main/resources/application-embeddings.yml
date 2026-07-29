@@ -1,0 +1,11 @@
+spring:
+  ai:
+    ollama:
+      embedding:
+        options:
+          model: none
+    openai:
+      api-key: ${NOMIC_API_KEY} # Or your Hugging Face token
+      base-url: https://api-atlas.nomic.ai # Example endpoint
+      embedding:
+        model: nomic-embed-text-v1.5

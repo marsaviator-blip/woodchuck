@@ -9,10 +9,6 @@ import java.util.Objects;
 import java.util.Vector;
 import java.util.UUID;
 
-import org.woodchuck.repositories.DocumentGraphRepository;
-import org.woodchuck.entities.DocumentRelations;
-import org.woodchuck.entities.TableRowEntity;
-
 import ai.docling.core.DoclingDocument;
 import ai.docling.serve.api.DoclingServeApi;
 import ai.docling.serve.api.chunk.request.HybridChunkDocumentRequest;
@@ -48,6 +44,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.neo4j.driver.Driver;
+import org.springframework.data.neo4j.core.Neo4jClient; // Included natively in spring-ai-neo4j
+
 @Service
 public class DoclingAsyncService {
 
@@ -60,12 +59,12 @@ public class DoclingAsyncService {
     private final DoclingServeApi doclingServeApi;
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private final VectorStore vectorStore;
-    private final DocumentGraphRepository documentGraphRepository;
+    private final Neo4jClient neo4jClient;
 
-    public DoclingAsyncService(DoclingServeApi doclingServeApi, VectorStore vectorStore, DocumentGraphRepository documentGraphRepository) {
+    public DoclingAsyncService(DoclingServeApi doclingServeApi, VectorStore vectorStore, Neo4jClient neo4jClient) {
         this.doclingServeApi = doclingServeApi;
         this.vectorStore = vectorStore;
-        this.documentGraphRepository = documentGraphRepository;
+        this.neo4jClient = neo4jClient;
     }
 
     public CompletableFuture<ChunkDocumentResponse> processDocumentAsync(HybridChunkDocumentRequest request) {
@@ -110,20 +109,73 @@ public class DoclingAsyncService {
                     // If this is the Docling Document object, check for an elements list
                     ExportDocumentResponse content = doc.getContent(); // This is the ExportDocumentResponse object
 
+                    List<Document> springAiDocuments = new ArrayList<>();
+                    Map<String, String> headingNodeCache = new HashMap<>(); // Maps heading names to Spring AI Document IDs
+
                     DoclingDocument doclingDocument = content.getJsonContent();
         
                     if (doclingDocument != null) {
                         System.out.println("Docling Document name: " + doclingDocument.getName());
                         System.out.println("Docling Document furniture: " + doclingDocument.getFurniture().getName()+" "+doclingDocument.getGroups().size()+" "+doclingDocument.getKeyValueItems().size());
+                        // Phase A: Ingest groups/structural anchors first
                         for (var item : doclingDocument.getGroups()) {
-                            System.out.println("item children: " +item.getChildren().size()); 
-                            if(item.getMeta() !=null)System.out.println("Label: " + item.getName() + ", Value: " + item.getMeta().toString());
-                            for(var childItem : item.getChildren()){
-                                System.out.println("\tChild: "+childItem.getRef()+" "+childItem.toString());
+                            String groupId = documentId + "#group-" + item.getName().hashCode();
+                            
+                            // Formulate a clean text representation for vector indexing
+                            String groupText = "Section Group: " + item.getName(); 
+                            
+                            Map<String, Object> metadata = new HashMap<>();
+                            metadata.put("type", "heading");
+                            metadata.put("groupName", item.getName());
+                            metadata.put("doclingLabel", item.getMeta() != null ? item.getMeta().toString() : "UNKNOWN");
+                            
+                            // Extract children reference IDs to build relations
+                            List<String> childRefs = new ArrayList<>();
+                            for (var childItem : item.getChildren()) {
+                                childRefs.add(childItem.getRef());
                             }
+                            metadata.put("childReferences", childRefs); // Stored as metadata property array
+
+                            // Create pure Spring AI Document
+                            Document groupDoc = new Document(groupId, groupText, metadata);
+                            springAiDocuments.add(groupDoc);
+                            headingNodeCache.put(item.getName(), groupId);
                         }
-                        for (var entry : doclingDocument.getPages().entrySet()) {
-                            System.out.println("\t\tPage: " + entry.getKey() + " #no: " + entry.getValue().getPageNo() + " #dimensions: " + entry.getValue().getSize());
+
+                        // Phase B: Process chunks (Paragraphs, Tables, OCR, Equations)
+                        var doclingChunks = response.getChunks();
+                        for (int i = 0; i < doclingChunks.size(); i++) {
+                            var chunk = doclingChunks.get(i);
+                            String chunkId = documentId + "#chunk-" + i;
+                            
+                            Map<String, Object> metadata = new HashMap<>();
+                            metadata.put("type", "chunk");
+                            metadata.put("pageNumbers", chunk.getPageNumbers());
+                            metadata.put("headings", chunk.getHeadings());
+                            
+                            // Link to previous sequential item using an explicit ID string pointer
+                            if (i > 0) {
+                                metadata.put("previousChunkId", documentId + "#chunk-" + (i - 1));
+                            }
+
+                            // Relate back to parent heading using cached IDs
+                            List<String> headingsList = (List<String>) chunk.getHeadings();
+                            if (headingsList != null && !headingsList.isEmpty()) {
+                                String parentHeaderTitle = headingsList.get(headingsList.size() - 1);
+                                if (headingNodeCache.containsKey(parentHeaderTitle)) {
+                                    metadata.put("parentSectionId", headingNodeCache.get(parentHeaderTitle));
+                                }
+                            }
+
+                            // Capture table/equation specific metrics if available in this chunk context
+                            // (Assuming you check your docling chunk metadata fields for specialized elements)
+                            if (chunk.getMetadata().containsKey("table_mask")) {
+                                metadata.put("type", "table");
+                                metadata.put("raw_table_data", chunk.getMetadata().get("table_cells"));
+                            }
+
+                            Document chunkDoc = new Document(chunkId, chunk.getText(), metadata);
+                            springAiDocuments.add(chunkDoc);
                         }
                     }
                     else System.out.println("Docling Document is null from content.getJsonContent() " );
@@ -131,120 +183,104 @@ public class DoclingAsyncService {
                 var doclingChunks = response.getChunks();
                 if (doclingChunks == null || doclingChunks.isEmpty()) return response;
 
-                List<DocumentRelations> instantiatedEntities = new ArrayList<>();
-                // Caches our section header node references using the header title string as the key
-                Map<String, DocumentRelations> headingNodeCache = new HashMap<>();
+        List<Document> springAiDocs = new ArrayList<>();
 
-                for (int i = 0; i < doclingChunks.size(); i++) {
-                    var chunk = doclingChunks.get(i);
-                    // System.out.println("DEBUG: Chunk " + i + " Metadata: " + chunk.getMetadata());
-                    // System.out.println("DEBUG: Chunk " + i + " Headings: " + chunk.getHeadings());
-                    String textContent = chunk.getText();
-                    if (textContent == null) textContent = chunk.toString();
-                    
-                    String compositeId = documentId + "#chunk-" + i;
+        // Caches section header ID strings instead of entity objects
+        Map<String, String> headingNodeCache = new HashMap<>();
 
-                    DocumentRelations currentEntity = new DocumentRelations();
-                    currentEntity.setId(compositeId);
-                    currentEntity.setText(textContent);
-                    
-                    // Sync your verified array collections straight out of Docling 0.5.2
-                    currentEntity.setPageNumbers((List<Integer>) chunk.getPageNumbers());
-                    
-                    List<String> headingsList = (List<String>) chunk.getHeadings();
-                    currentEntity.setHeadingPath(headingsList);
+        for (int i = 0; i < doclingChunks.size(); i++) {
+            var chunk = doclingChunks.get(i);
+            String textContent = chunk.getText();
+            if (textContent == null) textContent = chunk.toString();
+            
+            String compositeId = documentId + "#chunk-" + i;
 
-                    // Baseline fallback defaults
-                    currentEntity.setType("text");
-                    boolean isHeaderNode = false;
-                    String parentHeaderTitle = null;
+            // 2. Build a flat metadata map for Spring AI
+            Map<String, Object> metadata = new HashMap<>();
+            metadata.put("page_numbers", (List<Integer>) chunk.getPageNumbers());
+            
+            List<String> headingsList = (List<String>) chunk.getHeadings();
+            if (headingsList != null) {
+                metadata.put("headings", headingsList);
+            }
 
-                    if (headingsList != null && !headingsList.isEmpty()) {
-                        // The last entry in the list is always the heading this content belongs to
-                        parentHeaderTitle = headingsList.get(headingsList.size() - 1);
+            metadata.put("type", "text");
+            boolean isHeaderNode = false;
+            String parentHeaderTitle = null;
+
+            if (headingsList != null && !headingsList.isEmpty()) {
+                parentHeaderTitle = headingsList.get(headingsList.size() - 1);
+                String cleanText = textContent.trim().toLowerCase();
+                String cleanHeader = parentHeaderTitle.trim().toLowerCase();
+                
+                if (i == 0 || cleanText.equals(cleanHeader)) {
+                    metadata.put("type", "heading");
+                    isHeaderNode = true;
+                    headingNodeCache.put(parentHeaderTitle, compositeId);
+                }
+            }
+
+            // RELATIONSHIP 1: Chronological Link (Store the next ID pointer as metadata)
+            if (i > 0) {
+                // Update the previous document in our list to point to this one as the next chunk
+                Document previousDoc = springAiDocs.get(springAiDocs.size() - 1);
+                previousDoc.getMetadata().put("nextChunkId", compositeId);
+            }
+
+            // RELATIONSHIP 2: Hierarchical Tree Link (Store parent ID pointers as metadata)
+            if (isHeaderNode) {
+                if (headingsList.size() > 1) {
+                    String superiorHeader = headingsList.get(headingsList.size() - 2);
+                    if (headingNodeCache.containsKey(superiorHeader)) {
+                        metadata.put("parentSectionId", headingNodeCache.get(superiorHeader));
+                    }
+                }
+            } else {
+                if (parentHeaderTitle != null) {
+                    if (!headingNodeCache.containsKey(parentHeaderTitle)) {
+                        // Create a virtual header document if Docling skipped it
+                        String virtualId = documentId + "#header-" + parentHeaderTitle.hashCode();
+                        Map<String, Object> virtualMeta = new HashMap<>();
+                        virtualMeta.put("type", "heading");
                         
-                        // CRITICAL CHECK: If this is chunk-0 or has a short text payload that matches the header exactly,
-                        // treat it as the master structural section title node itself.
-                        String cleanText = textContent.trim().toLowerCase();
-                        String cleanHeader = parentHeaderTitle.trim().toLowerCase();
-                        
-                        if (i == 0 || cleanText.equals(cleanHeader)) {
-                            currentEntity.setType("heading");
-                            isHeaderNode = true;
-                            headingNodeCache.put(parentHeaderTitle, currentEntity);
+                        Document virtualHeader = new Document(virtualId, parentHeaderTitle, virtualMeta);
+                        headingNodeCache.put(parentHeaderTitle, virtualId);
+                        springAiDocs.add(virtualHeader);
                     }
-    }
+                    
+                    metadata.put("parentSectionId", headingNodeCache.get(parentHeaderTitle));
+                }
+            }
 
-                    // 1. Chronological Link: Track sequential linear reading stream order
-                    if (i > 0) {
-                        DocumentRelations previousEntity = instantiatedEntities.get(i - 1);
-                        previousEntity.setNextChunk(currentEntity);
-                    }
+            // 3. Instantiate the pure Spring AI Document
+            Document currentDoc = new Document(compositeId, textContent, metadata);
+            springAiDocs.add(currentDoc);
+        }
+            System.out.println("Adding " + springAiDocs.size() + " chunks to the vector store.");
+            vectorStore.add(springAiDocs);
+            System.out.println("Chunks added to vector store successfully.");
+            try {
+                // Gives your laptop hard drive a brief window to commit the 60 embedding vectors safely
+                Thread.sleep(500); 
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            String linkChronological = """
+                MATCH (a:CustomDocument), (b:CustomDocument)
+                WHERE a.`metadata.nextChunkId` = b.id
+                MERGE (a)-[:NEXT]->(b)
+                """;
 
-                    // 2. Hierarchical Link: Track structural HAS_CHILD parent-child trees
-                    if (isHeaderNode) {
-                        // If this is a nested sub-heading, look up one level higher in the array to connect it
-                        if (headingsList.size() > 1) {
-                            String superiorHeader = headingsList.get(headingsList.size() - 2);
-                            if (headingNodeCache.containsKey(superiorHeader)) {
-                                currentEntity.setParentSection(headingNodeCache.get(superiorHeader));
-                            }
-                        }
-                    } else {
-                        // This is a standard math equation, algorithm block, or paragraph text chunk.
-                        // Look up the matching cached section header node to link it as a child.
-                        if (parentHeaderTitle != null) {
-                            // Safety Check: If the header node hasn't been instantiated yet (due to chunk merging),
-                            // dynamically create a virtual section header node to anchor our children!
-                            if (!headingNodeCache.containsKey(parentHeaderTitle)) {
-                                DocumentRelations virtualHeader = new DocumentRelations();
-                                virtualHeader.setId(documentId + "#header-" + parentHeaderTitle.hashCode());
-                                virtualHeader.setText(parentHeaderTitle);
-                                virtualHeader.setType("heading");
-                                
-                                headingNodeCache.put(parentHeaderTitle, virtualHeader);
-                                instantiatedEntities.add(virtualHeader);
-                            }
-                            
-                            // Connect the text chunk to its section parent
-                            currentEntity.setParentSection(headingNodeCache.get(parentHeaderTitle));
-                        }
-                    }
+            // 2. Updated Hierarchical Tree Stitching Query
+            String linkHierarchical = """
+                MATCH (child:CustomDocument), (parent:CustomDocument)
+                WHERE child.`metadata.parentSectionId` IS NOT NULL
+                AND child.`metadata.parentSectionId` = parent.id
+                MERGE (parent)-[:HAS_CHILD]->(child)
+                """;
 
-                    instantiatedEntities.add(currentEntity);
-                }                    
-
-                // Save the rich multi-relational tree hierarchy down into Neo4j
-                documentGraphRepository.saveAll(instantiatedEntities);
-
-                    List<Document> chunks = instantiatedEntities.stream()
-                            .map(graphNode -> {
-                                // 1. Maintain layout metadata using a flat key map
-                                Map<String, Object> metadata = new HashMap<>();
-                                
-                                // Map rich data from your entity class fields natively
-                                if (graphNode.getType() != null) {
-                                    metadata.put("type", graphNode.getType());
-                                }
-                                if (graphNode.getHeadingPath() != null) {
-                                    metadata.put("headings", graphNode.getHeadingPath());
-                                }
-                                if (graphNode.getPageNumbers() != null) {
-                                    metadata.put("page_numbers", graphNode.getPageNumbers());
-                                }
-
-                                // 2. CRITICAL: Use the 3-argument constructor to pass your exact Neo4j ID
-                                // Document(String id, String content, Map<String, Object> metadata)
-                                return new Document(
-                                    graphNode.getId(),    // Explicitly syncs Neo4j Key to Vector Store Key!
-                                    graphNode.getText(),  // Content segment
-                                    metadata              // Filtering payload map
-                                );
-                            })
-                            .toList();
-                    // System.out.println("Adding " + chunks.size() + " chunks to the vector store.");
-                    // vectorStore.add(chunks);
-                    // System.out.println("Chunks added to vector store successfully.");
+            neo4jClient.query(linkChronological).run();
+            neo4jClient.query(linkHierarchical).run();
                     return response;
         }).exceptionally(throwable -> {
             // Only runs if there was an error

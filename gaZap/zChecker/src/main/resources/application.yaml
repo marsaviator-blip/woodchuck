@@ -22,9 +22,8 @@ spring:
         # Alternatively, provide a JSON path for enterprise Vertex AI deployments
         # credentials-uri: "file:/path/to/your/google-credentials.json"
         chat:
-          options:
-            model: gemini-2.5-flash # Or gemini-2.5-pro
-            thinking-level: MEDIUM # Configures deep analysis thresholds
+          model: gemini-2.5-flash # Or gemini-2.5-pro
+          thinking-level: MEDIUM # Configures deep analysis thresholds
         embedding:
           enabled: false
     vectorstore:

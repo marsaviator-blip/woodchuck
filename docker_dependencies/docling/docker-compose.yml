@@ -7,12 +7,11 @@ services:
       - "5001:5001"
     volumes:
       # Maps their custom local path to the container's expected internal path
-      - ${DOCLING_SERVE_ARTIFACTS_PATH}:/app/models
-    environment:
-      # Forces the container's internal process to look at the mounted volume
-      - DOCLING_SERVE_ARTIFACTS_PATH=/app/models      
+      - ${DOCLING_SERVE_ARTIFACTS_PATH:-/dev/null}:/opt/app-root/src/models
     environment:
       - DOCLING_SERVE_ENABLE_UI=1
+      # If variable is empty, it clears the override so Docling defaults to its internal cache/internet download
+      - DOCLING_SERVE_ARTIFACTS_PATH=${DOCLING_SERVE_ARTIFACTS_PATH:+/opt/app-root/src/models}
     healthcheck:
       test: ["CMD-SHELL", "curl --fail http://localhost:5001/health || exit 1"]
       interval: 10s

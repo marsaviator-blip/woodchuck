@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 @Service
 public class SearchService {
 
-    @Value("${google.api.key}")
+    @Value("${GOOGLE_API_KEY}")
     private String apiKey;
 
-    @Value("${google.search.cx}")
+    @Value("${GOOGLE_SEARCH_CX}")
     private String searchEngineId;
 
     private final RestClient restClient = RestClient.create();

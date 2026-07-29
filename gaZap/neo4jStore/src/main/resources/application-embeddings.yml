@@ -1,0 +1,24 @@
+spring:
+  autoconfigure:
+    exclude:
+      # 1. Disables the default local Ollama model engine
+      - org.springframework.ai.model.ollama.autoconfigure.OllamaEmbeddingAutoConfiguration
+      # 2. Disables the background OpenAI auto-configuration triggered by the new JAR dependency
+      - org.springframework.ai.model.openai.autoconfigure.OpenAiEmbeddingAutoConfiguration
+nomic:
+  api:
+    base-url: https://api-atlas.nomic.ai
+    key: ${NOMIC_API_KEY}
+logging:
+  level:
+    # 🕵️ Logs the exact outgoing URLs, headers, and payloads for Spring HTTP clients
+    '[org.springframework.web.client.RestClient]': DEBUG
+    '[org.springframework.web.reactive.function.client.WebClient]': DEBUG
+    '[reactor.netty.http.client.HttpClient]': DEBUG
+    # Logs Spring AI specific client actions
+    '[org.springframework.ai]': DEBUG
+    '[org.springframework.web]': DEBUG
+    '[org.apache.hc.client5.http]': DEBUG
+    '[org.springframework.web.client.RestTemplate]': DEBUG
+    '[com.openai.client.okhttp]': DEBUG
+    okhttp3: DEBUG    
