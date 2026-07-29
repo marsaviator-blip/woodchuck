@@ -33,7 +33,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         
         // Use allowedOriginPatterns instead of allowedOrigins if using credentials
-        config.setAllowedOrigins(List.of("https://localhost:3002"));
+        config.setAllowedOrigins(List.of("https://localhost:3002", "http://localhost:4200")); // Add your frontend URLs here
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         //config.setAllowCredentials(true);
