@@ -1,20 +1,11 @@
-gateway_reactive/target/
-gateway_servlet/target
-backend/target/
-crud_scaffold/target/
-crud_scaffold/.*
-crud_scaffold/node/
-crud_scaffold/node_modules/
-ui/node_modules/
-ui/node
-ui/dist/
-ui/*.pem
-gaZap/frontend/dist
-gaZap/frontend/node_modules
-gaZap/workflows/target
-gaZap/vsConsumer/target
-gaZap/vsProducer/target
-gaZap/pgStore/target
-gaZap/neo4jStore/target
-LIM/backend/target
+# Global Wildcards (Matches any subfolder automatically)
+**/target/
+**/*.class
+**/node_modules/
+**/node/
+**/dist/
+
+# Specific ignores
 **/application-local.yml
+ui/*.pem
+crud_scaffold/.*
