@@ -8,7 +8,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/knowledge")
-@CrossOrigin(origins = "http://localhost:4200") // Allows local Angular dev server
+//@CrossOrigin(origins = "http://localhost:4200") // Allows local Angular dev server - not called from ui
 public class KnowledgeFunctorController {
 
     private final KnowledgeFunctorService functorService;

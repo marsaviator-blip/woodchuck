@@ -1,8 +1,10 @@
-import { Component, signal, viewChild, ElementRef, effect } from "@angular/core";
+import { Component, signal, viewChild, ElementRef, effect, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { SplitComponent, SplitAreaComponent } from "angular-split";
+import { KnowledgeSyncService } from '../../../workspace/data-access/knowledge-sync.service';
+
 
 interface ChatMessage {
   prompt: string;
@@ -21,6 +23,7 @@ interface ChatMessage {
 })
 export class SplitPaneComponent {
   protected readonly title = signal("angular-split");
+  protected syncService = inject(KnowledgeSyncService);
   private apiUrl = "http://localhost:8089/api/chat/postStream"; // Your Spring Boot endpoint
 
   currentUserId = signal<string>("Developer_" + Math.floor(Math.random() * 1000));
@@ -185,4 +188,47 @@ export class SplitPaneComponent {
       this.savedWorkspaceItems.update((prev) => [...prev, fullMessageText]);
     }
   }
+
+  metaFocus: string = '';
+  metaCategory: string = '';
+  metaSubject: string = '';
+  metaTopic: string = '';
+
+  handleSaveWorkspace(modalRef: HTMLDialogElement) {
+    const elementsToSave = this.savedWorkspaceItems().map((textStr, index) => ({
+      id: Date.now() + index,
+      prompt: textStr,
+      nodeType: 'user_note' as const,
+      timestamp: new Date(),
+      userId: this.currentUserId()
+    }));
+
+    const okfPayload = this.syncService.generateMorphismGroup(elementsToSave, {
+      focusArea: this.metaFocus,
+      category: this.metaCategory,
+      subject: this.metaSubject,
+      topic: this.metaTopic
+    });
+
+    this.syncService.isSyncInProgress.set(true);
+
+    this.syncService.commitToNearTermStore(okfPayload).subscribe({
+      next: (response) => {
+        console.log('Successfully saved morphism set:', response);
+        this.syncService.isSyncInProgress.set(false);
+
+        // 1. Clear workspace parameters tracking matrices
+        this.savedWorkspaceItems.set([]);
+        this.metaFocus = ''; this.metaCategory = ''; this.metaSubject = ''; this.metaTopic = '';
+
+        // 2. Automatically close the HTML dialog overlay element window frame
+        modalRef.close();
+      },
+      error: (err) => {
+        console.error('Failed saving workspace payload group:', err);
+        this.syncService.isSyncInProgress.set(false);
+      }
+    });
+  }
 }
+
