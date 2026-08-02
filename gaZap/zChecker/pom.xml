@@ -102,15 +102,11 @@
         <artifactId>docling-serve-api</artifactId>
         <version>0.5.2</version>
     </dependency>
-
-    <!-- 2. The reference HTTP Client Implementation -->
     <dependency>
         <groupId>ai.docling</groupId>
         <artifactId>docling-serve-client</artifactId>
         <version>0.5.2</version>
     </dependency>
-
-    <!-- 3. Arconia integration (Only if you are using Spring AI's DoclingDocumentReader) -->
     <dependency>
         <groupId>io.arconia</groupId>
         <artifactId>arconia-ai-docling-document-reader</artifactId>

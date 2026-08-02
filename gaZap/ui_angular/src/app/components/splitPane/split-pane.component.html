@@ -1,0 +1,201 @@
+<div class="h-screen w-full border border-slate-200">
+  <as-split direction="horizontal" [gutterSize]="10">
+    <!-- LEFT PANE: CHAT INTERFACE -->
+    <as-split-area [size]="35" [minSize]="25">
+      <div class="flex h-full flex-col bg-slate-50">
+        <!-- Chat Messages Area (Scrollable) -->
+        <div class="border-b border-slate-200 bg-white p-4 shadow-sm">
+          <h3 class="font-semibold text-slate-800">Workspace Hub</h3>
+          <p class="text-xs text-slate-500">
+            Toggle the mode indicator below to type a chat or save a workspace note.
+          </p>
+        </div>
+
+        <!-- Chat Stream -->
+        <div #scrollContainer class="flex-1 overflow-y-auto p-2 space-y-1.5">
+         @for (msg of messages(); track msg.id; let isLastMessage = $last) {
+          <div
+            class="flex items-start gap-1.5 group relative"
+            [ngClass]="{'ml-auto justify-end': msg.isUser}"
+          >
+            <!-- Dynamic Styling Matrix based on message role -->
+            <div
+              class="rounded-2xl p-1 text-sm shadow-sm relative border transition-all"
+              [ngClass]="msg.isUser ? 'bg-blue-600 text-white border-transparent' :
+                             msg.isNote ? 'bg-amber-50/80 text-amber-900 border-amber-200 italic' :
+                             'bg-white text-slate-800 border-slate-100'"
+            >
+              <!-- Label indicator for personal notes -->
+              @if (msg.isNote) {
+              <span
+                class="block text-[10px] font-bold tracking-wide uppercase text-amber-600 not-italic mb-0.5"
+                >📝 My Note</span
+              >
+              }
+
+              <div
+                [ngClass]="{'line-clamp-5 overflow-hidden': !expandedState()[msg.id]}"
+                class="whitespace-pre-wrap leading-relaxed break-words"
+              >
+                {{ msg.prompt }}
+                @if (!msg.prompt && isAiThinking() && isLastMessage) {
+                  <span class="text-slate-400 italic">Thinking...</span>
+                }
+              </div>
+
+              <!-- Compact, bulletproof button placed directly underneath long text chunks -->
+              @if (msg.prompt && msg.prompt.length > 150) {
+                <div class="mt-2 flex justify-end">
+                  <button
+                    type="button"
+                    (click)="toggleMessageExpand(msg.id, $event)"
+                    class="px-2 py-0.5 text-[10px] font-semibold rounded border transition-colors"
+                    [ngClass]="msg.isUser ? 'bg-blue-700 hover:bg-blue-800 border-blue-500 text-white' : 'bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-600'"
+                  >
+                    {{ expandedState()[msg.id] ? 'Collapse View' : '🔍 Full Screen' }}
+                  </button>
+                </div>
+              }
+
+              <!-- Move the toolbar from the bottom edge to the top edge -->
+              <div
+                class="absolute-top-3 right-3 hidden group-hover:flex items-center gap-1 bg-white border border-slate-200 shadow-md rounded-md p-1 z-10 text-xs not-italic"
+              >
+                <button
+                  (click)="copySelectedText(msg.prompt)"
+                  class="px-1.5 py-0.5 rounded text-slate-600 hover:bg-slate-100 font-medium"
+                >
+                  📌 Selection
+                </button>
+                <span class="text-slate-300">|</span>
+                <button
+                  (click)="copyFullMessage(msg.prompt)"
+                  class="px-1.5 py-0.5 rounded text-slate-600 hover:bg-slate-100 font-medium"
+                >
+                  📄 All
+                </button>
+              </div>
+            </div>
+          </div>
+
+          @if (expandedState()[msg.id]) {
+            <div
+              class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-6"
+              (click)="toggleMessageExpand(msg.id, $event)"
+            >
+              <div
+                class="bg-white text-slate-800 rounded-2xl p-6 shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto border border-slate-200 flex flex-col"
+                (click)="$event.stopPropagation()"
+              >
+                <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+                  <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Expanded Inspection Workspace</span>
+                  <button (click)="toggleMessageExpand(msg.id, $event)" class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
+                </div>
+                <div class="text-base leading-relaxed whitespace-pre-wrap text-slate-800">
+                  {{ msg.prompt }}
+                </div>
+              </div>
+            </div>
+          }
+          }
+
+          <!-- Inside your #scrollContainer right below the @for loop ends -->
+          @if (isAiThinking()) {
+          <div class="w-full text-left animate-pulse">
+            <div
+              class="inline-flex items-center gap-1.5 rounded-xl py-1.5 px-3 bg-white text-slate-400 border border-slate-100 text-xs shadow-sm"
+            >
+              <span class="flex h-2 w-2 relative">
+                <span
+                  class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"
+                ></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+              </span>
+              AI is thinking...
+            </div>
+          </div>
+          }
+        </div>
+
+        <!-- HYBRID INPUT FOOTER BAR -->
+        <div class="border-t border-slate-200 bg-white p-3">
+          <form (submit)="handleSubmit($event)" class="space-y-2">
+            <!-- Dual-Purpose Action Controls Row -->
+            <div class="flex items-center gap-1.5 text-xs font-medium">
+              <button
+                type="button"
+                (click)="inputMode.set('chat')"
+                [ngClass]="inputMode() === 'chat' ? 'bg-blue-50 text-blue-600 border-blue-200' : 'bg-slate-50 text-slate-500 border-slate-200'"
+                class="px-2.5 py-1 border rounded-full transition-all"
+              >
+                💬 AI Chat Mode
+              </button>
+              <button
+                type="button"
+                (click)="inputMode.set('note')"
+                [ngClass]="inputMode() === 'note' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-slate-50 text-slate-500 border-slate-200'"
+                class="px-2.5 py-1 border rounded-full transition-all"
+              >
+                📝 Direct Note Mode
+              </button>
+            </div>
+            <!-- Main Input Bar Wrapper -->
+            <div class="flex items-center gap-2">
+              <input
+                type="text"
+                name="hybridInput"
+                [ngModel]="userInput()"
+                (ngModelChange)="userInput.set($event)"
+                [placeholder]="inputMode() === 'chat' ? 'Ask the Spring AI backend...' : 'Type a personal note to drop into the stream above...'"
+                [ngClass]="inputMode() === 'chat' ? 'focus:border-blue-500' : 'focus:border-amber-500 bg-amber-50/20'"
+                class="w-full rounded-lg border border-slate-300 px-3 py-1 text-sm text-slate-800 focus:bg-white focus:outline-none transition-all"
+              />
+              <button
+                type="submit"
+                [ngClass]="inputMode() === 'chat' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-amber-600 hover:bg-amber-700'"
+                class="rounded-lg px-4 py-1 text-sm font-medium text-white transition-colors min-w-[70px]"
+              >
+                {{ inputMode() === 'chat' ? 'Send' : 'Drop' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </as-split-area>
+
+    <!-- RIGHT PANE: MAIN CONTENT -->
+    <as-split-area [size]="65" [minSize]="40">
+      <div class="h-full overflow-y-auto bg-white p-6 flex flex-col">
+        <h2 class="text-2xl font-bold text-slate-800 border-b border-slate-100 pb-3">
+          Workspace & Notes
+        </h2>
+
+        <div class="mt-4 flex-1 space-y-3">
+          @if (savedWorkspaceItems().length === 0) {
+          <div
+            class="flex flex-col items-center justify-center h-64 border-2 border-dashed border-slate-200 rounded-xl p-6 text-center"
+          >
+            <span class="text-3xl mb-2">📥</span>
+            <p class="text-sm font-medium text-slate-500">Your final workspace is empty</p>
+            <p class="text-xs text-slate-400 mt-1">
+              Hover over elements on the left and copy them here.
+            </p>
+          </div>
+          } @else { @for (item of savedWorkspaceItems(); track $index) {
+          <div
+            class="p-1 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 shadow-sm relative group animate-fade-in"
+          >
+            <p class="whitespace-pre-wrap leading-relaxed">{{ item }}</p>
+            <button
+              (click)="savedWorkspaceItems.update(prev => prev.filter((_, i) => i !== $index))"
+              class="absolute top-2 right-2 hidden group-hover:block text-slate-400 hover:text-red-500 transition-colors"
+            >
+              ✕
+            </button>
+          </div>
+          } }
+        </div>
+      </div>
+    </as-split-area>
+  </as-split>
+</div>
