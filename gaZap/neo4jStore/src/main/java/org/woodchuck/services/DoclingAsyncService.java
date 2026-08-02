@@ -32,20 +32,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import org.woodchuck.pipeline.GraphEnhancementStrategy;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import org.neo4j.driver.Driver;
-import org.springframework.data.neo4j.core.Neo4jClient; // Included natively in spring-ai-neo4j
 
 @Service
 public class DoclingAsyncService {
@@ -59,12 +53,12 @@ public class DoclingAsyncService {
     private final DoclingServeApi doclingServeApi;
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private final VectorStore vectorStore;
-    private final Neo4jClient neo4jClient;
+    private final GraphEnhancementStrategy graphStrategy;
 
-    public DoclingAsyncService(DoclingServeApi doclingServeApi, VectorStore vectorStore, Neo4jClient neo4jClient) {
+    public DoclingAsyncService(DoclingServeApi doclingServeApi, VectorStore vectorStore, GraphEnhancementStrategy graphStrategy) {
         this.doclingServeApi = doclingServeApi;
         this.vectorStore = vectorStore;
-        this.neo4jClient = neo4jClient;
+        this.graphStrategy = graphStrategy;
     }
 
     public CompletableFuture<ChunkDocumentResponse> processDocumentAsync(HybridChunkDocumentRequest request) {
@@ -265,23 +259,11 @@ public class DoclingAsyncService {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-            String linkChronological = """
-                MATCH (a:CustomDocument), (b:CustomDocument)
-                WHERE a.`metadata.nextChunkId` = b.id
-                MERGE (a)-[:NEXT]->(b)
-                """;
-
-            // 2. Updated Hierarchical Tree Stitching Query
-            String linkHierarchical = """
-                MATCH (child:CustomDocument), (parent:CustomDocument)
-                WHERE child.`metadata.parentSectionId` IS NOT NULL
-                AND child.`metadata.parentSectionId` = parent.id
-                MERGE (parent)-[:HAS_CHILD]->(child)
-                """;
-
-            neo4jClient.query(linkChronological).run();
-            neo4jClient.query(linkHierarchical).run();
-                    return response;
+            if(graphStrategy.supportsGraph()){
+                graphStrategy.enhanceGraphTopology(documentId, response);
+            }
+            else System.out.println("Graph enhancement strategy is not supported in the current profile.");
+            return response;
         }).exceptionally(throwable -> {
             // Only runs if there was an error
             System.err.println("Document conversion failed: " + throwable.getMessage());

@@ -4,7 +4,9 @@ import java.util.UUID;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -120,17 +122,34 @@ public class TaskingController {
                 description = "Crossref based on DOI, author or title.")
     public String startCrossrefWorkflow(@Parameter(description = "Input doi or citation key for the workflow", example = "10.1107/S0108767317098695", required = true) @RequestParam(required = true) String doi,
                                         @Parameter(description = "Author of the publication", example = "Caspar Wessel", required = false) @RequestParam(required = false) String author,
-                                        @Parameter(description = "Title of the publication", example = "On the analytical representation of directed quantities", required = false) @RequestParam(required = false) String title) {
+                                        @Parameter(description = "Title of the publication", example = "On the analytical representation of directed quantities", required = false) @RequestParam(required = false) String title,
+                                        @Parameter(description = "Number of generations", example = "3", required = false) @RequestParam(required = false, defaultValue = "0") int generations) {
         var uuid = UUID.randomUUID();
        WorkflowOptions options = WorkflowOptions.newBuilder()
             .setWorkflowId(uuid.toString()) 
             .setTaskQueue("CrossrefQueue")
             .build();
         CrossrefWorkflow workflow = workflowClient.newWorkflowStub(CrossrefWorkflow.class, options);
-        WorkflowClient.start(workflow::execute, doi, author, title);
+        WorkflowClient.start(workflow::execute, doi, author, title, generations);
         return "Crossref workflow started successfully!";
     }
 
+    // Vue will poll this endpoint using the workflowId
+    @GetMapping(value = "/crossref/result/{workflowId}")
+    public ResponseEntity<?> getWorkflowResult(@PathVariable String workflowId) {
+        try {
+            CrossrefWorkflow workflow = workflowClient.newWorkflowStub(CrossrefWorkflow.class, workflowId);
+            String jsonResult = workflow.getCrossrefResult();
+            
+            if (jsonResult == null) {
+                return ResponseEntity.ok(Map.of("status", "PROCESSING"));
+            }
+            return ResponseEntity.ok(Map.of("status", "COMPLETED", "data", jsonResult));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Workflow not found or expired");
+        }
+    }
+    
     // @PostMapping
     // @Operation(summary = "Start an Docling workflow", 
     //             description = "Starts a new workflow based on the provided input.") 

@@ -2,12 +2,15 @@ package org.woodchuck.configs;
 
 import java.time.Duration;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.restclient.RestClientCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.woodchuck.pipeline.GraphEnhancementStrategy;
 
 import ai.docling.serve.api.DoclingServeApi;
 import ai.docling.serve.api.chunk.request.options.HybridChunkerOptions;
+import ai.docling.serve.api.chunk.response.ChunkDocumentResponse;
 import ai.docling.serve.api.convert.request.options.OutputFormat;
 import ai.docling.serve.api.convert.request.options.ConvertDocumentOptions;
 
@@ -76,6 +79,22 @@ public class DoclingConfig {
             
             return execution.execute(request, body);
         });
+    }
+    
+    @Bean
+    @ConditionalOnMissingBean(GraphEnhancementStrategy.class) // Only catches instances if Neo4j is skipped
+    public GraphEnhancementStrategy flatStorageFallbackStrategy() {
+        return new GraphEnhancementStrategy() {
+            @Override
+            public void enhanceGraphTopology(String documentId, ChunkDocumentResponse response) {
+                // Safely intercepts execution to prevent NullPointerExceptions on non-graph instances
+            }
+
+            @Override
+            public boolean supportsGraph() {
+                return false; // Tells the core service engine to stick to low-overhead LITE parsing styles
+            }
+        };
     }
     
 }
