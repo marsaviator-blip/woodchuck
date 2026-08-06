@@ -1,24 +1,12 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter, withHashLocation } from '@angular/router'; // Import withHashLocation
 import { routes } from './app.routes';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideRouter(routes)
+    // Activates clean, crash-free hash routing for isolated multi-tab access
+    provideRouter(routes, withHashLocation()),
+    provideHttpClient()
   ]
 };
-
-// import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-// import { provideRouter } from '@angular/router';
-// import { provideHttpClient } from '@angular/common/http';
-// import { routes } from './app.routes';
-
-// export const appConfig: ApplicationConfig = {
-//   providers: [
-//     provideRouter(routes),
-//     provideHttpClient(), // Keeps HttpClient available globally for the Category Canvas service
-//     provideBrowserGlobalErrorListeners(),
-//   ]
-// };

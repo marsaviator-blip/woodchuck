@@ -1,31 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SplitPaneComponent } from './components/splitPane/split-pane.component';
-import { CategoryCanvasComponent } from './components/category-canvas/category-canvas.component';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router'; // Ensure RouterOutlet is imported
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, SplitPaneComponent, CategoryCanvasComponent],
+  imports: [RouterOutlet], // 1. Register the router portal token
   template: `
-    <!-- Simple top-level switcher looking at the window location -->
-    <div class="app-container">
-      <app-split-pane *ngIf="activeRoute === 'stream'"></app-split-pane>
-      <app-category-canvas *ngIf="activeRoute === 'vault'"></app-category-canvas>
+    <!-- 2. The router reads the URL and injects the matching component here -->
+    <div class="block min-h-screen w-full bg-white">
+      <router-outlet></router-outlet>
     </div>
   `
 })
-export class AppComponent implements OnInit {
-  activeRoute: 'stream' | 'vault' = 'stream';
-
-  ngOnInit(): void {
-    // Read the exact URL path currently entered into the browser address bar
-    const path = window.location.hash;
-
-    if (path.includes('category-vault')) {
-      this.activeRoute = 'vault';
-    } else {
-      this.activeRoute = 'stream'; // Fallback default for /vault-workspace or root
-    }
-  }
-}
+export class AppComponent {} // Clear out the old ngOnInit hash evaluations!

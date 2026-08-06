@@ -15,10 +15,14 @@ import { provideHttpClient } from '@angular/common/http'; // 2. Import HTTP prov
 //import { HttpClient } from '@angular/common/http';
 //import { SplitComponent, SplitAreaComponent } from 'angular-split';
 //import { SplitPane } from './app/components/splitPane/splitPaneApp';
+import { appConfig } from './app/app.config'; // 1. Ensure this import exists
 import { AppComponent } from './app/app.component'; // <-- Imports your component code
 
+bootstrapApplication(AppComponent, appConfig)
+  .catch((err) => console.error(err));
 
 // PASS THE PROVIDER HERE IN YOUR BOOTSTRAP CONFIG
-bootstrapApplication(AppComponent, {
-  providers: [provideHttpClient()]
-}).catch((err) => console.error(err));
+// bootstrapApplication(AppComponent, {
+//   ...appConfig,
+//   providers: [...(appConfig.providers || []), provideHttpClient()]
+// }).catch((err) => console.error(err));
