@@ -13,5 +13,5 @@ spring:
 crossref:
   api:
     # Forces any client building connections to use Crossref's Polite Pool
-    contact-email: mathmldashx@yahoo.com
+    contact-email: ${CROSSREF_CONTACT_EMAIL}
     base-url: https://crossref.org
