@@ -9,3 +9,9 @@ spring:
       base-url: https://api-atlas.nomic.ai # Example endpoint
       embedding:
         model: nomic-embed-text-v1.5
+
+crossref:
+  api:
+    # Forces any client building connections to use Crossref's Polite Pool
+    contact-email: mathmldashx@yahoo.com
+    base-url: https://crossref.org

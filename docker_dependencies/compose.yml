@@ -7,4 +7,4 @@ include:
 #  - path: ./opensearch_with_dashboard/docker-compose.yml
 #  - path: ./postgres_pgvector
 #  - path: ./prometheus_grafana/docker-compose.yml
-
+  - path: ./crossref_db/docker-compose.yml

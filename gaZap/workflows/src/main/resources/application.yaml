@@ -58,6 +58,8 @@ server:
   ssl:
     enabled: false # Set to true if you want to enable SSL
 spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   ai:
     model:
       chat: ollama
@@ -83,10 +85,16 @@ spring:
     # 💡 NEW WAY: Turn OpenAI/Groq completely off using modern root properties
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
+    keycloak:
+      url: jdbc:postgresql://localhost:5434/postgres
+      username: postgres
+      password: postgres
+      driver-class-name: org.postgresql.Driver
+    crossref-db:
+      jdbc-url: jdbc:postgresql://localhost:5432/crossref_metadata
+      username: crossref
+      password: crossref
+      driver-class-name: org.postgresql.Driver
 
   mvc:
     async:
@@ -108,8 +116,8 @@ spring:
           max-concurrent-workflow-task-pollers: 6
           max-concurrent-activity-task-pollers: 6
         rate-limits:
-          max-worker-activities-per-second: 0
-          max-task-queue-activities-per-second: 0
+          max-worker-activities-per-second: 3
+          max-task-queue-activities-per-second: 5
       - name: discovery-engine-worker     
         task-queue: ThematicAnalysisTaskQueue
     workflow-cache:
@@ -126,65 +134,6 @@ springdoc:
   swagger-ui:
     request-timeout: 300000
 
-
-# arconia:
-#   dev:
-#     services:
-#       docling:
-#         enabled: true
-#         base-url: ghttp://localhost:5001
-
-# management:
-#   endpoint:
-#     health:
-#       show-components: always
-
-# server:
-#   port: 8085 # Port for your REST API
-# spring:
-#   application:
-#     name: gaZap-backend
-#   profiles:
-#     active: dev
-#   temporal:
-#     start-workers: true
-#     workers:
-#       - task-queue: BioTaskQueue
-#         capacity:
-#           max-concurrent-workflow-task-pollers: 6
-#           max-concurrent-activity-task-pollers: 6
-#         rate-limits:
-#           max-worker-activities-per-second: 0
-#           max-task-queue-activities-per-second: 0
-#     workflow-cache:
-#       max-instances: 10
-#       max-threads: 10
-#     connection:
-#       target: localhost:7233
-#     workers-auto-discovery:
-#       packages:
-#         - "org.woodchuck.temporal"
-
-
-# app:
-#   runner:
-#     enabled: false
-#     temporal-citation-enabled: false
-#     temporal-rcsb-enabled: true
-#   temporal:
-#     bio:
-#       search:
-#         timeout-seconds: 15
-#         initial-interval-seconds: 1
-#         backoff-coefficient: 2.0
-#         maximum-interval-seconds: 10
-#         maximum-attempts: 3
-#       data:
-#         timeout-seconds: 30
-#         initial-interval-seconds: 2
-#         backoff-coefficient: 2.0
-#         maximum-interval-seconds: 20
-#         maximum-attempts: 5
 
 logging:
   level:

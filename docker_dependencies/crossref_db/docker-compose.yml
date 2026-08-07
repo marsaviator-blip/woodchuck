@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # Your primary application metadata repository database
+  crossref-postgres:
+    image: postgres:16-alpine
+    container_name: crossref_db
+    environment:
+      POSTGRES_DB: crossref
+      POSTGRES_USER: crossref
+      POSTGRES_PASSWORD: crossref
+    ports:
+      - "5432:5432"
+    volumes:
+      - main_db_data:/var/lib/postgresql/data
+    networks:
+      - woodchuck-network
+
+  # NEW: Specialized isolated instance optimized for the heavy Crossref corpus
+  crossref-public-postgres:
+    image: postgres:16-alpine
+    container_name: crossref_public_db
+    environment:
+      POSTGRES_DB: crossref_public_store
+      POSTGRES_USER: crossref_dev
+      POSTGRES_PASSWORD: crossref
+    ports:
+      - "5433:5432" # Maps standard internal port 5432 to external 5433
+    command: >
+      postgres 
+      -c shared_buffers=1GB 
+      -c work_mem=64MB
+      -c max_parallel_workers_per_gather=4
+      -c synchronous_commit=off
+    volumes:
+      # TRICK: Bind this specific heavy path map to a secondary folder or fallback drive 
+      - crossref_db_data:/var/lib/postgresql/data
+    networks:
+      - woodchuck-network
+
+volumes:
+  main_db_data:
+  crossref_db_data: # Keeps the 200GB+ public dataset safely compartmentalized
+
+networks:
+  woodchuck-network:
+    driver: bridge

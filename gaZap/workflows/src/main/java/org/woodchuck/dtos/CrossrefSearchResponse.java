@@ -28,7 +28,8 @@ public record WorkItem(
     @JsonProperty("volume") String volume,
     @JsonProperty("issue") String issue,
     @JsonProperty("page") String page,
-    @JsonProperty("issued") IssuedDate issued
+    @JsonProperty("issued") IssuedDate issued,
+    @JsonProperty("reference") List<ReferenceItem> references 
 ) {
     public String getFirstTitle() {
         return (title != null && !title.isEmpty()) ? title.get(0) : "";
@@ -37,6 +38,13 @@ public record WorkItem(
         return (containerTitle != null && !containerTitle.isEmpty()) ? containerTitle.get(0) : "";
     }
 }
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record ReferenceItem(
+    @JsonAlias({"doi", "DOI"}) @JsonProperty("DOI") String doi,
+    @JsonProperty("key") String key,
+    @JsonProperty("unstructured") String unstructured
+) {}
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record Author(

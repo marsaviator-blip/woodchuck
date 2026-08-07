@@ -24,6 +24,9 @@ import org.woodchuck.dtos.CrossrefXmlResponse;
 import org.woodchuck.dtos.DocumentAnalysisResult;
 import org.woodchuck.services.VSmessageSender;
 
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+
 @Service
 @WorkflowImpl(taskQueues = "IngestionQueue")
 public class PdfIngestionWorkflowImpl implements PdfIngestionWorkflow {
@@ -84,7 +87,7 @@ public class PdfIngestionWorkflowImpl implements PdfIngestionWorkflow {
         byte[] rawPdfBytes = urlDocumentActivities.fetch(url);  
         DocumentAnalysisResult analysisResult = pdfActivities.extractReferenceSection(rawPdfBytes);
         DocumentAnalysisResult extractResults = pdfActivities.extractReferences(analysisResult);
-        List<Promise<CrossrefXmlResponse>> crossRefPromises = new ArrayList<>();
+        List<Promise<CitedReferencesResult>> crossRefPromises = new ArrayList<>();
         List<Promise<CitedReferencesResult>> crossRefSearchPromises = new ArrayList<>();
 
         extractResults.bibliography().citations().forEach(citation -> {
@@ -111,7 +114,7 @@ public class PdfIngestionWorkflowImpl implements PdfIngestionWorkflow {
                 String extractedDoi = helperExtractDoiRegex(title);
                 if (extractedDoi != null) {
                     // Async execution: Schedules activity immediately without waiting for it to finish
-                    Promise<CrossrefXmlResponse> promise = Async.function(crossrefActivities::getWorks, extractedDoi);
+                    Promise<CitedReferencesResult> promise = Async.function(crossrefActivities::getWorks, extractedDoi);
                     crossRefPromises.add(promise);
                 }
                 else {
@@ -127,7 +130,8 @@ public class PdfIngestionWorkflowImpl implements PdfIngestionWorkflow {
             try {
                 CitedReferencesResult result = promise.get(); // Retrieves result or catches exception if single activity errored
                 String citeKey = result.citeKey();
-                CrossrefSearchResponse searchResponse = result.crossrefSearchResponse();
+                ObjectMapper objectMapper = new ObjectMapper();
+                CrossrefSearchResponse searchResponse = objectMapper.readValue(result.getRawJson(), CrossrefSearchResponse.class);
                 System.out.println("Crossref search result for citeKey " + citeKey ); // Debug: Print the search response for each citeKey
                 if (result != null && extractResults.bibliography().citations() != null) {
                     extractResults.bibliography().citations().get(0).children().stream()

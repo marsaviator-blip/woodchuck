@@ -27,7 +27,7 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>26</java.version>
 		<jackson2.databind.version>2.20.2</jackson2.databind.version>
 		<jackson2.annotations.version>2.20</jackson2.annotations.version>
 		<org.springframework.ai.version>2.0.0-M6</org.springframework.ai.version> 

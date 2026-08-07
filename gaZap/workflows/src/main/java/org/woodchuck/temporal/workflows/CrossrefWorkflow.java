@@ -3,6 +3,7 @@ package org.woodchuck.temporal.workflows;
 import org.woodchuck.dtos.CitedReferencesResult;
 import org.woodchuck.dtos.CrossrefXmlResponse;
 
+import io.temporal.workflow.QueryMethod;
 import io.temporal.workflow.SignalMethod;
 import io.temporal.workflow.WorkflowInterface;
 import io.temporal.workflow.WorkflowMethod;
@@ -14,6 +15,10 @@ public interface CrossrefWorkflow {
     void startUp(String doi);
 
     @WorkflowMethod
-    CrossrefXmlResponse execute(String doi, String author, String title);
+    String execute(String doi, String author, String title, int generations);
+
+    @QueryMethod
+    String getCrossrefResult(); // Returns the JSON string when ready
+
 
 }
