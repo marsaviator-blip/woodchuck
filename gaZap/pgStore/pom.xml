@@ -30,7 +30,7 @@
 		<java.version>26</java.version>
 		<jackson2.databind.version>2.20.2</jackson2.databind.version>
 		<jackson2.annotations.version>2.20</jackson2.annotations.version>
-		<org.springframework.ai.version>2.0.0-M6</org.springframework.ai.version> 
+		<org.springframework.ai.version>2.0.0</org.springframework.ai.version> 
 	</properties>
 	<dependencies>
 		<dependency>
@@ -54,6 +54,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-kafka-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.ai</groupId>
@@ -95,6 +104,19 @@
 			<groupId>ai.docling</groupId>
 			<artifactId>docling-core</artifactId>
 			<version>0.5.2</version> 
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-neo4j</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -34,9 +34,14 @@
 	</scm>
 	<properties>
 		<java.version>26</java.version>
-		<org.springframework.ai.version>2.0.0-M8</org.springframework.ai.version> 
+		<org.springframework.ai.version>2.0.0</org.springframework.ai.version> 
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.woodchuck</groupId>
+			<artifactId>data-access</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -90,7 +95,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.ai</groupId>
-			<artifactId>spring-ai-advisors-vector-store</artifactId>
+			<!-- <artifactId>spring-ai-advisors-vector-store</artifactId> -->
+  	  	    <artifactId>spring-ai-vector-store-advisor</artifactId>
 		</dependency>
 
 		<dependency>
@@ -102,15 +108,11 @@
         <artifactId>docling-serve-api</artifactId>
         <version>0.5.2</version>
     </dependency>
-
-    <!-- 2. The reference HTTP Client Implementation -->
     <dependency>
         <groupId>ai.docling</groupId>
         <artifactId>docling-serve-client</artifactId>
         <version>0.5.2</version>
     </dependency>
-
-    <!-- 3. Arconia integration (Only if you are using Spring AI's DoclingDocumentReader) -->
     <dependency>
         <groupId>io.arconia</groupId>
         <artifactId>arconia-ai-docling-document-reader</artifactId>

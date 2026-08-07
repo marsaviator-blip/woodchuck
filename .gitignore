@@ -7,5 +7,6 @@
 
 # Specific ignores
 **/application-local.yml
+ui_angular/.angular
 ui/*.pem
 crud_scaffold/.*

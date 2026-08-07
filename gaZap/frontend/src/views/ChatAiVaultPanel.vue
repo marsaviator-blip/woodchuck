@@ -18,7 +18,7 @@
                         :class="['flex flex-col w-full rounded-lg p-3 relative group transition-all',
                             msg.userId === 'user' ? 'ml-auto bg-slate-700/60 border-2 border-blue-900 text-slate-100 shadow-md' : 'bg-slate-70 0 text-slate-100']">
                         <!-- Role Label -->
-                        <span class=" text-[10px] uppercase tracking-wider opacity-60 mb-1 font-bold">
+                        <span class="text-[10px] uppercase tracking-wider opacity-60 mb-1 font-bold">
                             {{ msg.userId }}
                         </span>
                         <!-- Message Content -->
@@ -126,7 +126,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
 
 // --- STATE --- 
 const userInput = ref('');
@@ -134,6 +134,19 @@ const chatContainer = ref<HTMLElement | null>(null);
 const selectedText = ref('');
 const selectionCoords = ref({ show: false, x: 0, y: 0 });
 const isAiThinking = ref(false); // Track network/controller pipeline state
+
+const props = defineProps<{ text: string }>()
+const isExpanded = ref(false)
+const isClamped = ref(false)
+const textContainer = ref<HTMLElement | null>(null)
+
+const checkOverflow = () => {
+  if (textContainer.value) {
+    const el = textContainer.value
+    // Compares total content height against the clamped visible height
+    isClamped.value = el.scrollHeight > el.clientHeight
+  }
+}
 
 // Split Panel State (Defaults to 50% if no prior cache exists)
 const chatWidth = ref(50);
@@ -257,6 +270,10 @@ const handleChatScroll = () => {
 };
 
 onMounted(() => {
+    checkOverflow()
+    // Recalculate if window resizes
+    window.addEventListener('resize', checkOverflow)
+
     window.addEventListener('mousedown', handleGlobalMouseDown);
 
     // Retain workspace configuration on mount reload
@@ -273,6 +290,10 @@ onUnmounted(() => {
     window.removeEventListener('mousedown', handleGlobalMouseDown);
     chatContainer.value?.removeEventListener('scroll', handleChatScroll);
 });
+
+// Re-check if text properties change dynamically
+watch(() => props.text, () => setTimeout(checkOverflow, 0))
+
 // --- STATE CONFIGURATIONS ---
 const inputMode = ref<'ai' | 'note'>('ai'); // Tracks current input selection window
 

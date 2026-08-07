@@ -1,0 +1,17 @@
+package org.woodchuck.dataAccess;
+
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+@Configuration
+@ComponentScan(basePackages = "org.woodchuck.shared.data")
+@EntityScan(basePackages = "org.woodchuck.shared.data.entity")
+@EnableJpaRepositories(basePackages = "org.woodchuck.shared.data.repository")
+public class DataAutoConfiguration {
+    // This class acts as an internal hook to instruct importing apps 
+    // exactly where to look for data layers, entities, and JPA configs.
+}
+
+
