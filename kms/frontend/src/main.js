@@ -1,5 +1,5 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+import { createApp } from 'vue';
+import KmsWorkspace from '../KmsWorkspace.vue';
+import './tailwind.css'; // Verify this file path matches your folder exactly
 
-createApp(App).mount('#app')
+createApp(KmsWorkspace).mount('#app');
