@@ -1,3 +1,13 @@
+/* Step 1: Initialize the default CSS cascade layers */
+/* @layer theme, base, components, utilities; */
+
+/* Step 2: Import the internal modules you actually want */
+/* @import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities); */
+
+/* Note: "tailwindcss/preflight" is left out entirely */
+
+
 @import "tailwindcss";
 :root {
   --text: #6b6375;
