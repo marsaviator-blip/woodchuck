@@ -6,23 +6,27 @@ export default defineConfig({
   plugins: [
     vue(),
     tailwindcss({
-      prefligh: false
+      preflight: false
     })
   ],
   server: {
-    port: 3006 // <-- Sets the development server port
+    port: 3006, // <-- Optional: Sets the dev server port
+    strictPort: true, // <-- Optional: Ensures the dev server fails if the port is already in use
+    cors: true, // <-- Optional: Enables CORS for development
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3007',
+        changeOrigin: true,
+        configure: (proxy) => {
+          proxy.on('proxyRes', (proxyRes, req, res) => {
+            res.setHeader('X-Accel-Buffering', 'no');
+            res.setHeader('Cache-Control', 'no-cache');
+          });
+        }
+      }
+    }
   },
   preview: {
     port: 3006 // <-- Optional: Sets the production preview port too
   }
-})
-import { defineConfig } from 'vite'
-import vue from '@vitejs/vue'
-import tailwindcss from '@tailwindcss/vite' // [1] Ensure this import exists
-
-export default defineConfig({
-  plugins: [
-    vue(),
-    tailwindcss(), // [2] Must be placed in the plugins array
-  ],
 })
