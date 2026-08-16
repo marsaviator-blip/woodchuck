@@ -57,17 +57,13 @@
       </div>
     </div>
   </div>
-<ChatStream 
-  ref="chatStreamRef"
-  @stream-chunk="handleIncomingChunk"
-  @stream-complete="handleStreamCompletion"
 /></template>
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue'
 import WorkspaceFeed from '../components/WorkspaceFeed.vue'
 import WorkspaceStack from '../components/WorkspaceStack.vue'
-import ChatStream from '../components/ChatStream.vue'
+import ChatStream from '../components/ChatStream'
 
 // UI Layout Sizing Calculations
 const leftPaneWidth = ref(360)
@@ -158,22 +154,31 @@ const clearAllStack = () => {
   focusedStackItemId.value = null
 }
 
+//const currentSessionId = ref(`session_${Date.now()}`)
+
+// Inside your Vue view component script block
+
 const handleInputSubmission = ({ buffer, type }) => {
   const now = new Date()
   const exactTimeStr = now.toTimeString().split(' ')[0]
+  
   if (type === 'note') {
     activityStream.value.push({
       id: Date.now(),
       type: type,
-      title: type === 'note' ? 'Manual Work Log Entry' : 'Custom Prompt Workspace Execution',
+      title: 'Manual Work Log Entry',
       date: exactTimeStr,
       content: buffer
     })
-    return // Exits early! No need for an "else" block anymore
+    return 
   }
+  
+  // Initialize state flags
   isStreaming.value = true
   streamingPrompt.value = buffer
   streamingBuffer.value = ''
+  
+  // Push the user's prompt query to the view feed instantly
   activityStream.value.push({
     id: `prompt-${Date.now()}`,
     type: 'prompt',
@@ -181,13 +186,51 @@ const handleInputSubmission = ({ buffer, type }) => {
     date: exactTimeStr,
     content: buffer
   })
-  chatStreamRef.value?.startChatStream(buffer)
+
+  // Pre-generate a unique ID for the upcoming AI stream card block
+  const aiResponseId = `response-${Date.now()}`
+  
+  activityStream.value.push({
+    id: aiResponseId,
+    type: 'ai-response', 
+    title: 'Gemini Assistant',
+    date: exactTimeStr,
+    content: '' // Starts blank, blocks append below
+  })
+
+  // Safe fallback if your component doesn't have an active sessionId variable defined yet
+  const targetSessionId = typeof sessionId !== 'undefined' ? sessionId.value : 'default-session'
+  
+  // EXECUTION: Call using the Single Parameter Object Pattern
+  ChatStream.startChatStream({
+    promptText: buffer,
+    sessionId: aiResponseId,
+    emit: (eventName: string, payload: any) => {
+      
+      if (eventName === 'stream-chunk') {
+        // Find our unique AI response card and append the incoming text chunk live
+        const targetCard = activityStream.value.find(item => item.id === aiResponseId)
+        if (targetCard) {
+          targetCard.content += payload
+        }
+        // Keep your side buffer synced for tracking or layouts
+        streamingBuffer.value += payload
+      } 
+      
+      else if (eventName === 'stream-complete') {
+        isStreaming.value = false
+      } 
+      
+      else if (eventName === 'stream-error') {
+        console.error("Stream disrupted:", payload)
+        isStreaming.value = false
+      }
+    }
+  })
 }
 
 const handleIncomingChunk = (chunk) => {
-  // If the Bun backend sends SSE updates with escaped literal breaks (\n), clean them
-  const formattedChunk = chunk.replace(/\\n/g, '\n')
-  streamingBuffer.value += formattedChunk
+  streamingBuffer.value += chunk
 }
 
 // 3. Triggered safely when ChatStream finishes or shuts down connection rules
@@ -207,4 +250,38 @@ const handleStreamCompletion = () => {
     date: completionTime,
     content: finalContent
   })
-}</script>
+}
+const currentSessionId = ref(`session_${Date.now()}`);
+
+// Reference hook pointer referencing your headless <ChatStream ref="chatStreamRef" />
+//const chatStreamRef = ref(null);
+const inputBuffer = ref('')
+const inputType = ref('prompt') // 'prompt' or 'note'
+
+const submitInputPipeline = () => {
+  if (!inputBuffer.value.trim()) return;
+  const currentTimestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
+
+  if (inputType.value === 'prompt') {
+    // Commit user prompt card immediately to the visible stream history list
+    activityStream.value.push({
+      id: Date.now(),
+      type: 'prompt',
+      content: inputBuffer.value,
+      timestamp: currentTimestamp
+    });
+
+    isStreaming.value = true;
+    streamingBuffer.value = '';
+    streamingPrompt.value = inputBuffer.value;
+    
+    const promptPayload = inputBuffer.value;
+    inputBuffer.value = '';
+
+    // 2. FIXED: Pass BOTH variables through the template ref interface caller invocation
+    if (chatStreamRef.value) {
+      chatStreamRef.value.startChatStream(promptPayload, currentSessionId.value);
+    }
+  }
+}
+</script>
