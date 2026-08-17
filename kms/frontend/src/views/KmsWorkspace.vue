@@ -63,7 +63,7 @@
 import { ref, onMounted, nextTick } from 'vue'
 import WorkspaceFeed from '../components/WorkspaceFeed.vue'
 import WorkspaceStack from '../components/WorkspaceStack.vue'
-import ChatStream from '../components/ChatStream'
+import Api from '../services/api'
 
 // UI Layout Sizing Calculations
 const leftPaneWidth = ref(360)
@@ -154,13 +154,9 @@ const clearAllStack = () => {
   focusedStackItemId.value = null
 }
 
-//const currentSessionId = ref(`session_${Date.now()}`)
-
-// Inside your Vue view component script block
-
 const handleInputSubmission = ({ buffer, type }) => {
   const now = new Date()
-  const exactTimeStr = now.toTimeString().split(' ')[0]
+  const exactTimeStr = now.toTimeString()   //.split(' ')[0] // Clean HH:MM:SS string
   
   if (type === 'note') {
     activityStream.value.push({
@@ -173,12 +169,12 @@ const handleInputSubmission = ({ buffer, type }) => {
     return 
   }
   
-  // Initialize state flags
+  // Set up your standalone loading/tracking states
   isStreaming.value = true
   streamingPrompt.value = buffer
-  streamingBuffer.value = ''
+  streamingBuffer.value = '' 
   
-  // Push the user's prompt query to the view feed instantly
+  // 1. Push user prompt to the display list
   activityStream.value.push({
     id: `prompt-${Date.now()}`,
     type: 'prompt',
@@ -187,44 +183,36 @@ const handleInputSubmission = ({ buffer, type }) => {
     content: buffer
   })
 
-  // Pre-generate a unique ID for the upcoming AI stream card block
+  // 2. Pre-generate a unique ID for the upcoming AI card item
   const aiResponseId = `response-${Date.now()}`
+  const targetIndex = activityStream.value.length
   
+  // 3. Push the blank AI card into the array so it shows on screen
   activityStream.value.push({
     id: aiResponseId,
     type: 'ai-response', 
     title: 'Gemini Assistant',
     date: exactTimeStr,
-    content: '' // Starts blank, blocks append below
+    content: '' // Starts blank, blocks append inside onChunk below
   })
 
-  // Safe fallback if your component doesn't have an active sessionId variable defined yet
-  const targetSessionId = typeof sessionId !== 'undefined' ? sessionId.value : 'default-session'
-  
-  // EXECUTION: Call using the Single Parameter Object Pattern
-  ChatStream.startChatStream({
+  Api.startChatStream({
     promptText: buffer,
-    sessionId: aiResponseId,
-    emit: (eventName: string, payload: any) => {
-      
-      if (eventName === 'stream-chunk') {
-        // Find our unique AI response card and append the incoming text chunk live
-        const targetCard = activityStream.value.find(item => item.id === aiResponseId)
-        if (targetCard) {
-          targetCard.content += payload
-        }
-        // Keep your side buffer synced for tracking or layouts
-        streamingBuffer.value += payload
-      } 
-      
-      else if (eventName === 'stream-complete') {
-        isStreaming.value = false
-      } 
-      
-      else if (eventName === 'stream-error') {
-        console.error("Stream disrupted:", payload)
-        isStreaming.value = false
+    sessionId: 'session_researcher_alpha:'+aiResponseId,
+    
+    onChunk: (textChunk: string) => {
+      // Keep your separate standalone buffer synced
+      streamingBuffer.value += textChunk
+
+      // 5. UPDATE THE SSE DISPLAY: Target the exact index in your reactive array.
+      // This forces Vue to repaint the characters on screen instantly!
+      if (activityStream.value[targetIndex]) {
+        activityStream.value[targetIndex].content += textChunk
       }
+    },
+    
+    onComplete: () => {
+      isStreaming.value = false
     }
   })
 }

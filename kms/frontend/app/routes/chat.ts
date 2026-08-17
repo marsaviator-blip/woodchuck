@@ -47,7 +47,7 @@ export const chatRoutes = new Elysia({ prefix: '/chat' })
   });
 
   // 3. Right-push onto the Dragonfly array list
-  await dragonfly.rpush(sessionCacheKey, historyPayload);
+  await dragonfly.set(sessionCacheKey, historyPayload);
   console.log(`💾 Sequentially appended exchange node to Dragonfly: ${sessionCacheKey}`);
      }
   }, {

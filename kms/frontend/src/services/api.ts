@@ -1,30 +1,42 @@
-// src/services/api.ts
+// src/utils/api.ts
 
-const API_BASE_URL = 'http://localhost:3007/api';
-
-// Enforce strict layout shapes for network safety
-export interface PromptResponse {
-  reply: string;
+export interface ChatStreamOptions {
+  promptText: string;
+  sessionId: string;
+  onChunk: (chunk: string) => void;     // Called every time a piece of text arrives
+  onComplete: () => void;                // Called when the AI finishes sending everything
+  onError?: (error: any) => void;        // Optional error handling
 }
 
 /**
- * Sends a text prompt payload to the Bun backend runtime.
- * @param promptText - The string raw input from the workspace template.
- * @returns A promise resolving to the strict PromptResponse type.
+ * Connects the Vue display layers to the Bun backend streaming endpoint.
  */
-export async function sendPromptToBun(promptText: string): Promise<PromptResponse> {
-  const response = await fetch(`${API_BASE_URL}/prompt`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ prompt: promptText }),
-  });
+export const startChatStream = ({ promptText, sessionId, onChunk, onComplete, onError }: ChatStreamOptions): EventSource => {
+  const url = `http://localhost:3007/api/chat/gemini?prompt=${encodeURIComponent(promptText)}&sessionId=${encodeURIComponent(sessionId)}`;
+  const eventSource = new EventSource(url);
 
-  if (!response.ok) {
-    throw new Error(`API error: Server returned status code ${response.status}`);
-  }
+  eventSource.onmessage = (event) => {
+    // If the backend signals it is done, close the connection and notify the view
+    if (event.data === '[DONE]' || event.data === 'done') {
+      eventSource.close();
+      onComplete();
+      return;
+    }
+    
+    // Hand the raw text chunk directly to the Vue component's callback
+    onChunk(event.data); 
+  };
 
-  // Cast the untyped response payload to your strict contract
-  return response.json() as Promise<PromptResponse>;
-}
+  eventSource.onerror = (error) => {
+    eventSource.close();
+    if (onError) {
+      onError(error);
+    }
+    onComplete(); // Ensure the UI leaves the "loading/streaming" state even if it errors
+  };
+
+  return eventSource;
+};
+export default {
+  startChatStream
+};
