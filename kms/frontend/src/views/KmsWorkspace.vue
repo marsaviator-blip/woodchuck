@@ -1,28 +1,12 @@
 <template>
-  <!-- <div class="tw-scope flex w-screen h-screen max-h-screen bg-[#0b0d12] text-[#f1f5f9] font-mono overflow-hidden"> -->
-  <div class="tw-scope flex w-full h-full max-h-full min-h-0 bg-[#0b0d12] text-[#f1f5f9] font-mono overflow-hidden">
-
-    <!-- LEFT NAVIGATION BAR -->
-    <aside
-      class="w-[98px] bg-[#11141d] border-r border-[#1e293b] flex flex-col p-2 items-center flex-shrink-0 h-full max-h-full min-h-0">
-      <!-- <aside class="w-[98px] bg-[#11141d] border-r border-[#1e293b] flex flex-col p-2 items-center flex-shrink-0 h-full select-none"> -->
-      <div class="text-[9px] font-bold tracking-widest text-[#6366f1] uppercase mb-6 text-center">🧬 KMS</div>
-      <nav class="flex flex-col gap-2 w-full">
-        <button
-          class="w-full text-center text-[10px] font-semibold py-2 rounded bg-indigo-600/10 text-indigo-400 border-l-2 border-indigo-500 rounded-l-none">📝
-          Act</button>
-        <button
-          class="w-full text-center text-[10px] font-semibold py-2 text-[#64748b] hover:bg-[#1e293b] hover:text-[#f8fafc] transition-colors">📊
-          Log</button>
-        <button
-          class="w-full text-center text-[10px] font-semibold py-2 text-[#64748b] hover:bg-[#1e293b] hover:text-[#f8fafc] transition-colors">⚙️
-          Cfg</button>
-      </nav>
-    </aside>
+  <!-- <div class="tw-scope flex w-full h-full max-h-full min-h-0 bg-[#0b0d12] text-[#f1f5f9] font-mono overflow-hidden"> -->
+  <div class="tw-scope flex w-full h-full max-h-full overflow-hidden bg-[#0b0d12] text-[#f1f5f9] font-mono">
 
     <!-- CONTENT MESH SPLIT WRAPPER -->
-    <main class="flex-1 flex flex-row h-full max-h-full min-h-0 overflow-hidden relative" @mousemove="handleSplitResize"
+    <!-- <main class="flex-1 flex flex-row h-full max-h-full min-h-0 overflow-hidden relative" @mousemove="handleSplitResize" -->
+    <main class="flex-1 flex flex-row h-full max-h-full overflow-hidden relative" 
       @mouseup="stopSplitResize" @mouseleave="stopSplitResize">
+      
       <!-- COMPONENTIZED LEFT PANE -->
       <WorkspaceFeed :width="leftPaneWidth" :activityStream="activityStream" :activeItemId="activeItem?.id"
         :isStreaming="isStreaming" :streamingPrompt="streamingPrompt" :streamingBuffer="streamingBuffer"
@@ -57,10 +41,10 @@
       </div>
     </div>
   </div>
-/></template>
+</template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted } from 'vue'
 import WorkspaceFeed from '../components/WorkspaceFeed.vue'
 import WorkspaceStack from '../components/WorkspaceStack.vue'
 import Api from '../services/api'
@@ -68,13 +52,17 @@ import Api from '../services/api'
 // UI Layout Sizing Calculations
 const leftPaneWidth = ref(360)
 const isResizing = ref(false)
+const fixedSidebarWidth = 208 // Set directly to match Tailwind w-52 nav panel
 
 onMounted(() => {
-  const fixedSidebarWidth = 98
+  // Updated to 256 to precisely map the fixed w-64 panel inside views/MainLayout.vue
+  const fixedSidebarWidth = 256
   const availableWorkspaceWidth = window.innerWidth - fixedSidebarWidth
 
   // Set left pane to exactly half of the available workspace area
   leftPaneWidth.value = availableWorkspaceWidth / 2
+  window.addEventListener('mousemove', handleGlobalSplitResize)
+  window.addEventListener('mouseup', stopSplitResize)
 })
 
 const startSplitResize = (e) => {
@@ -87,6 +75,19 @@ const stopSplitResize = () => {
   isResizing.value = false
   document.body.style.cursor = ''
   document.body.style.userSelect = ''
+}
+
+const handleGlobalSplitResize = (e: MouseEvent) => {
+  if (!isResizing.value) return
+
+  // Calculate the cursor position minus the physical left sidebar offset width
+  const newWidth = e.clientX - fixedSidebarWidth
+  const minWidth = 240
+  const maxWidth = window.innerWidth - 300
+
+  if (newWidth >= minWidth && newWidth <= maxWidth) {
+    leftPaneWidth.value = newWidth
+  }
 }
 
 const handleSplitResize = (e) => {
@@ -105,7 +106,6 @@ const handleSplitResize = (e) => {
 const activeItem = ref(null)
 const workspaceStack = ref([])
 const focusedStackItemId = ref(null)
-//const activityStream = ref([])
 
 // Modal Immersive Frame Properties
 const isModalOpen = ref(false)
@@ -119,7 +119,6 @@ const openModal = (card) => {
 const isStreaming = ref(false)
 const streamingPrompt = ref('Refactor memory array offsets')
 const streamingBuffer = ref('Processing underlying native buffers inside C++ workspace layer...')
-const chatStreamRef = ref(null)
 
 const activityStream = ref([
   { id: 1, type: 'note', title: 'C++ Buffer Mapping', date: 'Aug 14', content: 'Direct engine memory optimization bypassing typical serialization boundaries.' },
@@ -156,7 +155,7 @@ const clearAllStack = () => {
 
 const handleInputSubmission = ({ buffer, type }) => {
   const now = new Date()
-  const exactTimeStr = now.toTimeString()   //.split(' ')[0] // Clean HH:MM:SS string
+  const exactTimeStr = now.toTimeString()
   
   if (type === 'note') {
     activityStream.value.push({
@@ -169,12 +168,10 @@ const handleInputSubmission = ({ buffer, type }) => {
     return 
   }
   
-  // Set up your standalone loading/tracking states
   isStreaming.value = true
   streamingPrompt.value = buffer
   streamingBuffer.value = '' 
   
-  // 1. Push user prompt to the display list
   activityStream.value.push({
     id: `prompt-${Date.now()}`,
     type: 'prompt',
@@ -183,93 +180,140 @@ const handleInputSubmission = ({ buffer, type }) => {
     content: buffer
   })
 
-  // 2. Pre-generate a unique ID for the upcoming AI card item
   const aiResponseId = `response-${Date.now()}`
   const targetIndex = activityStream.value.length
   
-  // 3. Push the blank AI card into the array so it shows on screen
   activityStream.value.push({
     id: aiResponseId,
     type: 'ai-response', 
     title: 'Gemini Assistant',
     date: exactTimeStr,
-    content: '' // Starts blank, blocks append inside onChunk below
+    content: ''
   })
 
-  Api.startChatStream({
-    promptText: buffer,
-    sessionId: 'session_researcher_alpha:'+aiResponseId,
+  // Api.startChatStream({
+  //   promptText: buffer,
+  //   sessionId: 'session_researcher_alpha',
+  //   cardId: aiResponseId, // FIX: Passed required cardId parameter to satisfy Elysia schemas
     
-    onChunk: (textChunk: string) => {
-      // Keep your separate standalone buffer synced
-      streamingBuffer.value += textChunk
+  //   onChunk: (textChunk: string) => {
+  //     // Keep separate system-wide standalone buffer synced
+  //     streamingBuffer.value += textChunk
 
-      // 5. UPDATE THE SSE DISPLAY: Target the exact index in your reactive array.
-      // This forces Vue to repaint the characters on screen instantly!
-      if (activityStream.value[targetIndex]) {
-        activityStream.value[targetIndex].content += textChunk
-      }
-    },
+  //     // 5. Locate the exact pre-rendered AI card inside the array to stream text
+  //     const targetCard = activityStream.value.find(item => item.id === aiResponseId)
+  //     if (targetCard) {
+  //       targetCard.content += textChunk
+  //     }
+  //   },
+
+  //   onPrompts: (questionsArray: string[]) => {
+  //     // 6. THE SPLIT LOGIC: Spawn a distinct second card for the system guide prompts
+  //     const systemGuideCardId = `system-guide-${Date.now()}`
+      
+  //     const formattedGuideContent = 
+  //       `💡 DEEPER DIRECTED THINKING PATHWAYS:\n\n` +
+  //       `1. ${questionsArray[0] || 'Analyze underlying conceptual bounds.'}\n\n` +
+  //       `2. ${questionsArray[1] || 'Map structural analogies to past targets.'}`;
+
+  //     activityStream.value.push({
+  //       id: systemGuideCardId,
+  //       type: 'system_prompt', // Distinct type parameter matching visual design templates
+  //       title: 'System Cognitive Guide',
+  //       date: exactTimeStr,
+  //       content: formattedGuideContent
+  //     })
+  //   },
     
-    onComplete: () => {
-      isStreaming.value = false
-    }
-  })
-}
+  //   onComplete: () => {
+  //     isStreaming.value = false
+  //   },
 
-const handleIncomingChunk = (chunk) => {
-  streamingBuffer.value += chunk
-}
-
-// 3. Triggered safely when ChatStream finishes or shuts down connection rules
-const handleStreamCompletion = () => {
-  // Turn off the pulsing streaming node layout
-  isStreaming.value = false
+  //   onError: (err) => {
+  //     console.error("KMS Stream Interface Encountered an issue:", err)
+  //     isStreaming.value = false
+  //   }
+  // })}
   
-  // If we didn't receive any content text, push a fallback warning card
-  const finalContent = streamingBuffer.value.trim() || 'No data payload returned from the AI engine.'
-  const completionTime = new Date().toTimeString().split(' ')[0]
+  // Define a variable outside or inside the method scope to hold the dynamic card ID
+let guideCardId: string | null = null;
+let rawPromptsTextBuffer = "";
 
-  // SAVE THE AI RESPONSE TO A SEPARATE CARD AT THE BOTTOM
-  activityStream.value.push({
-    id: `response-${Date.now()}`,
-    type: 'response',
-    title: `AI Response: ${streamingPrompt.value.slice(0, 20)}...`,
-    date: completionTime,
-    content: finalContent
-  })
-}
-const currentSessionId = ref(`session_${Date.now()}`);
-
-// Reference hook pointer referencing your headless <ChatStream ref="chatStreamRef" />
-//const chatStreamRef = ref(null);
-const inputBuffer = ref('')
-const inputType = ref('prompt') // 'prompt' or 'note'
-
-const submitInputPipeline = () => {
-  if (!inputBuffer.value.trim()) return;
-  const currentTimestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
-
-  if (inputType.value === 'prompt') {
-    // Commit user prompt card immediately to the visible stream history list
-    activityStream.value.push({
-      id: Date.now(),
-      type: 'prompt',
-      content: inputBuffer.value,
-      timestamp: currentTimestamp
-    });
-
-    isStreaming.value = true;
-    streamingBuffer.value = '';
-    streamingPrompt.value = inputBuffer.value;
-    
-    const promptPayload = inputBuffer.value;
-    inputBuffer.value = '';
-
-    // 2. FIXED: Pass BOTH variables through the template ref interface caller invocation
-    if (chatStreamRef.value) {
-      chatStreamRef.value.startChatStream(promptPayload, currentSessionId.value);
+Api.startChatStream({
+  promptText: buffer,
+  sessionId: 'session_researcher_alpha',
+  cardId: aiResponseId,
+  
+  // --- PHASE 1: Streams text tokens directly to Card #1 ---
+  onChunk: (textChunk: string) => {
+    streamingBuffer.value += textChunk;
+    const targetCard = activityStream.value.find(item => item.id === aiResponseId);
+    if (targetCard) {
+      targetCard.content += textChunk;
     }
+  },
+
+  // --- NEW: Streams the JSON string tokens to Card #2 in real-time ---
+  onPromptsPartial: (partialTextChunk: string) => {
+    rawPromptsTextBuffer += partialTextChunk;
+
+    // If card #2 doesn't exist yet, spawn it immediately so the user sees it formatting
+    if (!guideCardId) {
+      guideCardId = `system-guide-${Date.now()}`;
+      activityStream.value.push({
+        id: guideCardId,
+        type: 'system_prompt',
+        title: 'System Cognitive Guide (Generating...)',
+        date: exactTimeStr,
+        content: '💡 DEEPER DIRECTED THINKING PATHWAYS:\n\nParsing critical pathways...'
+      });
+    }
+
+    // Keep the card visually updating with an incremental "thinking indicator" or the raw buffer
+    const guideCard = activityStream.value.find(item => item.id === guideCardId);
+    if (guideCard) {
+      // Stripping raw JSON brackets on the fly for cleaner real-time reading if desired,
+      // or keeping a generic loader until final parsing runs below
+      guideCard.content = `💡 DEEPER DIRECTED THINKING PATHWAYS:\n\nStructuring follow-up vectors...`;
+    }
+  },
+
+  // --- PHASE 2 COMPLETE: Overwrites Card #2 with beautifully formatted final data ---
+  onPrompts: (questionsArray: string[]) => {
+    const formattedGuideContent = 
+      `💡 DEEPER DIRECTED THINKING PATHWAYS:\n\n` +
+      `1. ${questionsArray[0] || 'Analyze underlying conceptual bounds.'}\n\n` +
+      `2. ${questionsArray[1] || 'Map structural analogies to past targets.'}`;
+
+    // Find the card we spawned during the partial phase and update its title and finalized content
+    const guideCard = activityStream.value.find(item => item.id === guideCardId);
+    if (guideCard) {
+      guideCard.title = 'System Cognitive Guide';
+      guideCard.content = formattedGuideContent;
+    } else {
+      // Fallback fallback if the stream was so blindingly fast it finished instantly
+      activityStream.value.push({
+        id: `system-guide-${Date.now()}`,
+        type: 'system_prompt',
+        title: 'System Cognitive Guide',
+        date: exactTimeStr,
+        content: formattedGuideContent
+      });
+    }
+  },
+  
+  onComplete: () => {
+    isStreaming.value = false;
+    guideCardId = null; // Clear workspace scope state pointer for next run
+    rawPromptsTextBuffer = "";
+  },
+
+  onError: (err) => {
+    console.error("KMS Stream Interface Encountered an issue:", err);
+    isStreaming.value = false;
+    guideCardId = null;
+    rawPromptsTextBuffer = "";
   }
+});
 }
 </script>

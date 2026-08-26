@@ -1,0 +1,35 @@
+-- 1. Core Research Session Metadata Table
+CREATE TABLE research_sessions (
+    id VARCHAR(64) PRIMARY KEY,
+    title TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    total_dwell_time_seconds INT DEFAULT 0,
+    total_keystrokes_count INT DEFAULT 0
+);
+
+-- 2. The Laptop Fingerprint Cache (Crucial for Tier 1 Performance)
+CREATE TABLE session_topological_signatures (
+    session_id VARCHAR(64) PRIMARY KEY REFERENCES research_sessions(id) ON DELETE CASCADE,
+    
+    -- Numerical invariant representations of the Category Theory Graph
+    node_count INT NOT NULL,
+    edge_count INT NOT NULL,
+    max_out_degree INT NOT NULL,
+    
+    -- Compact structural hash signature (calculated by C++ LaptopSignatureSolver)
+    -- Allows O(1) exact match lookup before ever checking individual paths
+    structural_hash_signature VARCHAR(32) NOT NULL,
+    
+    -- Optional vector space array for pgvector if doing structural similarity queries locally
+    -- structural_profile_vector vector(8) 
+    
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 3. Create High-Performance Indexes for Instant Filtering on Laptop Hardware
+CREATE INDEX idx_signature_hash ON session_topological_signatures(structural_hash_signature);
+CREATE INDEX idx_signature_topology ON session_topological_signatures(node_count, edge_count);
+
+------------------
+SELECT session_id FROM session_topological_signatures 
+WHERE structural_hash_signature = '4a8b9f2c' AND session_id != :currentSessionId;

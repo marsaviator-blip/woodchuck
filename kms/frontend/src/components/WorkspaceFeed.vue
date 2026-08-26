@@ -4,12 +4,13 @@
     class="flex flex-col h-full max-h-full bg-[#0b0d12] border-r border-[#1e293b] overflow-hidden flex-shrink-0 min-h-0"
   >
     <!-- Pane Header -->
-    <div class="px-3 py-2 border-b border-[#1e293b] bg-[#11141d] flex-shrink-0">
+    <div class="px-3 py-1 border-b border-[#1e293b] bg-[#11141d] flex-shrink-0">
       <h3 class="text-[9px] font-semibold uppercase tracking-wider text-[#94a3b8]">Live Activity Workspace</h3>
     </div>
 
     <!-- Cards Scroll Container -->
-    <div ref="scrollContainer" class="flex-1 overflow-y-auto p-2 space-y-2 custom-scrollbar min-h-0">
+    <!-- FIX: Added 'h-0' to enforce strict flex layout box compression -->
+    <div ref="scrollContainer" class="flex-1 h-0 overflow-y-auto p-2 space-y-2 custom-scrollbar min-h-0">
       <div v-for="card in activityStream" :key="card.id"
         class="group relative bg-slate-700/40 hover:bg-slate-700 border rounded-lg p-2.5 transition-all duration-150 shadow-sm cursor-pointer"
         :class="activeItemId === card.id ? 'border-indigo-500 bg-slate-700' : 'border-slate-700'"
@@ -37,19 +38,14 @@
           </button>
         </div>
 
-        <!-- Title -->
-        <!-- <h3 class="font-bold text-xs mb-0.5 text-slate-200 group-hover:text-white line-clamp-1 selection:bg-indigo-500/40 tracking-tight">
-          {{ card.title }}
-        </h3> -->
-
         <!-- Clamped Content -->
         <p class="text-[11px] text-slate-400 line-clamp-5 leading-snug break-words selection:bg-indigo-500/40 font-sans">
           {{ card.content }}
         </p>
       </div>
 
-      <!-- DYNAMIC STREAMING RESPONSE NODE (Active while Bun is pumping data) -->
-      <div v-if="isStreaming" class="relative border border-indigo-500/40 rounded p-2 bg-[#11131f] flex-shrink-0 animate-pulse mt-2">
+      <!-- DYNAMIC STREAMING RESPONSE NODE -->
+      <div v-if="isStreaming" class="border border-indigo-500/40 rounded p-2 bg-[#11131f] flex-shrink-0 animate-pulse mt-2 relative">
         <span class="absolute top-1.5 right-1.5 text-[7px] font-bold uppercase tracking-wider px-1 py-0.2 rounded border text-indigo-400 bg-indigo-500/10 border-indigo-500/30">
           streaming
         </span>
@@ -62,7 +58,8 @@
       </div>
     </div>
 
-    <!-- PANE BOTTOM INPUT FOOTER MODULE (Fast to bottom frame) -->
+    <!-- PANE BOTTOM INPUT FOOTER MODULE -->
+    <!-- FIX: Added structural alignment items-end adjustments to the footer pane -->
     <div class="p-2.5 border-t border-[#1e293b] bg-[#11141d] flex-shrink-0 flex flex-col gap-1.5">
       <div class="flex bg-[#0b0d12] p-0.5 rounded border border-[#1e293b] self-start">
         <button @click="localInputType = 'note'"
@@ -86,7 +83,7 @@
         <button 
           @click="handleSubmit" 
           :disabled="isStreaming"
-          class="text-[9px] font-bold px-3 rounded h-[30px] transition-colors flex-shrink-0" 
+          class="text-[9px] font-bold px-3 rounded h-[42px] transition-colors flex-shrink-0 flex items-center justify-center" 
           :class="[
             localInputType === 'note' ? 'bg-amber-600 hover:bg-amber-500 text-white' : 'bg-indigo-600 hover:bg-indigo-500 text-white',
             isStreaming ? 'opacity-40 cursor-not-allowed' : ''

@@ -1,0 +1,49 @@
+You're looking for a C++ client to interact with DragonflyDB, which implements the Redis protocol. 
+This is great news because it means you can use any well-established C++ Redis client library!
+and thus DragonflyDB) is **`sw::redis` (often referred to as `redis-plus-plus` on GitHub)**. 
+It provides a modern, idiomatic C++ interface. to use `sw::redis` to read data from DragonflyDB.std::map`, etc.
+Support for all Redis commands:** Includes basic gets/sets, hash maps, lists, sets, sorted sets, streams, 
+transactions, pipelining, Pub/Sub, Lua scripting, etc.-availability and scaling. OpenSSL for TLS). 
+The easiest way to integrate it into your C++ project is usually with CMake._
+minimum_required(VERSION 3.12 FATAL_ERROR)CMAKE_CXX_STANDARD_REQUIRED ON)
+GIT_REPOSITORY https://github.com/sewenew/redis-plus-plus.gitredis).cpp)
+    cd build(sw_redis CONFIG REQUIRED)` and 
+    `target_link_libraries(your_target PRIVATE sw::redis)`.anfile.txt` or `conanfile.py`.
+    ```cpp operations Connection.6379; 
+    simply use a URI:_string_key", "Hello from DragonflyDB!");_
+    string_key: " << *val << std::endl;
+    existent key else {------------------------------------_list_key", {"item1", "item2", "item3"}); 
+    Get all elements of the listelements)); 
+    << std::endl; item2, item1 ";
+    std::cout << "my_list_key length: " << *list_len << std::endl;----------------------------------------------------set("my_hash_key", "field2", "value2");
+    // Get a single fieldmy_hash_key field2: " 
+    << *hval << std::endl;// Get multiple fields::inserter(hash_fields, hash_fields.end()));
+    std::cout << "  " << pair.first << ": " << pair.second << std::endl;field'.(all_hash_fields, all_hash_fields.end()));
+    fields) { "member3"});_
+    members;
+    for (const auto& member : set_members) {.sismember("my_set_key", "member2");
+         std::endl;_set_key", "non_existent_member");!)." << std::endl;
+         ----------------------------------------------------("my_sorted_set_key", "memberA", 1.5);
+         5}, {"memberD", 1.5}});
+         redis.zrange("my_sorted_set_key", 0, -1, std::back_inserter(sorted_set_members));
+        ):" << std::endl;::endl;key", 0, -1, std::back_inserter(sorted_set_members));
+         (const auto& pair : sorted_set_members) {
+            // Get score of a specific member of memberA: " 
+            << *score << std::endl;
+            ----vector<std::string> keys;
+            ter(keys));
+            & key : keys) { issues, command errors, etc.)
+                // Handle other standard exceptions to Compile and Run:cd build    ```
+                    ./dragonfly_reader_string_key: 
+                    Hello from DragonflyDB!_key elements (index 1 to 2): 
+                    item2 item1key multiple fields: is NOT in my_set_key (
+                        as expected).score: 1.5)2) Scanning Keys ---
+                        ### Important Considerations: The `sw::redis::Redis` object itself manages the connection 
+                        and uses a connection pool internally. For simple applications, creating one `Redis` object is fine. 
+                        For high-concurrency server applications, you might want to create multiple `Redis` objects or 
+                        ensure they are properly managed (e.g., one per thread, or shared through a carefully designed pool). 
+                        don't need the results immediately, use `redis.pipeline()` to send them in one go, 
+                        reducing network round-trip times. operations. a password, pass it in the `ConnectionOptions` 
+                        or connection URI: `redis("tcp://:your_password@127.0.0.1:6379");
+                        ` If DragonflyDB is configured with TLS, you'll need to enable TLS support in `sw::redis`
+                          during compilation and provide certificate paths in `ConnectionOptions`.
