@@ -5,6 +5,7 @@ import { embeddingRoutes } from './routes/embeddings';
 import { mathRoutes } from './routes/math';
 import { storageRoutes } from './routes/storage';
 import { cacheRoutes } from './routes/cache';
+import { workspaceRoutes } from './routes/workspace'; 
 
 const SERVER_PORT = 3007;
 
@@ -31,6 +32,7 @@ const app = new Elysia()
       .use(mathRoutes)        // Mounts to /api/math/compute
       .use(storageRoutes)     // Mounts to /api/storage/upload
       .use(cacheRoutes)       // Mounts to /api/cache/:key
+      .use(workspaceRoutes)   // Mounts to /api/workspace/refresh
   )
   .listen(SERVER_PORT);
 

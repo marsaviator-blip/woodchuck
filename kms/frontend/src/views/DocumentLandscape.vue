@@ -97,7 +97,7 @@ const endSelection = () => {
 const submitWorkspaceCohort = async (documentIds) => {
   isWorkspaceLoading.value = true
   try {
-    const response = await fetch('http://localhost:3000/api/workspace/refresh', {
+    const response = await fetch('http://localhost:3007/api/workspace/refresh', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ids: documentIds })
