@@ -1,6 +1,6 @@
 // routes/workspace.ts
 import { Elysia } from 'elysia';
-import { executeCohortAnalysis } from '../../src/services/cppBridge'; 
+import { executeCohortAnalysis } from '../services/cppBridge'; 
 
 export const workspaceRoutes = new Elysia()
   .post('/workspace/refresh', async ({ body }) => {

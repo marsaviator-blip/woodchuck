@@ -10,4 +10,14 @@ include_directories(include)
 file(GLOB SOURCES "src/*.cpp")
 
 # Build as a Shared Library (.so / .dylib / .dll) so Bun can call it via FFI
-add_library(categorical_engine SHARED ${SOURCES})
+#add_library(categorical_engine SHARED ${SOURCES})
+
+# Inside cpp-logic/CMakeLists.txt
+add_library(categorical_engine SHARED 
+    src/engine.cpp
+    src/topology/cpp_pipeline.cpp
+    src/topology/signature_solver.cpp
+    src/topology/formal_concept_table.cpp
+)
+
+

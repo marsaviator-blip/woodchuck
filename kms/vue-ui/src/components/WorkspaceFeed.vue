@@ -6,9 +6,19 @@
     <!-- Pane Header -->
     <div class="px-3 py-1.5 border-b border-[#1e293b] bg-[#11141d] flex-shrink-0 flex justify-between items-center">
       <h3 class="text-[9px] font-semibold uppercase tracking-wider text-[#94a3b8]">Live Activity Workspace</h3>
-      <span class="text-[8px] font-mono bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded border border-slate-700">
-        📌 {{ markedCount }} Saved
-      </span>
+      <div class="flex items-center gap-2">
+        <span class="text-[8px] font-mono bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded border border-slate-700">
+          📌 {{ markedCount }} Saved
+        </span>
+        <button
+          v-if="markedCount > 0"
+          @click="$emit('save-session')"
+          class="text-[9px] px-2 py-0.5 rounded bg-indigo-600 hover:bg-indigo-500 text-white transition-colors"
+          title="Save current selected session"
+        >
+          Save Session
+        </button>
+      </div>
     </div>
 
     <!-- Cards Scroll Container -->
@@ -41,7 +51,7 @@
                 : 'opacity-0 group-hover:opacity-100 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white border-slate-700'
             ]"
             title="Toggle inclusion inside current research tracking cohort session"
-            @click.stop="$emit('toggle-session-mark', card.id)"
+            @click.stop="$emit('save-card', card)"
           >
             <svg xmlns="http://w3.org" class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24" v-if="card.isMarkedForSession">
               <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
@@ -68,6 +78,19 @@
         </div>
         <p class="text-[11px] text-[#cbd5e1] leading-tight pr-10 whitespace-pre-wrap">
           {{ streamingBuffer }}<span class="inline-block w-1.5 h-3.5 bg-indigo-500 ml-0.5 align-middle animate-ping"></span>
+        </p>
+      </div>
+
+      <!-- THINKING INDICATOR NODE -->
+      <div v-if="isThinking" class="border border-sky-500/40 rounded p-2 bg-[#101826] flex-shrink-0 mt-1.5 relative">
+        <span class="absolute top-1.5 right-1.5 text-[7px] font-bold uppercase tracking-wider px-1 py-0.2 rounded border text-sky-400 bg-sky-500/10 border-sky-500/30">
+          thinking
+        </span>
+        <div class="text-[8px] text-[#64748b] mb-1 uppercase tracking-tight font-sans">
+          Follow-up analysis
+        </div>
+        <p class="text-[11px] text-[#cbd5e1] leading-tight pr-10 whitespace-pre-wrap">
+          Generating deeper prompts and synthesis…
         </p>
       </div>
     </div>
@@ -117,12 +140,13 @@ const props = defineProps({
   activityStream: Array,
   activeItemId: [Number, String],
   isStreaming: Boolean,
+  isThinking: Boolean,
   streamingPrompt: String,
   streamingBuffer: String
 })
 
 // ADDED: Emits a structural toggle handler event up to parent memory state managers
-const emit = defineEmits(['select-card', 'open-modal', 'toggle-session-mark', 'submit-pipeline'])
+const emit = defineEmits(['select-card', 'open-modal', 'save-card', 'submit-input', 'save-session'])
 
 const localInputBuffer = ref('')
 const localInputType = ref('note')
@@ -155,7 +179,7 @@ watch(() => props.streamingBuffer, () => {
 
 const handleSubmit = () => {
   if (!localInputBuffer.value.trim()) return
-  emit('submit-pipeline', { 
+  emit('submit-input', { 
     buffer: localInputBuffer.value, 
     type: localInputType.value 
   })
